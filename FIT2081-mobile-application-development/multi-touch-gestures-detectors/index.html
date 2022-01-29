@@ -1,0 +1,574 @@
+<div class="square-box">
+
+Q) When does the multi-touch gesture happen?
+
+A) It happens when more than one pointer (finger) touches the screen.
+
+</div>
+&nbsp;
+<div class="square-box">
+
+Q) How to keep track of each pointer within a gesture?
+
+A) You have to use the pointer's index and ID.
+
+</div>
+&nbsp;
+<div class="square-box">
+
+Q) What is the purpose of having an Index and ID for each pointer?
+
+A) Each pointer gets a unique ID during the gesture's lifetime and it is used to track the pointers within the gesture. This ID is generated once the pointer touches the screen and joins the gesture.
+
+Now, the MotionEvent object saves all the pointers' data in a special array and uses indices to access the pointers' entries. These entries might shift up (change) if a pointer leaves the screen (the gesture) and this will lead to changes in pointers' indices.
+
+Reference: <a href="https://developer.android.com/training/gestures/multi">https://developer.android.com/training/gestures/multi</a>
+
+</div>
+&nbsp;
+
+Android system generates  touch events every time multiple pointers touches the screen at the same time: (Click <a href="https://developer.android.com/reference/android/view/MotionEvent#summary">HERE</a> for more details)
+<table style="width: 2017px;"><caption> </caption>
+<thead>
+<tr>
+<th style="width: 408.199px;">Event</th>
+<th style="width: 1608.8px;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="width: 408.199px;">ACTION_DOWN</td>
+<td style="width: 1608.8px;">The first pointer (finger) touches the screen.  The motion event object contains the initial starting location.</td>
+</tr>
+<tr>
+<td style="width: 408.199px;">ACTION_POINTER_UP</td>
+<td style="width: 1608.8px;">A non-primary (secondary) pointer leaves the screen</td>
+</tr>
+<tr>
+<td style="width: 408.199px;">ACTION_POINTER_DOWN</td>
+<td style="width: 1608.8px;">A non-primary (secondary) pointer touches the screen</td>
+</tr>
+<tr>
+<td style="width: 408.199px;">ACTION_MOVE</td>
+<td style="width: 1608.8px;">A motion happened to primary or non-primary pointer</td>
+</tr>
+<tr>
+<td style="width: 408.199px;">ACTION_UP</td>
+<td style="width: 1608.8px;">The last pointer leaves the screen</td>
+</tr>
+</tbody>
+</table>
+&nbsp;
+
+Android system provides several methods (MotionEvent methods) to deal with multi-touch events, such as:
+<table style="width: 2019px;">
+<thead>
+<tr>
+<th style="width: 403px;"><strong><span style="font-family: Merriweather, serif;"><span style="font-size: 16px; text-transform: none;"> METHOD</span></span></strong></th>
+<th style="width: 1615px;"><strong><span style="font-family: Merriweather, serif;"><span style="font-size: 16px; text-transform: none;"> DESCRIPTION</span></span></strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>getPointerCount()</td>
+<td> The current number of pointers (fingers) on the screen</td>
+</tr>
+<tr>
+<td>getPointerId(int pointerIndex)</td>
+<td> get the pointer id associated with a particular pointer data index in the current gesture</td>
+</tr>
+<tr>
+<td>findPointerIndex(int pointerId)</td>
+<td>find the pointer index for the given id</td>
+</tr>
+<tr>
+<td>getX(int pointerIndex)</td>
+<td>find the x coordinate for the given pointer index</td>
+</tr>
+<tr>
+<td>getY(int pointerIndex)</td>
+<td>find the y coordinate for the given pointer index</td>
+</tr>
+</tbody>
+</table>
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+<h1><strong>Gesture Detectors</strong></h1>
+The gesture detector classes are used to detect common gestures through a set of motion events.
+
+There are three steps required for the gesture detector to work:
+<ol>
+ 	<li>Create an instance of Gesture Detector class</li>
+ 	<li>Implements the required methods</li>
+ 	<li>Intercept the touch events and pass them to the gesture detector</li>
+</ol>
+&nbsp;
+
+Mainly, there are two classes of detectors GestureDetector and ScaleGestureDetector.
+
+&nbsp;
+<table style="width: 2017px;">
+<thead>
+<tr style="height: 31px;">
+<th style="height: 31px; width: 155px;">Class</th>
+<th style="height: 31px; width: 170px;">interface</th>
+<th style="height: 31px; width: 331.153px;">methods</th>
+<th style="height: 31px; width: 1360.85px;">description</th>
+</tr>
+</thead>
+<tbody>
+<tr style="height: 41px;">
+<td style="height: 248px; width: 155px;" rowspan="6">GestureDetector</td>
+<td style="height: 248px; width: 170px;" rowspan="6">OnGestureListener</td>
+<td style="height: 41px; width: 331.153px;">onDown(MotionEvent e)</td>
+<td style="height: 41px; width: 1360.85px;">Notified when a tap occurs with the down MotionEvent that triggered it.</td>
+</tr>
+<tr style="height: 41px;">
+<td style="height: 41px; width: 331.153px;">onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY)</td>
+<td style="height: 41px; width: 1360.85px;">
+<ul>
+ 	<li>Notified of a fling event when it occurs with the initial on down MotionEvent and the matching up MotionEvent.</li>
+ 	<li>e1 is the first event (touch down)</li>
+ 	<li>e2 is the motion event that triggered the current event</li>
+ 	<li>velocityX: The velocity of this event (fling event) along the X-axis</li>
+ 	<li>velocityY: The velocity of this event (fling event) along the Y-axis</li>
+</ul>
+&nbsp;</td>
+</tr>
+<tr style="height: 44px;">
+<td style="height: 44px; width: 331.153px;">onLongPress(MotionEvent e)</td>
+<td style="height: 44px; width: 1360.85px;">Notified when a long press occurs with the initial on down MotionEvent that trigged it.</td>
+</tr>
+<tr style="height: 41px;">
+<td style="height: 41px; width: 331.153px;">onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY)</td>
+<td style="height: 41px; width: 1360.85px;">
+<ul>
+ 	<li>Notified when a scroll occurs with the initial on down MotionEvent and the current move MotionEvent.</li>
+ 	<li>e1 is the first event (touch down)</li>
+ 	<li>e2 is the current event</li>
+ 	<li><strong>distanceX: the distance between e2 and the previous event (not e1) along the X-axis</strong></li>
+ 	<li><strong>distanceX: the distance between e2 and the previous event (not e1) along the Y-axis</strong></li>
+</ul>
+&nbsp;</td>
+</tr>
+<tr style="height: 40px;">
+<td style="height: 40px; width: 331.153px;">onShowPress(MotionEvent e)</td>
+<td style="height: 40px; width: 1360.85px;">The user has performed a down MotionEvent and not performed a move or up yet.</td>
+</tr>
+<tr style="height: 41px;">
+<td style="height: 41px; width: 331.153px;">onSingleTapUp(MotionEvent e)</td>
+<td style="height: 41px; width: 1360.85px;">Notified when a tap occurs with the up MotionEvent that triggered it.</td>
+</tr>
+</tbody>
+</table>
+<table style="width: 2018px;">
+<thead>
+<tr>
+<th style="width: 153px;">class</th>
+<th style="width: 168px;">interface</th>
+<th style="width: 332.116px;">methods</th>
+<th style="width: 1364.88px;">description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="width: 153px;" rowspan="3">GestureDetector</td>
+<td style="width: 168px;" rowspan="3">OnDoubleTapListener</td>
+<td style="width: 332.116px;">onDoubleTap(MotionEvent e)</td>
+<td style="width: 1364.88px;">Notified when a double-tap occurs.</td>
+</tr>
+<tr>
+<td style="width: 332.116px;">onDoubleTapEvent(MotionEvent e)</td>
+<td style="width: 1364.88px;">Notified when an event within a double-tap gesture occurs, including the down, move, and up events.</td>
+</tr>
+<tr>
+<td style="width: 332.116px;">onSingleTapConfirmed(MotionEvent e)</td>
+<td style="width: 1364.88px;">Notified when a single-tap occurs.</td>
+</tr>
+</tbody>
+</table>
+&nbsp;
+<table style="width: 2018px;">
+<thead>
+<tr>
+<th style="width: 155px;">class</th>
+<th style="width: 492.267px;">interface</th>
+<th style="width: 690.733px;">method</th>
+<th style="width: 680px;">description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="width: 155px;" rowspan="3">ScaleGestureDetector</td>
+<td style="width: 492.267px;" rowspan="3">OnScaleGestureListener</td>
+<td style="width: 690.733px;">onScale(ScaleGestureDetector detector)</td>
+<td style="width: 680px;">Responds to scaling events for a gesture in progress.</td>
+</tr>
+<tr>
+<td style="width: 690.733px;">onScaleBegin(ScaleGestureDetector detector)</td>
+<td style="width: 680px;">Responds to the beginning of a scaling gesture.</td>
+</tr>
+<tr>
+<td style="width: 690.733px;">onScaleEnd(ScaleGestureDetector detector)</td>
+<td style="width: 680px;">Responds to the end of a scale gesture.</td>
+</tr>
+</tbody>
+</table>
+&nbsp;
+
+&nbsp;
+<div class="square-box">
+
+Q) Some methods return boolean values, what does that mean?
+
+A) If a callback method returns true, it informs the parent that the event has been consumed and ready to accept further events from the current gesture. But, if a callback returns false, it indicates that the event is not consumed and it is not interested in the remainder of the gesture.
+
+</div>
+&nbsp;
+<div class="square-box">
+
+Q) What are the differences between onFling() and onScroll() callbacks?
+
+A)  1) OnFling() needs some velocity in the movement (like swipe to unlock the phone). While, onScroll(), is invoked one you move your finger with normal speed (when you scroll a list or drag and drop)
+
+2) onFlicg() will be called only once at the end of the gesture, while onScroll() will be called multiple times as you move your finger on the screen.
+
+</div>
+&nbsp;
+
+&nbsp;
+<h3>Instantiate a Gesture Detector instance</h3>
+<pre class="EnlighterJSRAW" data-enlighter-language="java">private GestureDetectorCompat mDetector;
+private ScaleGestureDetector mScaleDetector;
+
+...
+...
+mDetector = new GestureDetectorCompat(this, this);
+mScaleDetector = new ScaleGestureDetector(this, this);
+
+
+</pre>
+Where the first parameter is the context and the second one is a reference to the callbacks object.
+
+&nbsp;
+<h3>Implements the required methods</h3>
+It is possible to create a separate class to handle the implementation of all the callbacks or simply add them to the activity as shown below:
+<pre class="EnlighterJSRAW" data-enlighter-language="java">public class MainActivity extends AppCompatActivity implements GestureDetector.OnGestureListener, GestureDetector.OnDoubleTapListener {
+
+}</pre>
+&nbsp;
+<pre class="EnlighterJSRAW" data-enlighter-language="null">@Override
+   public boolean onDown(MotionEvent e) {
+       return false;
+   }
+
+   @Override
+   public void onShowPress(MotionEvent e) {
+
+   }
+
+   @Override
+   public boolean onSingleTapUp(MotionEvent e) {
+      return false;
+   }
+
+   @Override
+   public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+      return false;
+   }
+
+   @Override
+   public void onLongPress(MotionEvent e) {
+      return false;
+
+   }
+
+   @Override
+   public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+      return false;
+   }
+
+   @Override
+   public boolean onSingleTapConfirmed(MotionEvent e) {
+       return false;
+   }
+
+   @Override
+   public boolean onDoubleTap(MotionEvent e) {
+      return false;
+   }
+
+   @Override
+   public boolean onDoubleTapEvent(MotionEvent e) {
+       return false;
+   }
+
+
+   @Override
+   public boolean onScale(ScaleGestureDetector detector) {
+       return false;
+   }
+
+   @Override
+   public boolean onScaleBegin(ScaleGestureDetector detector) {
+        return true;
+   }
+   @Override
+   public void onScaleEnd(ScaleGestureDetector detector) {
+  
+   }</pre>
+&nbsp;
+<h3>Intercept the touch events and pass them to the gesture detector</h3>
+For the gesture detectors to work, you must override the onTouch callback method and forward the MotionEvent object to the detectors.
+<div class="square-box">
+
+Q) What will happen if your onTouch() callback returns false instead of true?
+
+Change it and observe the results.
+
+</div>
+<pre class="EnlighterJSRAW" data-enlighter-language="java">@Override
+public boolean onTouch(View v, MotionEvent event) {
+       mDetector.onTouchEvent(event));
+       mScaleDetector.onTouchEvent(event);
+ 
+       return true;
+    }
+</pre>
+&nbsp;
+
+Now, the activity in one piece:
+<pre class="EnlighterJSRAW" data-enlighter-language="java">package com.fit2081.week11gesturesdetectors;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GestureDetectorCompat;
+
+import android.os.Bundle;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
+import android.view.View;
+import android.widget.TextView;
+
+public class MainActivity extends AppCompatActivity implements View.OnTouchListener, GestureDetector.OnGestureListener, GestureDetector.OnDoubleTapListener, ScaleGestureDetector.OnScaleGestureListener {
+
+    TextView tV;
+    private GestureDetectorCompat mDetector;
+    private ScaleGestureDetector mScaleDetector;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        tV = findViewById(R.id.textview_id);
+        mScaleDetector = new ScaleGestureDetector(this, this);
+
+        mDetector = new GestureDetectorCompat(this, this);
+        mDetector.setOnDoubleTapListener(this);
+
+        View myLayout = findViewById(R.id.myLayout);
+        myLayout.setOnTouchListener(this);
+
+
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        mDetector.onTouchEvent(event);
+        mScaleDetector.onTouchEvent(event);
+
+        return true;
+    }
+
+    @Override
+    public boolean onSingleTapConfirmed(MotionEvent e) {
+        tV.setText("onSingleTapConfirmed");
+        return true;
+    }
+
+    @Override
+    public boolean onDoubleTap(MotionEvent e) {
+        tV.setText("onDoubleTap");
+        return true;
+    }
+
+    @Override
+    public boolean onDoubleTapEvent(MotionEvent e) {
+        tV.setText("onDoubleTapEvent");
+
+        return true;
+    }
+
+    @Override
+    public boolean onDown(MotionEvent e) {
+        tV.setText("onDown");
+
+        return true;
+    }
+
+    @Override
+    public void onShowPress(MotionEvent e) {
+        tV.setText("onShowPress");
+
+    }
+
+    @Override
+    public boolean onSingleTapUp(MotionEvent e) {
+        tV.setText("onSingleTapUp");
+
+        return true;
+    }
+
+    @Override
+    public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+        tV.setText("onScroll");
+
+        return true;
+    }
+
+    @Override
+    public void onLongPress(MotionEvent e) {
+        tV.setText("onLongPress");
+
+    }
+
+    @Override
+    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+        tV.setText("onFling");
+
+        return true;
+    }
+
+
+    @Override
+    public boolean onScale(ScaleGestureDetector detector) {
+        tV.setText("onScale");
+
+        return true;
+    }
+
+    @Override
+    public boolean onScaleBegin(ScaleGestureDetector detector) {
+        tV.setText("onScaleBegin");
+
+        return true;
+    }
+
+    @Override
+    public void onScaleEnd(ScaleGestureDetector detector) {
+        tV.setText("onScaleEnd");
+
+    }
+}
+</pre>
+<div class="square-box">
+
+Q) What will happen if onScaleBegin() callback returns false instead of true?
+
+A) The two methods onScale() and onScaleEnd() will not be invoked.
+
+Q) Why?
+
+A) if the callback onScaleBegin() returns false, this means it is not interested in the current gesture.
+
+</div>
+&nbsp;
+<div class="square-box">
+
+Q) How can I get the pinch (zoom/scale) size at the end of the scale gesture?
+
+A) you can return the event span using <strong>detector.getCurrentSpan()</strong> where detector is the input parameter to onScaleEnd() callback.
+
+Click <a href="https://developer.android.com/reference/android/view/ScaleGestureDetector">HERE</a> for more information about the ScaleGestureDetector.
+
+</div>
+&nbsp;
+<div class="square-box">
+
+Q) What if want to implement only a subset of the callback? in other words, my app requires one or two callbacks only.
+
+A) You need to implement a class that extends the convenience classes SimpleOnGestureListener or SimpleOnScaleGestureListener.
+
+</div>
+&nbsp;
+<h3>Build a class the extends SimpleOnGestureListener</h3>
+<pre class="EnlighterJSRAW" data-enlighter-language="java">private class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
+
+       @Override
+       public boolean onSingleTapConfirmed(MotionEvent e) {
+           tV.setText("onSingleTapConfirmed");
+           return true;
+       }
+
+       @Override
+       public boolean onDoubleTap(MotionEvent e) {
+           tV.setText("onDoubleTap");
+           return true;
+       }
+
+       @Override
+       public boolean onDown(MotionEvent e) {
+           tV.setText("onDown");
+
+           return true;
+       }
+
+       @Override
+       public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+           tV.setText("onScroll");
+
+           return true;
+       }
+
+       @Override
+       public void onLongPress(MotionEvent e) {
+           tV.setText("onLongPress");
+
+       }
+   }</pre>
+As you can see from the code above, the class MyGestureListener which works as a listener implements a subset of the interface OnGestureListener callbacks.
+<h3>Build a class the extends SimpleOnScaleGestureListener</h3>
+<pre class="EnlighterJSRAW" data-enlighter-language="java">private class MyScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener{
+    @Override
+    public boolean onScale(ScaleGestureDetector detector) {
+        tV.setText("onScale");
+
+        return true;
+    }
+
+    @Override
+    public boolean onScaleBegin(ScaleGestureDetector detector) {
+        tV.setText("onScaleBegin");
+
+        return true;
+    }
+
+}</pre>
+Again, extending the convenience class SimpleOnScaleGestureListener allows you to implement only the callbacks which your application needs.
+
+&nbsp;
+
+Now, let's provide them to the detectors:
+
+&nbsp;
+<pre class="EnlighterJSRAW" data-enlighter-language="java">MyScaleListener MyScaleListener=new MyScaleListener();
+mScaleDetector = new ScaleGestureDetector(this, MyScaleListener);
+
+MyGestureListener myGestureListener = new MyGestureListener();
+mDetector = new GestureDetectorCompat(this, myGestureListener);
+mDetector.setOnDoubleTapListener(myGestureListener);</pre>
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
