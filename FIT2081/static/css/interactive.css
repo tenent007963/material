@@ -1,0 +1,108 @@
+/*
+ * @copyright  Copyright © 2013-2017 Monash University. All Rights Reserved.
+ */
+
+/*
+Created by Chris Morris, 5 May 2014
+
+Styling strictly for the alex_interactive plugin.
+*/
+
+
+.interactive {
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    overflow: hidden;
+}
+
+.interactive iframe {
+    border: none;
+}
+
+.interactive footer {
+    text-align: right;
+}
+
+
+.interactive-fullscreen {
+	background: #fff; /* need to use white, as some interactives assume a white background like on the main page - see issue #2788 */
+	position: fixed;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	height: auto;
+	z-index: 1040;
+}
+
+.interactive-fullscreen iframe {
+	width: 100% !important;
+	height: 100% !important;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	position: fixed;
+	padding-bottom: 35px;
+	border: none;
+}
+
+.interactive-fullscreen footer {
+    text-align: right;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background: #fff; /* need to use white, as some interactives assume a white background like on the main page - see issue #2788 */
+    z-index: 9999;
+    position: fixed;
+}
+
+
+.interactive footer a, .interactive footer a:hover, .interactive-fullscreen footer a, .interactive-fullscreen footer a:hover {
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+}
+
+
+.interactive footer a {
+    color: #2980B9;
+    padding: 2px 10px;
+}
+
+.interactive-fullscreen footer a {
+    color: #fff;
+    padding: 7px 10px 5px 20px;
+}
+
+.interactive footer a:hover, .interactive-fullscreen footer a:hover {
+    color: #3498DB;    
+}
+
+a.interactive-fullscreen-button-expand > i.alex-icon-expand {
+    width:24px;
+    height:24px;
+    display:inline-block;
+}
+
+/*
+     FILE ARCHIVED ON 12:59:12 Jul 19, 2021 AND RETRIEVED FROM THE
+     INTERNET ARCHIVE ON 13:31:15 Feb 10, 2022.
+     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
+
+     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
+     SECTION 108(a)(3)).
+*/
+/*
+playback timings (ms):
+  captures_list: 226.951
+  exclusion.robots: 0.081
+  exclusion.robots.policy: 0.075
+  RedisCDXSource: 1.502
+  esindex: 0.009
+  LoadShardBlock: 206.668 (3)
+  PetaboxLoader3.datanode: 227.551 (5)
+  CDXLines.iter: 15.289 (3)
+  load_resource: 176.193 (2)
+  PetaboxLoader3.resolve: 114.673 (2)
+*/

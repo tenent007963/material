@@ -1,0 +1,61 @@
+/*
+ * @copyright  Copyright © 2013-2017 Monash University. All Rights Reserved.
+ */
+
+/* Registers */
+.syntaxhighlighter .registers  
+{ color: #ff8000; font-weight: normal !important; }
+
+/* User Instructions */
+.syntaxhighlighter .usr_inst 
+{ color: #ff0080; font-weight: normal !important; }
+
+/* System Instructions */
+.syntaxhighlighter .sys_inst 
+{ color: #0000ff; font-weight: normal !important; }
+
+/* FPU Instructions */
+.syntaxhighlighter .fpu_inst 
+{ color: #ff8040; font-weight: normal !important; }
+
+/* Multimedia Instructions */
+.syntaxhighlighter .mul_inst 
+{ color: #cbd601; font-weight: normal !important; }
+
+/* Masm Specific */
+.syntaxhighlighter .masm_spc .mips_spc
+{ color: #0080c0; font-weight: normal !important; }
+
+/* Numbers */
+.syntaxhighlighter .numbers 
+{ color: #8000ff; font-weight: normal !important; }
+
+/* IDA labels */
+.syntaxhighlighter .labels 
+{ color: blue; font-weight: normal !important; }
+
+/* Strings */
+.syntaxhighlighter .asmstring 
+{ color: #b0002d; font-weight: normal !important; }
+
+/*
+     FILE ARCHIVED ON 12:59:13 Jul 19, 2021 AND RETRIEVED FROM THE
+     INTERNET ARCHIVE ON 13:31:18 Feb 10, 2022.
+     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
+
+     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
+     SECTION 108(a)(3)).
+*/
+/*
+playback timings (ms):
+  captures_list: 104.387
+  exclusion.robots: 0.101
+  exclusion.robots.policy: 0.093
+  RedisCDXSource: 5.167
+  esindex: 0.01
+  LoadShardBlock: 78.947 (3)
+  PetaboxLoader3.datanode: 51.138 (4)
+  CDXLines.iter: 17.611 (3)
+  load_resource: 45.298
+  PetaboxLoader3.resolve: 24.318
+*/
