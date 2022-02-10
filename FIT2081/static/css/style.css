@@ -1,7 +1,7 @@
 /* 
 * always include base css to get basic styling for header etc.
 */
-@import url(/web/20210719125912cs_/https://www.alexandriarepository.org/wp-content/plugins/easy-table/css/easy-table.css);
+@import url(./easy-table.css);
 
 
 /*
