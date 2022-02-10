@@ -2,7 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
 <html><body><div class="square-box"><br>
 <br>
-What is&#xC2;&nbsp;RecyclerView?<br>
+What is&nbsp;&nbsp;RecyclerView?<br>
 <br>
 </div><br>
 A RecyclerView is a flexible viewgroup for providing a limited window into a large data set. The purpose of the RecyclerView is to allow information to be presented to the user in the form of a scrollable list. The RecyclerView is significantly more efficient in the way it manages the views that make up a list, essentially reusing existing views that make up list items as they scroll off the screen instead if creating new ones (hence the name &#xE2;&#x80;&#x9C;recycler&#xE2;&#x80;&#x9D;).<br>
@@ -66,7 +66,7 @@ As you can see, the cardview works as a top-level container that has a relative 
 <br>
 &nbsp;<br>
 <h2><span id="1-what-isrecyclerview">RecyclerView</span></h2><br>
-It is a container for rendering a larger data set of views that can be recycled and scrolled very efficiently.&#xC2;&nbsp;&#xC2;&nbsp;It uses a subclass of RecyclerView.Adapter for providing views that represent items in a data set.<br>
+It is a container for rendering a larger data set of views that can be recycled and scrolled very efficiently.&nbsp;&nbsp;&nbsp;&nbsp;It uses a subclass of RecyclerView.Adapter for providing views that represent items in a data set.<br>
 <br>
 activity_main.xml<br>
 <pre class="EnlighterJSRAW" data-enlighter-language="xml">&lt;?xml version="1.0" encoding="utf-8"?&gt;<br>
@@ -199,7 +199,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter&lt;MyRecyclerAdapter
     }<br>
 }<br>
 </pre><br>
-The code provided is the implementation of the RecyclerAdapter. It implements the three methods mentioned earlier and the ViewHolder subclass (@line44).&#xC2;&nbsp; The data is passed to the adaptor through a method called <strong>setData</strong> (@line18) which is called from the MainActivity.java (@line44). The method&#xC2;&nbsp;<strong>getItemCount</strong> (@line40) returns the size of the array list which is the number of items to be displayed in the list. The method&#xC2;&nbsp;onCreateViewHolder inflates the card's layout that we have implemented earlier each time a new card is required (@line25). It the passes v, which is a reference to the card layout to the contractor of ViewHolder local class. At line 28, the method returns the view holder object that will be an input to the next method <strong>onBindViewHolder</strong>. In the latter method, we receive two parameters, a viewer holder and a position. Our job is to retrieve the data at that position and place it in that view holder.<br>
+The code provided is the implementation of the RecyclerAdapter. It implements the three methods mentioned earlier and the ViewHolder subclass (@line44).&nbsp;&nbsp; The data is passed to the adaptor through a method called <strong>setData</strong> (@line18) which is called from the MainActivity.java (@line44). The method&nbsp;&nbsp;<strong>getItemCount</strong> (@line40) returns the size of the array list which is the number of items to be displayed in the list. The method&nbsp;&nbsp;onCreateViewHolder inflates the card's layout that we have implemented earlier each time a new card is required (@line25). It the passes v, which is a reference to the card layout to the contractor of ViewHolder local class. At line 28, the method returns the view holder object that will be an input to the next method <strong>onBindViewHolder</strong>. In the latter method, we receive two parameters, a viewer holder and a position. Our job is to retrieve the data at that position and place it in that view holder.<br>
 <br>
 MainActivity.java<br>
 <pre class="EnlighterJSRAW" data-enlighter-language="java">package com.fit2081.recyclercard;<br>
@@ -265,7 +265,7 @@ public class MainActivity extends AppCompatActivity {<br>
 In the code above, we have created three entities, a recycler view (@line37), dataset (@line16), and an adapter (@line43). The adapter works as a bridge between the recyclerview and the dataset (@line43,44).<br>
 <blockquote><br>
 <div class="square-box"><br>
-<h4>Each time the data gets changed, you should notify the adapter by calling&#xC2;&nbsp;<strong> adapter.notifyDataSetChanged() </strong>in order to update the recycler view (i.e. the UI)</h4><br>
+<h4>Each time the data gets changed, you should notify the adapter by calling&nbsp;&nbsp;<strong> adapter.notifyDataSetChanged() </strong>in order to update the recycler view (i.e. the UI)</h4><br>
 </div></blockquote><br>
 References:<br>
 <ul><li>Smyth, Neil. Android Studio 3.5 Development Essentials - Java Edition: Developing Android 10 (Q) Apps Using Android Studio 3.5, Java and Android Jetpack . Payload Media, Inc.. Kindle Edition.</li><br>

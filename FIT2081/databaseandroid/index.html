@@ -20,7 +20,7 @@ SQLite uses SQL language (Structured Query Language)<br>
 So, what is SQL?<br>
 <br>
 </div><br>
-SQL is a language that allows you to access and manipulate databases.&#xC2;&nbsp;SQL statements are used to execute tasks such as add data to a database or retrieve data from a database.&#xC2;&nbsp;SQL is used by nearly all relational databases to query, manipulate, and define data, and to provide access control.<br>
+SQL is a language that allows you to access and manipulate databases.&nbsp;&nbsp;SQL statements are used to execute tasks such as add data to a database or retrieve data from a database.&nbsp;&nbsp;SQL is used by nearly all relational databases to query, manipulate, and define data, and to provide access control.<br>
 <br>
 &nbsp;<br>
 <br>
@@ -56,7 +56,7 @@ and here is the output after executing the above SQL statement<br>
 As you can see, all the values in the last column 'Country' is Germany.<br>
 <br>
 &nbsp;<br>
-<h2>SQLite, Rooms,&#xC2;&nbsp; and LiveData</h2><br>
+<h2>SQLite, Rooms,&nbsp;&nbsp; and LiveData</h2><br>
 &nbsp;<br>
 <br>
 &nbsp;<br>
@@ -66,12 +66,12 @@ As you can see, all the values in the last column 'Country' is Germany.<br>
 &nbsp;<br>
 <br>
 &nbsp;<br>
-<ul><li><em>SQLite database: is a relational database management system that is used by Android to store relational data.&#xC2;&nbsp;</em></li><br>
- 	<li><em>DAO:&#xC2;&nbsp;Data Access Objects are the main classes where you define your database interactions. They can include a variety of query methods.</em></li><br>
+<ul><li><em>SQLite database: is a relational database management system that is used by Android to store relational data.&nbsp;&nbsp;</em></li><br>
+ 	<li><em>DAO:&nbsp;&nbsp;Data Access Objects are the main classes where you define your database interactions. They can include a variety of query methods.</em></li><br>
  	<li>Entities: Each entity represents one table in the database</li><br>
- 	<li><em>Room database:&#xC2;&nbsp;</em>The room database object provides the interface to the underlying SQLite database.</li><br>
- 	<li><em>Repository:&#xC2;&nbsp; </em>It's a class that contains all of the code necessary for directly handling all data sources used by the application. This avoids the need for the UI controller and ViewModel to contain code that directly accesses sources such as databases or web services.</li><br>
- 	<li>ViewModel:&#xC2;&nbsp;A ViewModel object provides the data for a specific UI component, such as a fragment or activity, and contains data-handling business logic to communicate with the model.</li><br>
+ 	<li><em>Room database:&nbsp;&nbsp;</em>The room database object provides the interface to the underlying SQLite database.</li><br>
+ 	<li><em>Repository:&nbsp;&nbsp; </em>It's a class that contains all of the code necessary for directly handling all data sources used by the application. This avoids the need for the UI controller and ViewModel to contain code that directly accesses sources such as databases or web services.</li><br>
+ 	<li>ViewModel:&nbsp;&nbsp;A ViewModel object provides the data for a specific UI component, such as a fragment or activity, and contains data-handling business logic to communicate with the model.</li><br>
  	<li>LiveData: Its a data holder that allows a value to become observable. In other words, an observable object has the ability to notify other objects when changes to its data occur thereby solving the problem of making sure that the user interface always matches the data within the ViewModel.</li><br>
 </ul><br>
 Let's develop an application that generates customers randomly. Each customer is represented by a name and address as shown below:<br>
@@ -279,7 +279,7 @@ public class CustomerRepository  {<br>
 }<br>
 </pre><br>
 Notes:<br>
-<ul><li>Line@9:&#xC2;&nbsp; declares a reference to the Dao interface which will be used to execute the database operations we have defined earlier.</li><br>
+<ul><li>Line@9:&nbsp;&nbsp; declares a reference to the Dao interface which will be used to execute the database operations we have defined earlier.</li><br>
  	<li>Line@10: defines an array list that is used to hold a copy of your data.</li><br>
  	<li>Line@12: this contractor creates a reference to the database that will be used to access the Dao interface. The Dao interface will be used later (line@15) to get the list of customers.</li><br>
  	<li>Line@20: this method inserts a new row (object) to the database. It uses the 'databaseWriteExecutor' to access the database and execute the insert SQL statement.</li><br>
@@ -289,7 +289,7 @@ Notes:<br>
 <br>
 &nbsp;<br>
 <h3>ViewModel</h3><br>
-If a fragment or an activity needs special data or a different way to retrieve the data, then the ViewModel is the best place to implement your logic. In the following&#xC2;&nbsp;AndroidViewModel, all the methods (that will be invoked later by the activity or fragment) call their counterpart methods that are implemented in the Repository.<br>
+If a fragment or an activity needs special data or a different way to retrieve the data, then the ViewModel is the best place to implement your logic. In the following&nbsp;&nbsp;AndroidViewModel, all the methods (that will be invoked later by the activity or fragment) call their counterpart methods that are implemented in the Repository.<br>
 <br>
 &nbsp;<br>
 <pre class="EnlighterJSRAW" data-enlighter-language="java">package com.fit2081.rooms.provider;<br>
@@ -341,7 +341,7 @@ mCustomerViewModel = new ViewModelProvider(this).get(CustomerViewModel.class);<b
             tv.setText(newData.size() + "");<br>
         });</pre><br>
 Notes:<br>
-<ul><li>Line@3: the app uses the&#xC2;&nbsp;ViewModelProvider (An utility class that provides ViewModels for a scope) to get access to the view model.</li><br>
+<ul><li>Line@3: the app uses the&nbsp;&nbsp;ViewModelProvider (An utility class that provides ViewModels for a scope) to get access to the view model.</li><br>
  	<li>Line@4: this line invokes the getAllCustomers to get the list of customers. Because the output of this method is LiveData, the caller has to observe. The observe method invokes the callback method which is provided in the second parameter each time the data gets changes. The new updates can be accessed via the input variable 'newData'</li><br>
 </ul><br>
 &nbsp;<br>

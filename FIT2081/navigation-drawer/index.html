@@ -4,7 +4,7 @@
 </p><h1>Drawer layout</h1><br>
 DrawerLayout acts as a top-level container for window content that allows for interactive "drawer" views to be pulled out from one or both vertical edges of the window.<br>
 <br>
-Drawer positioning and layout is controlled using the&#xC2;&nbsp;<code dir="ltr">android:layout_gravity</code>&#xC2;&nbsp;attribute on child views corresponding to which side of the view you want the drawer to emerge from left or right (or start/end on platform versions that support layout direction.) Note that you can only have one drawer view for each vertical edge of the window. If your layout configures more than one drawer view per vertical edge of the window, an exception will be thrown at runtime.<br>
+Drawer positioning and layout is controlled using the&nbsp;&nbsp;<code dir="ltr">android:layout_gravity</code>&nbsp;&nbsp;attribute on child views corresponding to which side of the view you want the drawer to emerge from left or right (or start/end on platform versions that support layout direction.) Note that you can only have one drawer view for each vertical edge of the window. If your layout configures more than one drawer view per vertical edge of the window, an exception will be thrown at runtime.<br>
 <br>
 &nbsp;<br>
 <br>
@@ -75,7 +75,7 @@ Inside the drawer layout, we have to include two items:<br>
     android:layout_height="match_parent" /&gt;</pre><br>
 &nbsp;<br>
 <br>
-The second item that should be added to the&#xC2;&nbsp; drawer layout is the navigation view that represents the navigation drawer<br>
+The second item that should be added to the&nbsp;&nbsp; drawer layout is the navigation view that represents the navigation drawer<br>
 <pre class="EnlighterJSRAW" data-enlighter-language="xml">&lt;com.google.android.material.navigation.NavigationView<br>
     android:layout_width="wrap_content"<br>
     android:layout_height="match_parent"<br>
@@ -83,9 +83,9 @@ The second item that should be added to the&#xC2;&nbsp; drawer layout is the nav
     android:layout_gravity="start"<br>
     android:fitsSystemWindows="true"<br>
     app:menu="@menu/nav_menu" /&gt;</pre><br>
-The attribute android:layout_gravity="start"&#xC2;&nbsp;tells the parent to position the drawer on the left side of the screen.<br>
+The attribute android:layout_gravity="start"&nbsp;&nbsp;tells the parent to position the drawer on the left side of the screen.<br>
 <br>
-The attribute app:menu="@menu/nav_menu" represents a reference to the menu file <em>nav_menu&#xC2;&nbsp;</em><br>
+The attribute app:menu="@menu/nav_menu" represents a reference to the menu file <em>nav_menu&nbsp;&nbsp;</em><br>
 <h3>How to create a resource menu file</h3><br>
 Step 1: Create an Android Resource Directory named "menu" as shown below:<br>
 <br>
@@ -110,8 +110,8 @@ Step 3: Let's create two menu items.<br>
 &nbsp;<br>
 <br>
 Where:<br>
-<ul><li>Attribute&#xC2;&nbsp; android:id="@+id/item_id_1" represents a unique ID for the menu item</li><br>
- 	<li>attribute&#xC2;&nbsp;android:title="Item One" sets the title for the menu item</li><br>
+<ul><li>Attribute&nbsp;&nbsp; android:id="@+id/item_id_1" represents a unique ID for the menu item</li><br>
+ 	<li>attribute&nbsp;&nbsp;android:title="Item One" sets the title for the menu item</li><br>
 </ul><br>
 &nbsp;<br>
 <br>
@@ -200,14 +200,14 @@ Set the toolbar to be the current toolbar for the activity<br>
 <pre class="EnlighterJSRAW" data-enlighter-language="java">setSupportActionBar(toolbar);</pre><br>
 &nbsp;<br>
 <br>
-Hook the drawer and the toolbar using&#xC2;&nbsp;ActionBarDrawerToggle class<br>
+Hook the drawer and the toolbar using&nbsp;&nbsp;ActionBarDrawerToggle class<br>
 <pre class="EnlighterJSRAW" data-enlighter-language="java">ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(<br>
         this, drawerlayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);<br>
 drawerlayout.addDrawerListener(toggle);<br>
 toggle.syncState();</pre><br>
 &nbsp;<br>
 <br>
-<strong>ActionBarDrawerToggle</strong>&#xC2;&nbsp;is for displaying an drawer indicator in the appbar which needs 5 arguments.<br>
+<strong>ActionBarDrawerToggle</strong>&nbsp;&nbsp;is for displaying an drawer indicator in the appbar which needs 5 arguments.<br>
 <ol><li>Current Activity context</li><br>
  	<li>DrawerLayout variable</li><br>
  	<li>Toolbar variable</li><br>
@@ -254,10 +254,10 @@ Step 2: set a new listener<br>
 });</pre><br>
 &nbsp;<br>
 <br>
-The listener is an anonymous class of type&#xC2;&nbsp;View.OnClickListener. If the user clicks or taps on the fab button, the callback method "onClick" will get executed.<br>
+The listener is an anonymous class of type&nbsp;&nbsp;View.OnClickListener. If the user clicks or taps on the fab button, the callback method "onClick" will get executed.<br>
 <br>
 The method shows a Snakbar from the bottom of the screen.<br>
-<blockquote>The&#xC2;&nbsp;<code>Snackbar</code>&#xC2;&nbsp;widget provides brief feedback about an operation through a message at the bottom of the screen.&#xC2;&nbsp;Snackbars&#xC2;&nbsp;disappear automatically, either after a timeout or after a user interaction elsewhere on the screen, and can also be swiped off the screen.</blockquote><br>
+<blockquote>The&nbsp;&nbsp;<code>Snackbar</code>&nbsp;&nbsp;widget provides brief feedback about an operation through a message at the bottom of the screen.&nbsp;&nbsp;Snackbars&nbsp;&nbsp;disappear automatically, either after a timeout or after a user interaction elsewhere on the screen, and can also be swiped off the screen.</blockquote><br>
 &nbsp;<br>
 <br>
 &nbsp;<br>

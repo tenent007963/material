@@ -10,7 +10,7 @@
   <body>
       <div class="square-box"><br>
 <br>
-In the previous weeks, we learn how to translate a touch on the screen into an action. In this week, we will learn how to&#xC2;&nbsp;intercept touch events in an Activity or View and execute the appropriate behaviour.<br>
+In the previous weeks, we learn how to translate a touch on the screen into an action. In this week, we will learn how to&nbsp;&nbsp;intercept touch events in an Activity or View and execute the appropriate behaviour.<br>
 <br>
 </div><br>
 &nbsp;<br>
@@ -18,12 +18,12 @@ In the previous weeks, we learn how to translate a touch on the screen into an a
 <br>
 <strong>What is Gesture?</strong><br>
 <br>
-A gesture is simply a sequence of touch events. Each touch event comes with x and y coordinates. A gesture starts with the touch-down even,&#xC2;&nbsp;continues as the system tracks the position of the user's finger(s), and end by the touch-up event.<br>
+A gesture is simply a sequence of touch events. Each touch event comes with x and y coordinates. A gesture starts with the touch-down even,&nbsp;&nbsp;continues as the system tracks the position of the user's finger(s), and end by the touch-up event.<br>
 <br>
 </div><br>
 &nbsp;<br>
 <h2>Intercepting Touch Events</h2><br>
-Touch events can be intercepted by a view through the overriding of&#xC2;&nbsp;onTouchEvent() method or the registration of an <strong>onTouchListerner</strong> and the implementation of onTouch() callback method.<br>
+Touch events can be intercepted by a view through the overriding of&nbsp;&nbsp;onTouchEvent() method or the registration of an <strong>onTouchListerner</strong> and the implementation of onTouch() callback method.<br>
 <div class="square-box"><br>
 <br>
 <strong>What is MotionEvent?</strong><br>
@@ -69,10 +69,10 @@ If you want to listen to all the touch events that might occur on your activity 
         }<br>
     }<br>
 }</pre><br>
-The activity implements onTouchEvent() method at line@12. The input parameter to this callback method is of type MotionEvent. Using this input parameter, we can extract the type of the event as shown in live@13.&#xC2;&nbsp; The getActionMasked() method returns an integer number (constant) that represents the type of the current event. The action is then compared with pre-defined constant values to determine the type of the current event as implemented by the switch case in lines@14-26.<br>
+The activity implements onTouchEvent() method at line@12. The input parameter to this callback method is of type MotionEvent. Using this input parameter, we can extract the type of the event as shown in live@13.&nbsp;&nbsp; The getActionMasked() method returns an integer number (constant) that represents the type of the current event. The action is then compared with pre-defined constant values to determine the type of the current event as implemented by the switch case in lines@14-26.<br>
 <br>
 &nbsp;<br>
-<h3>Registering&#xC2;&nbsp;onTouchListerner</h3><br>
+<h3>Registering&nbsp;&nbsp;onTouchListerner</h3><br>
 This approach allows us to listen to a specific view instead of the entire layout.<br>
 <pre class="EnlighterJSRAW" data-enlighter-language="java">public class MainActivity extends AppCompatActivity {<br>
 <br>
@@ -106,7 +106,7 @@ This approach allows us to listen to a specific view instead of the entire layou
 <br>
 }<br>
 </pre><br>
-As shown in the code above, the activity retrieves a reference to the layout that has id=<strong>my_layout </strong>at line@9. The code then registers a touch listener by calling&#xC2;&nbsp;<strong>setOnTouchListener()&#xC2;&nbsp;</strong>method and providing an anonymous instance of&#xC2;&nbsp;<strong>View.OnTouchListener()</strong> that implements <strong>onTouch()</strong> callback Event (line@12).<br>
+As shown in the code above, the activity retrieves a reference to the layout that has id=<strong>my_layout </strong>at line@9. The code then registers a touch listener by calling&nbsp;&nbsp;<strong>setOnTouchListener()&nbsp;&nbsp;</strong>method and providing an anonymous instance of&nbsp;&nbsp;<strong>View.OnTouchListener()</strong> that implements <strong>onTouch()</strong> callback Event (line@12).<br>
 <br>
 The callback method <strong>onTouch()</strong> accepts as input the MotionEvent object that provides the type of the event and its coordinates.<br>
 <br>
@@ -167,7 +167,7 @@ In order to query the position of the current event, we must call getX() and get
 <br>
 &nbsp;<br>
 <br>
-Lines 13 and 14 retrieve the x and y coordinates of the current event.&#xC2;&nbsp; The return type of both methods getX() and getY() is float and this is due to&#xC2;&nbsp;sub-pixel accuracy.<br>
+Lines 13 and 14 retrieve the x and y coordinates of the current event.&nbsp;&nbsp; The return type of both methods getX() and getY() is float and this is due to&nbsp;&nbsp;sub-pixel accuracy.<br>
 <br>
 Now, let's deploy the code above into an emulator and test it.<br>
 <pre class="EnlighterJSRAW" data-enlighter-language="null">D/WEEK10_TAG: Action was DOWN at x=334 and y=653<br>

@@ -33,7 +33,7 @@ CP is a class that helps applications to share their data with other application
 <br>
 Q) How can I access the Content Provider of an application?<br>
 <br>
-A)&#xC2;&nbsp;Access to the data is provided via a Universal Resource Identifier (URI) defined by the Content Provider.<br>
+A)&nbsp;&nbsp;Access to the data is provided via a Universal Resource Identifier (URI) defined by the Content Provider.<br>
 <br>
 </div><br>
 &nbsp;<br>
@@ -60,7 +60,7 @@ After adding the content provider class to your project, a new element has been 
             android:exported="true"&gt;<br>
 &lt;/provider&gt;</pre><br>
 &nbsp;<br>
-<h1><strong>The Content Provider Application&#xC2;&nbsp;</strong></h1><br>
+<h1><strong>The Content Provider Application&nbsp;&nbsp;</strong></h1><br>
 &nbsp;<br>
 <div class="square-box"><br>
 <br>
@@ -72,9 +72,9 @@ A) you have to implement the following methods:<br>
 <br>
 <strong>query(Uri, String[], Bundle, CancellationSignal)</strong> which returns data to the caller<br>
 <br>
-<strong>&#xC2;&nbsp;insert(Uri, ContentValues)</strong> which inserts new data into the content provider<br>
+<strong>&nbsp;&nbsp;insert(Uri, ContentValues)</strong> which inserts new data into the content provider<br>
 <br>
-<strong>&#xC2;&nbsp;update(Uri, ContentValues, String, String[])</strong> which updates existing data in the content provider<br>
+<strong>&nbsp;&nbsp;update(Uri, ContentValues, String, String[])</strong> which updates existing data in the content provider<br>
 <br>
 <strong>delete(Uri, String, String[])</strong> which deletes data from the content provider<br>
 <br>
@@ -229,7 +229,7 @@ This method is used to update an existing row in the database. It accepts simila
 <br>
 Q) What is the purpose of the getType() method?<br>
 <br>
-A)&#xC2;&nbsp;&#xC2;&nbsp;It is used by applications to retrieve the MIME type of the given content URI. In other words, is used to tell the other application the type of the return of the given URI.<br>
+A)&nbsp;&nbsp;&nbsp;&nbsp;It is used by applications to retrieve the MIME type of the given content URI. In other words, is used to tell the other application the type of the return of the given URI.<br>
 <br>
 </div><br>
 &nbsp;<br>
@@ -320,7 +320,7 @@ A)None of them is required. You should use the ContentResolver class.<br>
 <br>
 Q) What is ContentResolver (CR)?<br>
 <br>
-A) CR&#xC2;&nbsp; is used to access the content provider.&#xC2;&nbsp;The content resolver object contains a set of methods that mirror those of the content&#xC2;&nbsp;provider (insert, query, delete etc.).<br>
+A) CR&nbsp;&nbsp; is used to access the content provider.&nbsp;&nbsp;The content resolver object contains a set of methods that mirror those of the content&nbsp;&nbsp;provider (insert, query, delete etc.).<br>
 <br>
 </div><br>
 &nbsp;<br>
