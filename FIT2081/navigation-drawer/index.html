@@ -1,268 +1,268 @@
 <?xml version="1.0" standalone="yes"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
-<html><body><p>Click <a href="https://lms.monash.edu/mod/resource/view.php?id=7995205">HERE</a> to download the source code of this workshop material.&#xD;
-</p><h1>Drawer layout</h1>&#xD;
-DrawerLayout acts as a top-level container for window content that allows for interactive "drawer" views to be pulled out from one or both vertical edges of the window.&#xD;
-&#xD;
-Drawer positioning and layout is controlled using the&#xC2;&#xA0;<code dir="ltr">android:layout_gravity</code>&#xC2;&#xA0;attribute on child views corresponding to which side of the view you want the drawer to emerge from left or right (or start/end on platform versions that support layout direction.) Note that you can only have one drawer view for each vertical edge of the window. If your layout configures more than one drawer view per vertical edge of the window, an exception will be thrown at runtime.&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-<a href="https://www.alexandriarepository.org/media/drawer" rel="attachment wp-att-177670"><img class="aligncenter wp-image-177670" src="./assets/drawer.png" alt="" width="1234" height="1038"/></a>&#xD;
-&#xD;
-&#xA0;&#xD;
-<h2>How to add a navigation drawer to your application and listen to its events?</h2>&#xD;
-The top-level of our hierarchy is a DrawerLayout. In this layout, we have two items:&#xD;
-<ol style="list-style-type: lower-alpha;"><li>a layout of type CoordinatorLayout, which contains:&#xD;
-<ol style="list-style-type: lower-roman;"><li>a layout of type AppBarLayout that wraps a Toolbar</li>&#xD;
- 	<li>a constraint layout that represents your main white area and should include your views such as text views, buttons, edit texts, etc.</li>&#xD;
- 	<li>a floating action button (FAB button)</li>&#xD;
-</ol></li>&#xD;
- 	<li>a navigation view that represents the drawer that can be pulled from left or right&#xD;
-<ol style="list-style-type: lower-roman;"><li>A menu resource file containing the options to be displayed within the navigation drawer.</li>&#xD;
-</ol></li>&#xD;
-</ol>&#xD;
-&#xA0;&#xD;
-&#xD;
-<a href="https://www.alexandriarepository.org/media/slide110-2" rel="attachment wp-att-177680"><img class="aligncenter size-full wp-image-177680" src="./assets/Slide110.jpg" alt="" width="448" height="635"/></a>&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-&#xA0;&#xD;
-<blockquote>The navigation drawer is a panel that slides out from the left of the screen and contains a range of options available for selection by the user, typically intended to facilitate navigation to some other part of the application.&#xD;
-&#xD;
-AppBarLayout is a ViewGroup, most commonly used to wrap a Toolbar, that provides many of the Material Design features. Inside Toolbar we can design our action bar now as we want.</blockquote>&#xD;
-&#xA0;&#xD;
-<h3>CoordinatorLayout</h3>&#xD;
-CoordinatorLayout is a general-purpose container that allows for coordinating interactive behaviors between its children.&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-open build.gradle(Module: app) and add the following dependencies:&#xD;
-<pre class="EnlighterJSRAW" data-enlighter-language="java">implementation 'androidx.appcompat:appcompat:1.1.0'&#xD;
-implementation 'com.google.android.material:material:1.1.0'&#xD;
-implementation 'androidx.constraintlayout:constraintlayout:1.1.3'</pre>&#xD;
-&#xA0;&#xD;
-&#xD;
-<a href="https://www.alexandriarepository.org/media/gradle-2" rel="attachment wp-att-177672"><img class="wp-image-177672 aligncenter" src="./assets/gradle.png" alt="" width="833" height="511"/></a>&#xD;
-&#xD;
-Add a new layout resource file where:&#xD;
-<ul><li>file name: activity_drawer_main.xml (or any name you prefer)</li>&#xD;
- 	<li>root element: androidx.drawerlayout.widget.DrawerLayout</li>&#xD;
-</ul>&#xD;
-&#xA0;&#xD;
-&#xD;
-<a href="https://www.alexandriarepository.org/media/add_drawer_layout" rel="attachment wp-att-177676"><img class="aligncenter size-full wp-image-177676" src="./assets/add_drawer_layout.gif" alt="" width="1002" height="879"/></a>&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-Inside the drawer layout, we have to include two items:&#xD;
-<ul style="list-style-type: disc;"><li>a layout that should contain the toolbar, a constraint layout and a floating action button.&#xD;
-<ul style="list-style-type: square;"><li>file name: app_bar_main (or any name you prefer)</li>&#xD;
- 	<li>root element: androidx.coordinatorlayout.widget.CoordinatorLayout</li>&#xD;
-</ul></li>&#xD;
-</ul>&#xD;
-&#xA0;&#xD;
-&#xD;
-<a href="https://www.alexandriarepository.org/media/add_app_bar_layout" rel="attachment wp-att-177677"><img class="aligncenter size-full wp-image-177677" src="./assets/add_app_bar_layout.gif" alt="" width="1002" height="879"/></a>&#xD;
-&#xD;
-&#xA0;&#xD;
-<p style="padding-left: 60px;">The file that we have just created should be included into the drawerlayout using &lt;include tag as shown below:</p>&#xD;
-&#xD;
-<pre class="EnlighterJSRAW" style="padding-left: 60px;" data-enlighter-language="xml">&lt;include&#xD;
-    layout="@layout/app_bar_main"&#xD;
-    android:layout_width="match_parent"&#xD;
-    android:layout_height="match_parent" /&gt;</pre>&#xD;
-&#xA0;&#xD;
-&#xD;
-The second item that should be added to the&#xC2;&#xA0; drawer layout is the navigation view that represents the navigation drawer&#xD;
-<pre class="EnlighterJSRAW" data-enlighter-language="xml">&lt;com.google.android.material.navigation.NavigationView&#xD;
-    android:layout_width="wrap_content"&#xD;
-    android:layout_height="match_parent"&#xD;
-    android:id="@+id/nav_view"&#xD;
-    android:layout_gravity="start"&#xD;
-    android:fitsSystemWindows="true"&#xD;
-    app:menu="@menu/nav_menu" /&gt;</pre>&#xD;
-The attribute android:layout_gravity="start"&#xC2;&#xA0;tells the parent to position the drawer on the left side of the screen.&#xD;
-&#xD;
-The attribute app:menu="@menu/nav_menu" represents a reference to the menu file <em>nav_menu&#xC2;&#xA0;</em>&#xD;
-<h3>How to create a resource menu file</h3>&#xD;
-Step 1: Create an Android Resource Directory named "menu" as shown below:&#xD;
-&#xD;
-<a href="https://www.alexandriarepository.org/media/add_menu_directory" rel="attachment wp-att-177682"><img class="aligncenter size-full wp-image-177682" src="./assets/add_menu_directory.gif" alt="" width="715" height="734"/></a>&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-Step 2: right-click the menu folder select New--&gt;Menu Resource File--&gt; provide a name&#xD;
-&#xD;
-<a href="https://www.alexandriarepository.org/media/add_menu" rel="attachment wp-att-177683"><img class="aligncenter size-full wp-image-177683" src="./assets/add_menu.gif" alt="" width="902" height="760"/></a>&#xD;
-&#xD;
-Step 3: Let's create two menu items.&#xD;
-<pre class="EnlighterJSRAW" data-enlighter-language="xml">&lt;?xml version="1.0" encoding="utf-8"?&gt;&#xD;
-&lt;menu xmlns:android="http://schemas.android.com/apk/res/android"&gt;&#xD;
-    &lt;item&#xD;
-        android:id="@+id/item_id_1"&#xD;
-        android:title="Item One" /&gt;&#xD;
-    &lt;item&#xD;
-        android:id="@+id/item_id_2"&#xD;
-        android:title="Item Two" /&gt;&#xD;
-&lt;/menu&gt;</pre>&#xD;
-&#xA0;&#xD;
-&#xD;
-Where:&#xD;
-<ul><li>Attribute&#xC2;&#xA0; android:id="@+id/item_id_1" represents a unique ID for the menu item</li>&#xD;
- 	<li>attribute&#xC2;&#xA0;android:title="Item One" sets the title for the menu item</li>&#xD;
-</ul>&#xD;
-&#xA0;&#xD;
-&#xD;
-&#xA0;&#xD;
-<h3>app_bar_main.xml</h3>&#xD;
-Add a toolbar to your coordinator layout.&#xD;
-<pre class="EnlighterJSRAW" data-enlighter-language="xml">&lt;com.google.android.material.appbar.AppBarLayout&#xD;
-    android:layout_width="match_parent"&#xD;
-    android:layout_height="wrap_content"&#xD;
-    android:theme="@style/AppTheme.AppBarOverlay"&gt;&#xD;
-    &lt;androidx.appcompat.widget.Toolbar&#xD;
-        android:id="@+id/toolbar"&#xD;
-        android:layout_width="match_parent"&#xD;
-        android:layout_height="?attr/actionBarSize"&#xD;
-   /&gt;&#xD;
-&lt;/com.google.android.material.appbar.AppBarLayout&gt;</pre>&#xD;
-&#xA0;&#xD;
-&#xD;
-The toolbar is wrapped by AppBarLayout to get the material design features.&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-Now, beneath the toolbar, we should include our main content (activity_main).&#xD;
-<pre class="EnlighterJSRAW" data-enlighter-language="xml">&lt;include&#xD;
-    layout="@layout/activity_main"&#xD;
-    android:layout_width="match_parent"&#xD;
-    android:layout_height="match_parent" /&gt;</pre>&#xD;
-&#xA0;&#xD;
-&#xD;
-At the bottom of the page, let's add a floating action button (FAB button).&#xD;
-&#xD;
-&#xA0;&#xD;
-<pre class="EnlighterJSRAW" data-enlighter-language="xml">&lt;com.google.android.material.floatingactionbutton.FloatingActionButton&#xD;
-    android:layout_width="wrap_content"&#xD;
-    android:layout_height="wrap_content"&#xD;
-    android:id="@+id/fab"&#xD;
-    android:layout_margin="45dp"&#xD;
-    android:layout_gravity="bottom|end"&#xD;
-    app:srcCompat="@drawable/ic_add_black_24dp" /&gt;</pre>&#xD;
-&#xA0;&#xD;
-&#xD;
-where:&#xD;
-<ul><li>android:layout_margin: specifies the margin around the fab button</li>&#xD;
- 	<li>android:layout_gravity="bottom|end": specifics the location of the fab button. Right now, we are asking to be placed in the bottom right corner of the screen</li>&#xD;
- 	<li>app:srcCompat="@drawable/ic_add_black_24dp": this attribute specifies the icon that should be used for fab button.</li>&#xD;
-</ul>&#xD;
-To add a new ICON for your app:&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-<a href="https://www.alexandriarepository.org/media/add_icon" rel="attachment wp-att-177675"><img class="aligncenter size-full wp-image-177675" src="./assets/add_icon.gif" alt="" width="1002" height="879"/></a>&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-&#xA0;&#xD;
-<h3>You cannot implement a new Toolbar if the activity already has an action bar supplied by the window decor</h3>&#xD;
-To disable the default toolbar, you need to use a theme that has no toolbar.&#xD;
-&#xD;
-Step 1: open values--&gt;styles.xml&#xD;
-&#xD;
-Step 2: change the default parent theme to be "Theme.AppCompat.Light.NoActionBar"&#xD;
-&#xD;
-<a href="https://www.alexandriarepository.org/media/no_action_bar" rel="attachment wp-att-177684"><img class="aligncenter size-full wp-image-177684" src="./assets/no_action_bar.gif" alt="" width="902" height="760"/></a>&#xD;
-&#xD;
-&#xA0;&#xD;
-<h2>MainActivity.java</h2>&#xD;
-In the MainActivity.java class, we have to do the following:&#xD;
-<ul><li>Hook the drawer and the toolbar</li>&#xD;
- 	<li>Set the navigation items listener to the navigation view&#xD;
-<ul><li>Implement the navigation items listener</li>&#xD;
-</ul></li>&#xD;
- 	<li>Listen to FAB events</li>&#xD;
-</ul>&#xD;
-&#xA0;&#xD;
-<h3>Hook the drawer and the toolbar</h3>&#xD;
-Create references to the drawer layout, navigation view, and the toolbar&#xD;
-<pre class="EnlighterJSRAW" data-enlighter-language="java">drawerlayout = findViewById(R.id.drawer_layout);&#xD;
-navigationView = findViewById(R.id.nav_view);&#xD;
-toolbar = findViewById(R.id.toolbar);&#xD;
-</pre>&#xD;
-&#xA0;&#xD;
-&#xD;
-Set the toolbar to be the current toolbar for the activity&#xD;
-<pre class="EnlighterJSRAW" data-enlighter-language="java">setSupportActionBar(toolbar);</pre>&#xD;
-&#xA0;&#xD;
-&#xD;
-Hook the drawer and the toolbar using&#xC2;&#xA0;ActionBarDrawerToggle class&#xD;
-<pre class="EnlighterJSRAW" data-enlighter-language="java">ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(&#xD;
-        this, drawerlayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);&#xD;
-drawerlayout.addDrawerListener(toggle);&#xD;
-toggle.syncState();</pre>&#xD;
-&#xA0;&#xD;
-&#xD;
-<strong>ActionBarDrawerToggle</strong>&#xC2;&#xA0;is for displaying an drawer indicator in the appbar which needs 5 arguments.&#xD;
-<ol><li>Current Activity context</li>&#xD;
- 	<li>DrawerLayout variable</li>&#xD;
- 	<li>Toolbar variable</li>&#xD;
- 	<li>Drawer open description message via Resource string</li>&#xD;
- 	<li>Drawer close description message via Resource string</li>&#xD;
-</ol>&#xD;
-&#xA0;&#xD;
-<h3>Set the navigation items listener to the navigation view</h3>&#xD;
-<pre class="EnlighterJSRAW" data-enlighter-language="java">navigationView.setNavigationItemSelectedListener(new MyNavigationListener());&#xD;
-</pre>&#xD;
-<h3>Implement the navigation items listener</h3>&#xD;
-<pre class="EnlighterJSRAW" data-enlighter-language="java">class MyNavigationListener implements NavigationView.OnNavigationItemSelectedListener {&#xD;
-&#xD;
-    @Override&#xD;
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {&#xD;
-        // get the id of the selected item&#xD;
-        int id = item.getItemId();&#xD;
-&#xD;
-        if (id == R.id.item_id_1) {&#xD;
-            // Do something&#xD;
-        } else if (id == R.id.item_id_2) {&#xD;
-            // Do something&#xD;
-        }&#xD;
-        // close the drawer&#xD;
-        drawerlayout.closeDrawers();&#xD;
-        // tell the OS &#xD;
-        return true;&#xD;
-    }&#xD;
-}</pre>&#xD;
-&#xA0;&#xD;
-<h3>Listen to FAB events</h3>&#xD;
-Step 1: Create a reference to the fab button:&#xD;
-<pre class="EnlighterJSRAW" data-enlighter-language="java">FloatingActionButton fab = findViewById(R.id.fab);&#xD;
-</pre>&#xD;
-&#xA0;&#xD;
-&#xD;
-Step 2: set a new listener&#xD;
-<pre class="EnlighterJSRAW" data-enlighter-language="null">fab.setOnClickListener(new View.OnClickListener() {&#xD;
-    @Override&#xD;
-    public void onClick(View view) {&#xD;
-        Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)&#xD;
-                .setAction("Action", null).show();&#xD;
-    }&#xD;
-});</pre>&#xD;
-&#xA0;&#xD;
-&#xD;
-The listener is an anonymous class of type&#xC2;&#xA0;View.OnClickListener. If the user clicks or taps on the fab button, the callback method "onClick" will get executed.&#xD;
-&#xD;
-The method shows a Snakbar from the bottom of the screen.&#xD;
-<blockquote>The&#xC2;&#xA0;<code>Snackbar</code>&#xC2;&#xA0;widget provides brief feedback about an operation through a message at the bottom of the screen.&#xC2;&#xA0;Snackbars&#xC2;&#xA0;disappear automatically, either after a timeout or after a user interaction elsewhere on the screen, and can also be swiped off the screen.</blockquote>&#xD;
-&#xA0;&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-References:&#xD;
-<ul><li>https://www.androdocs.com/kotlin/implementing-navigation-drawer-in-android-app-using-kotlin.html</li>&#xD;
- 	<li/>&#xD;
+<html><body><p>Click <a href="https://lms.monash.edu/mod/resource/view.php?id=7995205">HERE</a> to download the source code of this workshop material.<br>
+</p><h1>Drawer layout</h1><br>
+DrawerLayout acts as a top-level container for window content that allows for interactive "drawer" views to be pulled out from one or both vertical edges of the window.<br>
+<br>
+Drawer positioning and layout is controlled using the&#xC2;&nbsp;<code dir="ltr">android:layout_gravity</code>&#xC2;&nbsp;attribute on child views corresponding to which side of the view you want the drawer to emerge from left or right (or start/end on platform versions that support layout direction.) Note that you can only have one drawer view for each vertical edge of the window. If your layout configures more than one drawer view per vertical edge of the window, an exception will be thrown at runtime.<br>
+<br>
+&nbsp;<br>
+<br>
+<a href="https://www.alexandriarepository.org/media/drawer" rel="attachment wp-att-177670"><img class="aligncenter wp-image-177670" src="./assets/drawer.png" alt="" width="1234" height="1038"/></a><br>
+<br>
+&nbsp;<br>
+<h2>How to add a navigation drawer to your application and listen to its events?</h2><br>
+The top-level of our hierarchy is a DrawerLayout. In this layout, we have two items:<br>
+<ol style="list-style-type: lower-alpha;"><li>a layout of type CoordinatorLayout, which contains:<br>
+<ol style="list-style-type: lower-roman;"><li>a layout of type AppBarLayout that wraps a Toolbar</li><br>
+ 	<li>a constraint layout that represents your main white area and should include your views such as text views, buttons, edit texts, etc.</li><br>
+ 	<li>a floating action button (FAB button)</li><br>
+</ol></li><br>
+ 	<li>a navigation view that represents the drawer that can be pulled from left or right<br>
+<ol style="list-style-type: lower-roman;"><li>A menu resource file containing the options to be displayed within the navigation drawer.</li><br>
+</ol></li><br>
+</ol><br>
+&nbsp;<br>
+<br>
+<a href="https://www.alexandriarepository.org/media/slide110-2" rel="attachment wp-att-177680"><img class="aligncenter size-full wp-image-177680" src="./assets/Slide110.jpg" alt="" width="448" height="635"/></a><br>
+<br>
+&nbsp;<br>
+<br>
+&nbsp;<br>
+<blockquote>The navigation drawer is a panel that slides out from the left of the screen and contains a range of options available for selection by the user, typically intended to facilitate navigation to some other part of the application.<br>
+<br>
+AppBarLayout is a ViewGroup, most commonly used to wrap a Toolbar, that provides many of the Material Design features. Inside Toolbar we can design our action bar now as we want.</blockquote><br>
+&nbsp;<br>
+<h3>CoordinatorLayout</h3><br>
+CoordinatorLayout is a general-purpose container that allows for coordinating interactive behaviors between its children.<br>
+<br>
+&nbsp;<br>
+<br>
+open build.gradle(Module: app) and add the following dependencies:<br>
+<pre class="EnlighterJSRAW" data-enlighter-language="java">implementation 'androidx.appcompat:appcompat:1.1.0'<br>
+implementation 'com.google.android.material:material:1.1.0'<br>
+implementation 'androidx.constraintlayout:constraintlayout:1.1.3'</pre><br>
+&nbsp;<br>
+<br>
+<a href="https://www.alexandriarepository.org/media/gradle-2" rel="attachment wp-att-177672"><img class="wp-image-177672 aligncenter" src="./assets/gradle.png" alt="" width="833" height="511"/></a><br>
+<br>
+Add a new layout resource file where:<br>
+<ul><li>file name: activity_drawer_main.xml (or any name you prefer)</li><br>
+ 	<li>root element: androidx.drawerlayout.widget.DrawerLayout</li><br>
+</ul><br>
+&nbsp;<br>
+<br>
+<a href="https://www.alexandriarepository.org/media/add_drawer_layout" rel="attachment wp-att-177676"><img class="aligncenter size-full wp-image-177676" src="./assets/add_drawer_layout.gif" alt="" width="1002" height="879"/></a><br>
+<br>
+&nbsp;<br>
+<br>
+Inside the drawer layout, we have to include two items:<br>
+<ul style="list-style-type: disc;"><li>a layout that should contain the toolbar, a constraint layout and a floating action button.<br>
+<ul style="list-style-type: square;"><li>file name: app_bar_main (or any name you prefer)</li><br>
+ 	<li>root element: androidx.coordinatorlayout.widget.CoordinatorLayout</li><br>
+</ul></li><br>
+</ul><br>
+&nbsp;<br>
+<br>
+<a href="https://www.alexandriarepository.org/media/add_app_bar_layout" rel="attachment wp-att-177677"><img class="aligncenter size-full wp-image-177677" src="./assets/add_app_bar_layout.gif" alt="" width="1002" height="879"/></a><br>
+<br>
+&nbsp;<br>
+<p style="padding-left: 60px;">The file that we have just created should be included into the drawerlayout using &lt;include tag as shown below:</p><br>
+<br>
+<pre class="EnlighterJSRAW" style="padding-left: 60px;" data-enlighter-language="xml">&lt;include<br>
+    layout="@layout/app_bar_main"<br>
+    android:layout_width="match_parent"<br>
+    android:layout_height="match_parent" /&gt;</pre><br>
+&nbsp;<br>
+<br>
+The second item that should be added to the&#xC2;&nbsp; drawer layout is the navigation view that represents the navigation drawer<br>
+<pre class="EnlighterJSRAW" data-enlighter-language="xml">&lt;com.google.android.material.navigation.NavigationView<br>
+    android:layout_width="wrap_content"<br>
+    android:layout_height="match_parent"<br>
+    android:id="@+id/nav_view"<br>
+    android:layout_gravity="start"<br>
+    android:fitsSystemWindows="true"<br>
+    app:menu="@menu/nav_menu" /&gt;</pre><br>
+The attribute android:layout_gravity="start"&#xC2;&nbsp;tells the parent to position the drawer on the left side of the screen.<br>
+<br>
+The attribute app:menu="@menu/nav_menu" represents a reference to the menu file <em>nav_menu&#xC2;&nbsp;</em><br>
+<h3>How to create a resource menu file</h3><br>
+Step 1: Create an Android Resource Directory named "menu" as shown below:<br>
+<br>
+<a href="https://www.alexandriarepository.org/media/add_menu_directory" rel="attachment wp-att-177682"><img class="aligncenter size-full wp-image-177682" src="./assets/add_menu_directory.gif" alt="" width="715" height="734"/></a><br>
+<br>
+&nbsp;<br>
+<br>
+Step 2: right-click the menu folder select New--&gt;Menu Resource File--&gt; provide a name<br>
+<br>
+<a href="https://www.alexandriarepository.org/media/add_menu" rel="attachment wp-att-177683"><img class="aligncenter size-full wp-image-177683" src="./assets/add_menu.gif" alt="" width="902" height="760"/></a><br>
+<br>
+Step 3: Let's create two menu items.<br>
+<pre class="EnlighterJSRAW" data-enlighter-language="xml">&lt;?xml version="1.0" encoding="utf-8"?&gt;<br>
+&lt;menu xmlns:android="http://schemas.android.com/apk/res/android"&gt;<br>
+    &lt;item<br>
+        android:id="@+id/item_id_1"<br>
+        android:title="Item One" /&gt;<br>
+    &lt;item<br>
+        android:id="@+id/item_id_2"<br>
+        android:title="Item Two" /&gt;<br>
+&lt;/menu&gt;</pre><br>
+&nbsp;<br>
+<br>
+Where:<br>
+<ul><li>Attribute&#xC2;&nbsp; android:id="@+id/item_id_1" represents a unique ID for the menu item</li><br>
+ 	<li>attribute&#xC2;&nbsp;android:title="Item One" sets the title for the menu item</li><br>
+</ul><br>
+&nbsp;<br>
+<br>
+&nbsp;<br>
+<h3>app_bar_main.xml</h3><br>
+Add a toolbar to your coordinator layout.<br>
+<pre class="EnlighterJSRAW" data-enlighter-language="xml">&lt;com.google.android.material.appbar.AppBarLayout<br>
+    android:layout_width="match_parent"<br>
+    android:layout_height="wrap_content"<br>
+    android:theme="@style/AppTheme.AppBarOverlay"&gt;<br>
+    &lt;androidx.appcompat.widget.Toolbar<br>
+        android:id="@+id/toolbar"<br>
+        android:layout_width="match_parent"<br>
+        android:layout_height="?attr/actionBarSize"<br>
+   /&gt;<br>
+&lt;/com.google.android.material.appbar.AppBarLayout&gt;</pre><br>
+&nbsp;<br>
+<br>
+The toolbar is wrapped by AppBarLayout to get the material design features.<br>
+<br>
+&nbsp;<br>
+<br>
+Now, beneath the toolbar, we should include our main content (activity_main).<br>
+<pre class="EnlighterJSRAW" data-enlighter-language="xml">&lt;include<br>
+    layout="@layout/activity_main"<br>
+    android:layout_width="match_parent"<br>
+    android:layout_height="match_parent" /&gt;</pre><br>
+&nbsp;<br>
+<br>
+At the bottom of the page, let's add a floating action button (FAB button).<br>
+<br>
+&nbsp;<br>
+<pre class="EnlighterJSRAW" data-enlighter-language="xml">&lt;com.google.android.material.floatingactionbutton.FloatingActionButton<br>
+    android:layout_width="wrap_content"<br>
+    android:layout_height="wrap_content"<br>
+    android:id="@+id/fab"<br>
+    android:layout_margin="45dp"<br>
+    android:layout_gravity="bottom|end"<br>
+    app:srcCompat="@drawable/ic_add_black_24dp" /&gt;</pre><br>
+&nbsp;<br>
+<br>
+where:<br>
+<ul><li>android:layout_margin: specifies the margin around the fab button</li><br>
+ 	<li>android:layout_gravity="bottom|end": specifics the location of the fab button. Right now, we are asking to be placed in the bottom right corner of the screen</li><br>
+ 	<li>app:srcCompat="@drawable/ic_add_black_24dp": this attribute specifies the icon that should be used for fab button.</li><br>
+</ul><br>
+To add a new ICON for your app:<br>
+<br>
+&nbsp;<br>
+<br>
+<a href="https://www.alexandriarepository.org/media/add_icon" rel="attachment wp-att-177675"><img class="aligncenter size-full wp-image-177675" src="./assets/add_icon.gif" alt="" width="1002" height="879"/></a><br>
+<br>
+&nbsp;<br>
+<br>
+&nbsp;<br>
+<br>
+&nbsp;<br>
+<h3>You cannot implement a new Toolbar if the activity already has an action bar supplied by the window decor</h3><br>
+To disable the default toolbar, you need to use a theme that has no toolbar.<br>
+<br>
+Step 1: open values--&gt;styles.xml<br>
+<br>
+Step 2: change the default parent theme to be "Theme.AppCompat.Light.NoActionBar"<br>
+<br>
+<a href="https://www.alexandriarepository.org/media/no_action_bar" rel="attachment wp-att-177684"><img class="aligncenter size-full wp-image-177684" src="./assets/no_action_bar.gif" alt="" width="902" height="760"/></a><br>
+<br>
+&nbsp;<br>
+<h2>MainActivity.java</h2><br>
+In the MainActivity.java class, we have to do the following:<br>
+<ul><li>Hook the drawer and the toolbar</li><br>
+ 	<li>Set the navigation items listener to the navigation view<br>
+<ul><li>Implement the navigation items listener</li><br>
+</ul></li><br>
+ 	<li>Listen to FAB events</li><br>
+</ul><br>
+&nbsp;<br>
+<h3>Hook the drawer and the toolbar</h3><br>
+Create references to the drawer layout, navigation view, and the toolbar<br>
+<pre class="EnlighterJSRAW" data-enlighter-language="java">drawerlayout = findViewById(R.id.drawer_layout);<br>
+navigationView = findViewById(R.id.nav_view);<br>
+toolbar = findViewById(R.id.toolbar);<br>
+</pre><br>
+&nbsp;<br>
+<br>
+Set the toolbar to be the current toolbar for the activity<br>
+<pre class="EnlighterJSRAW" data-enlighter-language="java">setSupportActionBar(toolbar);</pre><br>
+&nbsp;<br>
+<br>
+Hook the drawer and the toolbar using&#xC2;&nbsp;ActionBarDrawerToggle class<br>
+<pre class="EnlighterJSRAW" data-enlighter-language="java">ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(<br>
+        this, drawerlayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);<br>
+drawerlayout.addDrawerListener(toggle);<br>
+toggle.syncState();</pre><br>
+&nbsp;<br>
+<br>
+<strong>ActionBarDrawerToggle</strong>&#xC2;&nbsp;is for displaying an drawer indicator in the appbar which needs 5 arguments.<br>
+<ol><li>Current Activity context</li><br>
+ 	<li>DrawerLayout variable</li><br>
+ 	<li>Toolbar variable</li><br>
+ 	<li>Drawer open description message via Resource string</li><br>
+ 	<li>Drawer close description message via Resource string</li><br>
+</ol><br>
+&nbsp;<br>
+<h3>Set the navigation items listener to the navigation view</h3><br>
+<pre class="EnlighterJSRAW" data-enlighter-language="java">navigationView.setNavigationItemSelectedListener(new MyNavigationListener());<br>
+</pre><br>
+<h3>Implement the navigation items listener</h3><br>
+<pre class="EnlighterJSRAW" data-enlighter-language="java">class MyNavigationListener implements NavigationView.OnNavigationItemSelectedListener {<br>
+<br>
+    @Override<br>
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {<br>
+        // get the id of the selected item<br>
+        int id = item.getItemId();<br>
+<br>
+        if (id == R.id.item_id_1) {<br>
+            // Do something<br>
+        } else if (id == R.id.item_id_2) {<br>
+            // Do something<br>
+        }<br>
+        // close the drawer<br>
+        drawerlayout.closeDrawers();<br>
+        // tell the OS <br>
+        return true;<br>
+    }<br>
+}</pre><br>
+&nbsp;<br>
+<h3>Listen to FAB events</h3><br>
+Step 1: Create a reference to the fab button:<br>
+<pre class="EnlighterJSRAW" data-enlighter-language="java">FloatingActionButton fab = findViewById(R.id.fab);<br>
+</pre><br>
+&nbsp;<br>
+<br>
+Step 2: set a new listener<br>
+<pre class="EnlighterJSRAW" data-enlighter-language="null">fab.setOnClickListener(new View.OnClickListener() {<br>
+    @Override<br>
+    public void onClick(View view) {<br>
+        Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)<br>
+                .setAction("Action", null).show();<br>
+    }<br>
+});</pre><br>
+&nbsp;<br>
+<br>
+The listener is an anonymous class of type&#xC2;&nbsp;View.OnClickListener. If the user clicks or taps on the fab button, the callback method "onClick" will get executed.<br>
+<br>
+The method shows a Snakbar from the bottom of the screen.<br>
+<blockquote>The&#xC2;&nbsp;<code>Snackbar</code>&#xC2;&nbsp;widget provides brief feedback about an operation through a message at the bottom of the screen.&#xC2;&nbsp;Snackbars&#xC2;&nbsp;disappear automatically, either after a timeout or after a user interaction elsewhere on the screen, and can also be swiped off the screen.</blockquote><br>
+&nbsp;<br>
+<br>
+&nbsp;<br>
+<br>
+References:<br>
+<ul><li>https://www.androdocs.com/kotlin/implementing-navigation-drawer-in-android-app-using-kotlin.html</li><br>
+ 	<li/><br>
 </ul></body></html>

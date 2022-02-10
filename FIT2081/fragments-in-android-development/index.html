@@ -1,575 +1,575 @@
 <?xml version="1.0" standalone="yes"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
-<html><body><div class="square-box">&#xD;
-&#xD;
-Question: I want to have an activity with two tasks such that they have different layouts (XML), different logic (Java), and can be reused in other activities.&#xD;
-&#xD;
-Answer: You have to use Fragments.&#xD;
-&#xD;
-</div>&#xD;
-&#xA0;&#xD;
-<h2>What are Fragments?</h2>&#xD;
-A Fragment represents a behaviour or a portion of user interface in a FragmentActivity. You can combine multiple fragments in a single activity to build a multi-pane UI and reuse a fragment in multiple activities. You can think of a fragment as a modular section of an activity, which has its own lifecycle, receives its own input events, and which you can add or remove while the activity is running (sort of like a "subactivity" that you can reuse in different activities). [1]&#xD;
-&#xD;
-&#xA0;&#xD;
-<h3>What are the differences between Fragments&#xC2;&#xA0;and Activities?</h3>&#xD;
-<ul><li>Activity is an application&#xC2;&#xA0;component that represents a full screen. A fragment is a portion of user&#xC2;&#xA0;interface in an activity.</li>&#xD;
- 	<li>An activity may contain 0 or multiple fragments.</li>&#xD;
- 	<li>Fragments can be reused in multiple activities.</li>&#xD;
- 	<li>A fragment can't exist independently. It should be always part of an activity.</li>&#xD;
- 	<li>A fragment can be added or removed while the activity (the host) is running.</li>&#xD;
- 	<li>A fragment has its own lifecycle events.</li>&#xD;
-</ul>&#xD;
-&#xA0;&#xD;
-<h2>Fragment Life Cycle</h2>&#xD;
-&#xA0;&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-<img class="aligncenter" src="https://developer.android.com/images/fragment_lifecycle.png"/>&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-onAttach()&#xD;
-Called when the fragment has been associated with the activity (the Activity is passed in here)&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-onCreate()&#xD;
-The system calls this when creating the fragment. Within your implementation, you should initialize essential components of the fragment that you want to retain when the fragment is paused or stopped, then resumed.&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-onCreateView()&#xD;
-The system calls this when it's time for the fragment to draw its user interface for the first time. To draw a UI for your fragment, you must return a View from this method that is the root of your fragment's layout. You can return null if the fragment does not provide a UI.&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-onActivityCreated()&#xD;
-Called when the activity's onCreate() method has returned.&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-onStart()&#xD;
-&#xD;
-This method is called once the fragment gets visible.&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-onPause()&#xD;
-The system calls this method as the first indication that the user is leaving the fragment (though it doesn't always mean the fragment is being destroyed). This is usually where you should commit any changes that should be persisted beyond the current user session (because the user might not come back).&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-onDestroyView()&#xD;
-Called when the view hierarchy associated with the fragment is being removed.&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-onDetach()&#xD;
-&#xD;
-Called when the fragment is being disassociated from the activity.&#xD;
-&#xD;
-&#xA0;&#xD;
-<div class="square-box">&#xD;
-&#xD;
-Example: Build an application that consists of one activity and three fragments. The activity should have three buttons which are used to switch the fragments. Each fragment has its own layout and logic.&#xD;
-&#xD;
-</div>&#xD;
-&#xA0;&#xD;
-&#xD;
-App source code: <a href="https://www.alexandriarepository.org/media/fragments-2" rel="attachment wp-att-166245">CLICK HERE</a>&#xD;
-&#xD;
-The layout of the activity:&#xD;
-&#xD;
-<a href="https://www.alexandriarepository.org/media/screenshot_1545734885" rel="attachment wp-att-166218"><img class="wp-image-166218 alignleft" src="./assets/Screenshot_1545734885.png" alt="" width="379" height="674"/></a>&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-activity_main.xml&#xD;
-<pre class="EnlighterJSRAW" data-enlighter-language="xml">&lt;?xml version="1.0" encoding="utf-8"?&gt;&#xD;
-&lt;android.support.constraint.ConstraintLayout&#xD;
-    xmlns:android="http://schemas.android.com/apk/res/android"&#xD;
-    xmlns:app="http://schemas.android.com/apk/res-auto"&#xD;
-    xmlns:tools="http://schemas.android.com/tools"&#xD;
-    android:layout_width="match_parent"&#xD;
-    android:layout_height="match_parent"&#xD;
-    tools:context=".MainActivity"&gt;&#xD;
-&#xD;
-    &lt;Button&#xD;
-        android:id="@+id/button"&#xD;
-        android:layout_width="wrap_content"&#xD;
-        android:layout_height="wrap_content"&#xD;
-        android:onClick="handleBtn1"&#xD;
-        android:text="Fragment 1"&#xD;
-        app:layout_constraintBaseline_toBaselineOf="@+id/button2"&#xD;
-        app:layout_constraintEnd_toStartOf="@+id/button2"&#xD;
-        app:layout_constraintHorizontal_bias="0.5"&#xD;
-        app:layout_constraintHorizontal_chainStyle="spread"&#xD;
-        app:layout_constraintStart_toStartOf="parent"/&gt;&#xD;
-&#xD;
-    &lt;Button&#xD;
-        android:id="@+id/button2"&#xD;
-        android:layout_width="wrap_content"&#xD;
-        android:layout_height="wrap_content"&#xD;
-        android:layout_marginTop="8dp"&#xD;
-        android:onClick="handleBtn2"&#xD;
-        android:text="Fragment 2"&#xD;
-        app:layout_constraintEnd_toStartOf="@+id/button3"&#xD;
-        app:layout_constraintHorizontal_bias="0.5"&#xD;
-        app:layout_constraintStart_toEndOf="@+id/button"&#xD;
-        app:layout_constraintTop_toTopOf="parent"/&gt;&#xD;
-&#xD;
-    &lt;Button&#xD;
-        android:id="@+id/button3"&#xD;
-        android:layout_width="wrap_content"&#xD;
-        android:layout_height="wrap_content"&#xD;
-        android:layout_marginTop="8dp"&#xD;
-        android:onClick="handleBtn3"&#xD;
-        android:text="Fragment 3"&#xD;
-        app:layout_constraintEnd_toEndOf="parent"&#xD;
-        app:layout_constraintHorizontal_bias="0.5"&#xD;
-        app:layout_constraintStart_toEndOf="@+id/button2"&#xD;
-        app:layout_constraintTop_toTopOf="parent"/&gt;&#xD;
-&#xD;
-    &lt;FrameLayout&#xD;
-        android:id="@+id/frag1"&#xD;
-        android:layout_width="0dp"&#xD;
-        android:layout_height="0dp"&#xD;
-        android:layout_marginStart="16dp"&#xD;
-        android:layout_marginTop="8dp"&#xD;
-        android:layout_marginEnd="16dp"&#xD;
-        android:layout_marginBottom="8dp"&#xD;
-        app:layout_constraintBottom_toBottomOf="parent"&#xD;
-        app:layout_constraintEnd_toEndOf="parent"&#xD;
-        app:layout_constraintHorizontal_bias="0.0"&#xD;
-        app:layout_constraintStart_toStartOf="parent"&#xD;
-        app:layout_constraintTop_toTopOf="@+id/guideline"&gt;&lt;/FrameLayout&gt;&#xD;
-&#xD;
-&#xD;
-    &lt;android.support.constraint.Guideline&#xD;
-        android:id="@+id/guideline"&#xD;
-        android:layout_width="wrap_content"&#xD;
-        android:layout_height="wrap_content"&#xD;
-        android:orientation="horizontal"&#xD;
-        app:layout_constraintGuide_percent="0.5"/&gt;&#xD;
-&#xD;
-&lt;/android.support.constraint.ConstraintLayout&gt;</pre>&#xD;
-&#xA0;&#xD;
-<blockquote><em><strong>IMPORTANT</strong></em>: The framelayout in lines (46-58) with its <strong>id</strong> <span style="text-decoration: underline;"><strong>R.id.frag1&#xC2;&#xA0;</strong></span> works as a container for the fragments.</blockquote>&#xD;
-and the design mode:&#xD;
-&#xD;
-<a href="https://www.alexandriarepository.org/media/design1" rel="attachment wp-att-166219"><img class="wp-image-166219 alignleft" src="./assets/design1.png" alt="" width="729" height="602"/></a>&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-&#xA0;&#xD;
-<blockquote>Note the following:&#xD;
-<ul><li>The three buttons have been chained to expand equally to fill the available space.</li>&#xD;
- 	<li>There is a Horizontal Guideline that is positioned at the center (50%) of the hight.</li>&#xD;
- 	<li>The box at the lower half is a frame layoutr that works as a container for the fragments.</li>&#xD;
-</ul></blockquote>&#xD;
-&#xA0;&#xD;
-&#xD;
-Now, lets add a new fragment:&#xD;
-&#xD;
-<a href="https://www.alexandriarepository.org/media/17-11" rel="attachment wp-att-166236"><img class="alignnone size-full wp-image-166236" src="./assets/17.gif" alt="" width="964" height="874"/></a>&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-by default, the layout of new fragments is framelayout. To change it to constraint layout:&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-<a href="https://www.alexandriarepository.org/media/23-8" rel="attachment wp-att-166237"><img class="alignnone size-full wp-image-166237" src="./assets/23.gif" alt="" width="964" height="874"/></a>&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-Now, build the layouts of your fragments:&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-Fragment 1:&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-If a click(tap) occurs on the first button (FRAGMENT 1), the expected output is:&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-<a href="https://www.alexandriarepository.org/media/screenshot_1545795751" rel="attachment wp-att-166230"><img class="alignnone wp-image-166230" src="./assets/Screenshot_1545795751.png" alt="" width="365" height="650"/></a>&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-and here is the design:&#xD;
-&#xD;
-<a href="https://www.alexandriarepository.org/media/frag1" rel="attachment wp-att-166235"><img class="alignnone wp-image-166235" src="./assets/frag1.png" alt="" width="594" height="495"/></a>&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-fragment1.xml&#xD;
-<pre class="EnlighterJSRAW" data-enlighter-language="xml">&lt;?xml version="1.0" encoding="utf-8"?&gt;&#xD;
-&lt;android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"&#xD;
-                                             xmlns:app="http://schemas.android.com/apk/res-auto"&#xD;
-                                             xmlns:tools="http://schemas.android.com/tools"&#xD;
-                                             android:id="@+id/frameLayout"&#xD;
-                                             android:layout_width="match_parent"&#xD;
-                                             android:layout_height="match_parent"&#xD;
-                                             tools:context=".Fragment1"&gt;&#xD;
-&#xD;
-    &lt;!-- TODO: Update blank fragment layout --&gt;&#xD;
-    &lt;TextView&#xD;
-        android:id="@+id/textView"&#xD;
-        android:layout_width="0dp"&#xD;
-        android:layout_height="0dp"&#xD;
-        android:layout_marginBottom="8dp"&#xD;
-        app:layout_constraintBottom_toBottomOf="parent"&#xD;
-        app:layout_constraintEnd_toEndOf="parent"&#xD;
-        app:layout_constraintTop_toTopOf="parent"/&gt;&#xD;
-&#xD;
-    &lt;Button&#xD;
-        android:id="@+id/button4"&#xD;
-        android:layout_width="wrap_content"&#xD;
-        android:layout_height="wrap_content"&#xD;
-        android:layout_marginStart="8dp"&#xD;
-        android:layout_marginTop="8dp"&#xD;
-        android:text="Save"&#xD;
-        app:layout_constraintStart_toStartOf="parent"&#xD;
-        app:layout_constraintTop_toTopOf="@+id/imageView"/&gt;&#xD;
-&#xD;
-    &lt;TextView&#xD;
-        android:id="@+id/textView2"&#xD;
-        android:layout_width="0dp"&#xD;
-        android:layout_height="wrap_content"&#xD;
-        android:layout_marginStart="8dp"&#xD;
-        android:layout_marginTop="8dp"&#xD;
-        android:layout_marginEnd="8dp"&#xD;
-        android:text="Fragment 1"&#xD;
-        android:textSize="30sp"&#xD;
-        app:layout_constraintEnd_toEndOf="parent"&#xD;
-        app:layout_constraintStart_toStartOf="parent"&#xD;
-        app:layout_constraintTop_toTopOf="parent"/&gt;&#xD;
-&#xD;
-    &lt;ImageView&#xD;
-        android:id="@+id/imageView"&#xD;
-        android:layout_width="0dp"&#xD;
-        android:layout_height="0dp"&#xD;
-        android:layout_marginStart="16dp"&#xD;
-        android:layout_marginTop="32dp"&#xD;
-        android:layout_marginEnd="8dp"&#xD;
-        android:layout_marginBottom="8dp"&#xD;
-        android:scaleType="centerCrop"&#xD;
-        android:src="@drawable/android1"&#xD;
-        app:layout_constraintBottom_toBottomOf="parent"&#xD;
-        app:layout_constraintEnd_toEndOf="parent"&#xD;
-        app:layout_constraintStart_toEndOf="@+id/button4"&#xD;
-        app:layout_constraintTop_toBottomOf="@+id/textView2"/&gt;&#xD;
-&#xD;
-&lt;/android.support.constraint.ConstraintLayout&gt;</pre>&#xD;
-&#xA0;&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-Fragment 2:&#xD;
-&#xD;
-<a href="https://www.alexandriarepository.org/media/screenshot_15457957542" rel="attachment wp-att-166238"><img class="alignnone wp-image-166238" src="./assets/Screenshot_15457957542.png" alt="" width="445" height="791"/></a>&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-fragment2.xml&#xD;
-<pre class="EnlighterJSRAW" data-enlighter-language="xml">&lt;?xml version="1.0" encoding="utf-8"?&gt;&#xD;
-&lt;android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"&#xD;
-                                             xmlns:app="http://schemas.android.com/apk/res-auto"&#xD;
-                                             xmlns:tools="http://schemas.android.com/tools"&#xD;
-                                             android:id="@+id/frameLayout2"&#xD;
-                                             android:layout_width="match_parent"&#xD;
-                                             android:layout_height="match_parent"&#xD;
-                                             tools:context=".Fragment2"&gt;&#xD;
-&#xD;
-    &lt;!-- TODO: Update blank fragment layout --&gt;&#xD;
-    &lt;TextView&#xD;
-        android:id="@+id/textView3"&#xD;
-        android:layout_width="0dp"&#xD;
-        android:layout_height="56dp"&#xD;
-        android:layout_marginStart="8dp"&#xD;
-        android:layout_marginTop="16dp"&#xD;
-        android:layout_marginEnd="8dp"&#xD;
-        android:text="Fragment 2"&#xD;
-        android:textSize="36sp"&#xD;
-        app:layout_constraintEnd_toEndOf="parent"&#xD;
-        app:layout_constraintHorizontal_bias="1.0"&#xD;
-        app:layout_constraintStart_toStartOf="parent"&#xD;
-        app:layout_constraintTop_toTopOf="parent"/&gt;&#xD;
-&#xD;
-    &lt;ImageView&#xD;
-        android:id="@+id/imageView2"&#xD;
-        android:layout_width="wrap_content"&#xD;
-        android:layout_height="0dp"&#xD;
-        android:layout_marginStart="8dp"&#xD;
-        android:layout_marginTop="8dp"&#xD;
-        android:layout_marginBottom="8dp"&#xD;
-        android:src="@drawable/android2"&#xD;
-        app:layout_constraintBottom_toBottomOf="parent"&#xD;
-        app:layout_constraintEnd_toEndOf="parent"&#xD;
-        app:layout_constraintStart_toStartOf="parent"&#xD;
-        app:layout_constraintTop_toBottomOf="@+id/textView3"/&gt;&#xD;
-&#xD;
-&lt;/android.support.constraint.ConstraintLayout&gt;</pre>&#xD;
-&#xA0;&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-<a href="https://www.alexandriarepository.org/media/frag2" rel="attachment wp-att-166239"><img class="alignnone size-full wp-image-166239" src="./assets/frag2.png" alt="" width="850" height="698"/></a>&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-Fragment 3:&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-<a href="https://www.alexandriarepository.org/media/screenshot_1545795757" rel="attachment wp-att-166233"><img class="alignnone wp-image-166233" src="./assets/Screenshot_1545795757.png" alt="" width="436" height="775"/></a>&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-fragment3.xml&#xD;
-<pre class="EnlighterJSRAW" data-enlighter-language="xml">&lt;?xml version="1.0" encoding="utf-8"?&gt;&#xD;
-&lt;android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"&#xD;
-                                             xmlns:app="http://schemas.android.com/apk/res-auto"&#xD;
-                                             xmlns:tools="http://schemas.android.com/tools"&#xD;
-                                             android:id="@+id/fragmentLayout3"&#xD;
-                                             android:layout_width="match_parent"&#xD;
-                                             android:layout_height="match_parent"&#xD;
-                                             tools:context=".Fragment3"&gt;&#xD;
-&#xD;
-    &lt;!-- TODO: Update blank fragment layout --&gt;&#xD;
-    &lt;TextView&#xD;
-        android:id="@+id/textView4"&#xD;
-        android:layout_width="0dp"&#xD;
-        android:layout_height="wrap_content"&#xD;
-        android:layout_marginBottom="8dp"&#xD;
-        android:text="Fragment 3"&#xD;
-        android:textSize="36sp"&#xD;
-        app:layout_constraintBottom_toTopOf="@+id/checkBox2"&#xD;
-        app:layout_constraintEnd_toEndOf="parent"&#xD;
-        app:layout_constraintHorizontal_bias="0.0"&#xD;
-        app:layout_constraintStart_toStartOf="parent"/&gt;&#xD;
-&#xD;
-    &lt;ImageView&#xD;
-        android:id="@+id/imageView3"&#xD;
-        android:layout_width="wrap_content"&#xD;
-        android:layout_height="112dp"&#xD;
-        android:layout_marginBottom="4dp"&#xD;
-        android:src="@drawable/android3"&#xD;
-        app:layout_constraintBottom_toTopOf="@+id/toggleButton2"&#xD;
-        app:layout_constraintEnd_toEndOf="parent"&#xD;
-        app:layout_constraintHorizontal_bias="1.0"&#xD;
-        app:layout_constraintStart_toStartOf="parent"&#xD;
-        /&gt;&#xD;
-&#xD;
-    &lt;CheckBox&#xD;
-        android:id="@+id/checkBox"&#xD;
-        android:layout_width="wrap_content"&#xD;
-        android:layout_height="wrap_content"&#xD;
-        android:layout_marginStart="8dp"&#xD;
-        android:text="Yes"&#xD;
-        app:layout_constraintBaseline_toBaselineOf="@+id/checkBox2"&#xD;
-        app:layout_constraintEnd_toStartOf="@+id/checkBox2"&#xD;
-        app:layout_constraintHorizontal_bias="0.5"&#xD;
-        app:layout_constraintStart_toStartOf="parent"/&gt;&#xD;
-&#xD;
-    &lt;CheckBox&#xD;
-        android:id="@+id/checkBox2"&#xD;
-        android:layout_width="wrap_content"&#xD;
-        android:layout_height="wrap_content"&#xD;
-        android:layout_marginBottom="3dp"&#xD;
-        android:text="No"&#xD;
-        app:layout_constraintBottom_toTopOf="@+id/imageView3"&#xD;
-        app:layout_constraintEnd_toEndOf="parent"&#xD;
-        app:layout_constraintHorizontal_bias="0.5"&#xD;
-        app:layout_constraintStart_toEndOf="@+id/checkBox"&#xD;
-        /&gt;&#xD;
-&#xD;
-    &lt;ToggleButton&#xD;
-        android:id="@+id/toggleButton2"&#xD;
-        android:layout_width="wrap_content"&#xD;
-        android:layout_height="wrap_content"&#xD;
-        android:layout_marginStart="8dp"&#xD;
-        android:text="ToggleButton"&#xD;
-        app:layout_constraintBaseline_toBaselineOf="@+id/switch1"&#xD;
-        app:layout_constraintStart_toStartOf="parent"/&gt;&#xD;
-&#xD;
-    &lt;Switch&#xD;
-        android:id="@+id/switch1"&#xD;
-        android:layout_width="116dp"&#xD;
-        android:layout_height="wrap_content"&#xD;
-        android:layout_marginBottom="32dp"&#xD;
-        android:text="Accept"&#xD;
-        app:layout_constraintBottom_toBottomOf="parent"&#xD;
-        app:layout_constraintStart_toEndOf="@+id/toggleButton2"&#xD;
-        /&gt;&#xD;
-&#xD;
-    &lt;android.support.design.widget.FloatingActionButton&#xD;
-        android:id="@+id/floatingActionButton"&#xD;
-        android:layout_width="wrap_content"&#xD;
-        android:layout_height="wrap_content"&#xD;
-        android:layout_marginEnd="8dp"&#xD;
-        android:layout_marginBottom="8dp"&#xD;
-        android:clickable="true"&#xD;
-        android:src="@android:drawable/btn_star_big_on"&#xD;
-        app:layout_constraintBottom_toBottomOf="parent"&#xD;
-        app:layout_constraintEnd_toEndOf="parent"/&gt;&#xD;
-&#xD;
-&lt;/android.support.constraint.ConstraintLayout&gt;</pre>&#xD;
-&#xA0;&#xD;
-&#xD;
-<a href="https://www.alexandriarepository.org/media/frag3" rel="attachment wp-att-166240"><img class="alignnone wp-image-166240" src="./assets/frag3.png" alt="" width="578" height="472"/></a>&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-&#xA0;&#xD;
-<h2><strong>MainActivity.java</strong></h2>&#xD;
-&#xA0;&#xD;
-&#xD;
-&#xA0;&#xD;
-<pre class="EnlighterJSRAW" data-enlighter-language="java">package edu.monash.fit2081.fragments;&#xD;
-&#xD;
-import android.support.v7.app.AppCompatActivity;&#xD;
-import android.os.Bundle;&#xD;
-import android.view.View;&#xD;
-&#xD;
-public class MainActivity extends AppCompatActivity {&#xD;
-&#xD;
-    @Override&#xD;
-    protected void onCreate(Bundle savedInstanceState) {&#xD;
-        super.onCreate(savedInstanceState);&#xD;
-        setContentView(R.layout.activity_main);&#xD;
-    }&#xD;
-&#xD;
-    public void handleBtn1(View view){&#xD;
-        getSupportFragmentManager().beginTransaction().replace(R.id.frag1,new Fragment1()).addToBackStack("f1").commit();&#xD;
-&#xD;
-    }&#xD;
-    public void handleBtn2(View view){&#xD;
-        getSupportFragmentManager().beginTransaction().replace(R.id.frag1,new Fragment2()).addToBackStack("f2").commit();&#xD;
-&#xD;
-    }&#xD;
-    public void handleBtn3(View view){&#xD;
-        getSupportFragmentManager().beginTransaction().replace(R.id.frag1,new Fragment3()).addToBackStack("f3").commit();&#xD;
-&#xD;
-    }&#xD;
-}&#xD;
-</pre>&#xD;
-&#xA0;&#xD;
-&#xD;
-The above code represents the business logic of the main activity. In addition to onCreate callback, it has three functions (handleBtn1, handleBtn2, and handleBtn3) that work as handlers for the three buttons Button 1, Buton 2, and Button 3 respectively.&#xD;
-&#xD;
-In each function, there is a statement that is responsible for replacing the current fragment with a new one.&#xD;
-<pre class="EnlighterJSRAW" data-enlighter-language="java">getSupportFragmentManager().beginTransaction().replace(R.id.frag1,new Fragment1()).addToBackStack("f1").commit();&#xD;
-</pre>&#xD;
-<blockquote>Note the following:&#xD;
-<ul><li>getSupportFragmentManager: returns the FragmentManager which is used to create transactions for adding, removing or replacing fragments.</li>&#xD;
- 	<li>beginTransaction: starts a series of edit operations on the Fragments</li>&#xD;
- 	<li>.replace: replaces the current fragment with a new fragment of type Fragment1 on the layout with id R.id.frag1</li>&#xD;
- 	<li>addToBackStack: Adds this transaction to the back stack. This means that the transaction will be remembered after it is committed, and will reverse its operation when later popped off the stack.</li>&#xD;
-</ul></blockquote>&#xD;
-&#xA0;&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-References&#xD;
-&#xD;
-[1]&#xC2;&#xA0;<a href="https://developer.android.com/guide/components/fragments">https://developer.android.com/guide/components/fragments</a>&#xD;
-&#xD;
-[2]&#xC2;&#xA0;<a href="https://www.tutorialspoint.com/android/android_fragments.htm">https://www.tutorialspoint.com/android/android_fragments.htm</a>&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-&#xA0;</body></html>
+<html><body><div class="square-box"><br>
+<br>
+Question: I want to have an activity with two tasks such that they have different layouts (XML), different logic (Java), and can be reused in other activities.<br>
+<br>
+Answer: You have to use Fragments.<br>
+<br>
+</div><br>
+&nbsp;<br>
+<h2>What are Fragments?</h2><br>
+A Fragment represents a behaviour or a portion of user interface in a FragmentActivity. You can combine multiple fragments in a single activity to build a multi-pane UI and reuse a fragment in multiple activities. You can think of a fragment as a modular section of an activity, which has its own lifecycle, receives its own input events, and which you can add or remove while the activity is running (sort of like a "subactivity" that you can reuse in different activities). [1]<br>
+<br>
+&nbsp;<br>
+<h3>What are the differences between Fragments&#xC2;&nbsp;and Activities?</h3><br>
+<ul><li>Activity is an application&#xC2;&nbsp;component that represents a full screen. A fragment is a portion of user&#xC2;&nbsp;interface in an activity.</li><br>
+ 	<li>An activity may contain 0 or multiple fragments.</li><br>
+ 	<li>Fragments can be reused in multiple activities.</li><br>
+ 	<li>A fragment can't exist independently. It should be always part of an activity.</li><br>
+ 	<li>A fragment can be added or removed while the activity (the host) is running.</li><br>
+ 	<li>A fragment has its own lifecycle events.</li><br>
+</ul><br>
+&nbsp;<br>
+<h2>Fragment Life Cycle</h2><br>
+&nbsp;<br>
+<br>
+&nbsp;<br>
+<br>
+<img class="aligncenter" src="https://developer.android.com/images/fragment_lifecycle.png"/><br>
+<br>
+&nbsp;<br>
+<br>
+onAttach()<br>
+Called when the fragment has been associated with the activity (the Activity is passed in here)<br>
+<br>
+&nbsp;<br>
+<br>
+onCreate()<br>
+The system calls this when creating the fragment. Within your implementation, you should initialize essential components of the fragment that you want to retain when the fragment is paused or stopped, then resumed.<br>
+<br>
+&nbsp;<br>
+<br>
+onCreateView()<br>
+The system calls this when it's time for the fragment to draw its user interface for the first time. To draw a UI for your fragment, you must return a View from this method that is the root of your fragment's layout. You can return null if the fragment does not provide a UI.<br>
+<br>
+&nbsp;<br>
+<br>
+onActivityCreated()<br>
+Called when the activity's onCreate() method has returned.<br>
+<br>
+&nbsp;<br>
+<br>
+onStart()<br>
+<br>
+This method is called once the fragment gets visible.<br>
+<br>
+&nbsp;<br>
+<br>
+onPause()<br>
+The system calls this method as the first indication that the user is leaving the fragment (though it doesn't always mean the fragment is being destroyed). This is usually where you should commit any changes that should be persisted beyond the current user session (because the user might not come back).<br>
+<br>
+&nbsp;<br>
+<br>
+onDestroyView()<br>
+Called when the view hierarchy associated with the fragment is being removed.<br>
+<br>
+&nbsp;<br>
+<br>
+onDetach()<br>
+<br>
+Called when the fragment is being disassociated from the activity.<br>
+<br>
+&nbsp;<br>
+<div class="square-box"><br>
+<br>
+Example: Build an application that consists of one activity and three fragments. The activity should have three buttons which are used to switch the fragments. Each fragment has its own layout and logic.<br>
+<br>
+</div><br>
+&nbsp;<br>
+<br>
+App source code: <a href="https://www.alexandriarepository.org/media/fragments-2" rel="attachment wp-att-166245">CLICK HERE</a><br>
+<br>
+The layout of the activity:<br>
+<br>
+<a href="https://www.alexandriarepository.org/media/screenshot_1545734885" rel="attachment wp-att-166218"><img class="wp-image-166218 alignleft" src="./assets/Screenshot_1545734885.png" alt="" width="379" height="674"/></a><br>
+<br>
+&nbsp;<br>
+<br>
+&nbsp;<br>
+<br>
+&nbsp;<br>
+<br>
+&nbsp;<br>
+<br>
+&nbsp;<br>
+<br>
+&nbsp;<br>
+<br>
+&nbsp;<br>
+<br>
+&nbsp;<br>
+<br>
+&nbsp;<br>
+<br>
+&nbsp;<br>
+<br>
+&nbsp;<br>
+<br>
+&nbsp;<br>
+<br>
+&nbsp;<br>
+<br>
+&nbsp;<br>
+<br>
+&nbsp;<br>
+<br>
+&nbsp;<br>
+<br>
+&nbsp;<br>
+<br>
+&nbsp;<br>
+<br>
+&nbsp;<br>
+<br>
+&nbsp;<br>
+<br>
+activity_main.xml<br>
+<pre class="EnlighterJSRAW" data-enlighter-language="xml">&lt;?xml version="1.0" encoding="utf-8"?&gt;<br>
+&lt;android.support.constraint.ConstraintLayout<br>
+    xmlns:android="http://schemas.android.com/apk/res/android"<br>
+    xmlns:app="http://schemas.android.com/apk/res-auto"<br>
+    xmlns:tools="http://schemas.android.com/tools"<br>
+    android:layout_width="match_parent"<br>
+    android:layout_height="match_parent"<br>
+    tools:context=".MainActivity"&gt;<br>
+<br>
+    &lt;Button<br>
+        android:id="@+id/button"<br>
+        android:layout_width="wrap_content"<br>
+        android:layout_height="wrap_content"<br>
+        android:onClick="handleBtn1"<br>
+        android:text="Fragment 1"<br>
+        app:layout_constraintBaseline_toBaselineOf="@+id/button2"<br>
+        app:layout_constraintEnd_toStartOf="@+id/button2"<br>
+        app:layout_constraintHorizontal_bias="0.5"<br>
+        app:layout_constraintHorizontal_chainStyle="spread"<br>
+        app:layout_constraintStart_toStartOf="parent"/&gt;<br>
+<br>
+    &lt;Button<br>
+        android:id="@+id/button2"<br>
+        android:layout_width="wrap_content"<br>
+        android:layout_height="wrap_content"<br>
+        android:layout_marginTop="8dp"<br>
+        android:onClick="handleBtn2"<br>
+        android:text="Fragment 2"<br>
+        app:layout_constraintEnd_toStartOf="@+id/button3"<br>
+        app:layout_constraintHorizontal_bias="0.5"<br>
+        app:layout_constraintStart_toEndOf="@+id/button"<br>
+        app:layout_constraintTop_toTopOf="parent"/&gt;<br>
+<br>
+    &lt;Button<br>
+        android:id="@+id/button3"<br>
+        android:layout_width="wrap_content"<br>
+        android:layout_height="wrap_content"<br>
+        android:layout_marginTop="8dp"<br>
+        android:onClick="handleBtn3"<br>
+        android:text="Fragment 3"<br>
+        app:layout_constraintEnd_toEndOf="parent"<br>
+        app:layout_constraintHorizontal_bias="0.5"<br>
+        app:layout_constraintStart_toEndOf="@+id/button2"<br>
+        app:layout_constraintTop_toTopOf="parent"/&gt;<br>
+<br>
+    &lt;FrameLayout<br>
+        android:id="@+id/frag1"<br>
+        android:layout_width="0dp"<br>
+        android:layout_height="0dp"<br>
+        android:layout_marginStart="16dp"<br>
+        android:layout_marginTop="8dp"<br>
+        android:layout_marginEnd="16dp"<br>
+        android:layout_marginBottom="8dp"<br>
+        app:layout_constraintBottom_toBottomOf="parent"<br>
+        app:layout_constraintEnd_toEndOf="parent"<br>
+        app:layout_constraintHorizontal_bias="0.0"<br>
+        app:layout_constraintStart_toStartOf="parent"<br>
+        app:layout_constraintTop_toTopOf="@+id/guideline"&gt;&lt;/FrameLayout&gt;<br>
+<br>
+<br>
+    &lt;android.support.constraint.Guideline<br>
+        android:id="@+id/guideline"<br>
+        android:layout_width="wrap_content"<br>
+        android:layout_height="wrap_content"<br>
+        android:orientation="horizontal"<br>
+        app:layout_constraintGuide_percent="0.5"/&gt;<br>
+<br>
+&lt;/android.support.constraint.ConstraintLayout&gt;</pre><br>
+&nbsp;<br>
+<blockquote><em><strong>IMPORTANT</strong></em>: The framelayout in lines (46-58) with its <strong>id</strong> <span style="text-decoration: underline;"><strong>R.id.frag1&#xC2;&nbsp;</strong></span> works as a container for the fragments.</blockquote><br>
+and the design mode:<br>
+<br>
+<a href="https://www.alexandriarepository.org/media/design1" rel="attachment wp-att-166219"><img class="wp-image-166219 alignleft" src="./assets/design1.png" alt="" width="729" height="602"/></a><br>
+<br>
+&nbsp;<br>
+<br>
+&nbsp;<br>
+<br>
+&nbsp;<br>
+<br>
+&nbsp;<br>
+<br>
+&nbsp;<br>
+<br>
+&nbsp;<br>
+<br>
+&nbsp;<br>
+<br>
+&nbsp;<br>
+<br>
+&nbsp;<br>
+<br>
+&nbsp;<br>
+<br>
+&nbsp;<br>
+<br>
+&nbsp;<br>
+<br>
+&nbsp;<br>
+<br>
+&nbsp;<br>
+<br>
+&nbsp;<br>
+<br>
+&nbsp;<br>
+<br>
+&nbsp;<br>
+<blockquote>Note the following:<br>
+<ul><li>The three buttons have been chained to expand equally to fill the available space.</li><br>
+ 	<li>There is a Horizontal Guideline that is positioned at the center (50%) of the hight.</li><br>
+ 	<li>The box at the lower half is a frame layoutr that works as a container for the fragments.</li><br>
+</ul></blockquote><br>
+&nbsp;<br>
+<br>
+Now, lets add a new fragment:<br>
+<br>
+<a href="https://www.alexandriarepository.org/media/17-11" rel="attachment wp-att-166236"><img class="alignnone size-full wp-image-166236" src="./assets/17.gif" alt="" width="964" height="874"/></a><br>
+<br>
+&nbsp;<br>
+<br>
+by default, the layout of new fragments is framelayout. To change it to constraint layout:<br>
+<br>
+&nbsp;<br>
+<br>
+<a href="https://www.alexandriarepository.org/media/23-8" rel="attachment wp-att-166237"><img class="alignnone size-full wp-image-166237" src="./assets/23.gif" alt="" width="964" height="874"/></a><br>
+<br>
+&nbsp;<br>
+<br>
+Now, build the layouts of your fragments:<br>
+<br>
+&nbsp;<br>
+<br>
+Fragment 1:<br>
+<br>
+&nbsp;<br>
+<br>
+If a click(tap) occurs on the first button (FRAGMENT 1), the expected output is:<br>
+<br>
+&nbsp;<br>
+<br>
+<a href="https://www.alexandriarepository.org/media/screenshot_1545795751" rel="attachment wp-att-166230"><img class="alignnone wp-image-166230" src="./assets/Screenshot_1545795751.png" alt="" width="365" height="650"/></a><br>
+<br>
+&nbsp;<br>
+<br>
+and here is the design:<br>
+<br>
+<a href="https://www.alexandriarepository.org/media/frag1" rel="attachment wp-att-166235"><img class="alignnone wp-image-166235" src="./assets/frag1.png" alt="" width="594" height="495"/></a><br>
+<br>
+&nbsp;<br>
+<br>
+&nbsp;<br>
+<br>
+fragment1.xml<br>
+<pre class="EnlighterJSRAW" data-enlighter-language="xml">&lt;?xml version="1.0" encoding="utf-8"?&gt;<br>
+&lt;android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"<br>
+                                             xmlns:app="http://schemas.android.com/apk/res-auto"<br>
+                                             xmlns:tools="http://schemas.android.com/tools"<br>
+                                             android:id="@+id/frameLayout"<br>
+                                             android:layout_width="match_parent"<br>
+                                             android:layout_height="match_parent"<br>
+                                             tools:context=".Fragment1"&gt;<br>
+<br>
+    &lt;!-- TODO: Update blank fragment layout --&gt;<br>
+    &lt;TextView<br>
+        android:id="@+id/textView"<br>
+        android:layout_width="0dp"<br>
+        android:layout_height="0dp"<br>
+        android:layout_marginBottom="8dp"<br>
+        app:layout_constraintBottom_toBottomOf="parent"<br>
+        app:layout_constraintEnd_toEndOf="parent"<br>
+        app:layout_constraintTop_toTopOf="parent"/&gt;<br>
+<br>
+    &lt;Button<br>
+        android:id="@+id/button4"<br>
+        android:layout_width="wrap_content"<br>
+        android:layout_height="wrap_content"<br>
+        android:layout_marginStart="8dp"<br>
+        android:layout_marginTop="8dp"<br>
+        android:text="Save"<br>
+        app:layout_constraintStart_toStartOf="parent"<br>
+        app:layout_constraintTop_toTopOf="@+id/imageView"/&gt;<br>
+<br>
+    &lt;TextView<br>
+        android:id="@+id/textView2"<br>
+        android:layout_width="0dp"<br>
+        android:layout_height="wrap_content"<br>
+        android:layout_marginStart="8dp"<br>
+        android:layout_marginTop="8dp"<br>
+        android:layout_marginEnd="8dp"<br>
+        android:text="Fragment 1"<br>
+        android:textSize="30sp"<br>
+        app:layout_constraintEnd_toEndOf="parent"<br>
+        app:layout_constraintStart_toStartOf="parent"<br>
+        app:layout_constraintTop_toTopOf="parent"/&gt;<br>
+<br>
+    &lt;ImageView<br>
+        android:id="@+id/imageView"<br>
+        android:layout_width="0dp"<br>
+        android:layout_height="0dp"<br>
+        android:layout_marginStart="16dp"<br>
+        android:layout_marginTop="32dp"<br>
+        android:layout_marginEnd="8dp"<br>
+        android:layout_marginBottom="8dp"<br>
+        android:scaleType="centerCrop"<br>
+        android:src="@drawable/android1"<br>
+        app:layout_constraintBottom_toBottomOf="parent"<br>
+        app:layout_constraintEnd_toEndOf="parent"<br>
+        app:layout_constraintStart_toEndOf="@+id/button4"<br>
+        app:layout_constraintTop_toBottomOf="@+id/textView2"/&gt;<br>
+<br>
+&lt;/android.support.constraint.ConstraintLayout&gt;</pre><br>
+&nbsp;<br>
+<br>
+&nbsp;<br>
+<br>
+Fragment 2:<br>
+<br>
+<a href="https://www.alexandriarepository.org/media/screenshot_15457957542" rel="attachment wp-att-166238"><img class="alignnone wp-image-166238" src="./assets/Screenshot_15457957542.png" alt="" width="445" height="791"/></a><br>
+<br>
+&nbsp;<br>
+<br>
+&nbsp;<br>
+<br>
+fragment2.xml<br>
+<pre class="EnlighterJSRAW" data-enlighter-language="xml">&lt;?xml version="1.0" encoding="utf-8"?&gt;<br>
+&lt;android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"<br>
+                                             xmlns:app="http://schemas.android.com/apk/res-auto"<br>
+                                             xmlns:tools="http://schemas.android.com/tools"<br>
+                                             android:id="@+id/frameLayout2"<br>
+                                             android:layout_width="match_parent"<br>
+                                             android:layout_height="match_parent"<br>
+                                             tools:context=".Fragment2"&gt;<br>
+<br>
+    &lt;!-- TODO: Update blank fragment layout --&gt;<br>
+    &lt;TextView<br>
+        android:id="@+id/textView3"<br>
+        android:layout_width="0dp"<br>
+        android:layout_height="56dp"<br>
+        android:layout_marginStart="8dp"<br>
+        android:layout_marginTop="16dp"<br>
+        android:layout_marginEnd="8dp"<br>
+        android:text="Fragment 2"<br>
+        android:textSize="36sp"<br>
+        app:layout_constraintEnd_toEndOf="parent"<br>
+        app:layout_constraintHorizontal_bias="1.0"<br>
+        app:layout_constraintStart_toStartOf="parent"<br>
+        app:layout_constraintTop_toTopOf="parent"/&gt;<br>
+<br>
+    &lt;ImageView<br>
+        android:id="@+id/imageView2"<br>
+        android:layout_width="wrap_content"<br>
+        android:layout_height="0dp"<br>
+        android:layout_marginStart="8dp"<br>
+        android:layout_marginTop="8dp"<br>
+        android:layout_marginBottom="8dp"<br>
+        android:src="@drawable/android2"<br>
+        app:layout_constraintBottom_toBottomOf="parent"<br>
+        app:layout_constraintEnd_toEndOf="parent"<br>
+        app:layout_constraintStart_toStartOf="parent"<br>
+        app:layout_constraintTop_toBottomOf="@+id/textView3"/&gt;<br>
+<br>
+&lt;/android.support.constraint.ConstraintLayout&gt;</pre><br>
+&nbsp;<br>
+<br>
+&nbsp;<br>
+<br>
+<a href="https://www.alexandriarepository.org/media/frag2" rel="attachment wp-att-166239"><img class="alignnone size-full wp-image-166239" src="./assets/frag2.png" alt="" width="850" height="698"/></a><br>
+<br>
+&nbsp;<br>
+<br>
+&nbsp;<br>
+<br>
+Fragment 3:<br>
+<br>
+&nbsp;<br>
+<br>
+<a href="https://www.alexandriarepository.org/media/screenshot_1545795757" rel="attachment wp-att-166233"><img class="alignnone wp-image-166233" src="./assets/Screenshot_1545795757.png" alt="" width="436" height="775"/></a><br>
+<br>
+&nbsp;<br>
+<br>
+&nbsp;<br>
+<br>
+fragment3.xml<br>
+<pre class="EnlighterJSRAW" data-enlighter-language="xml">&lt;?xml version="1.0" encoding="utf-8"?&gt;<br>
+&lt;android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"<br>
+                                             xmlns:app="http://schemas.android.com/apk/res-auto"<br>
+                                             xmlns:tools="http://schemas.android.com/tools"<br>
+                                             android:id="@+id/fragmentLayout3"<br>
+                                             android:layout_width="match_parent"<br>
+                                             android:layout_height="match_parent"<br>
+                                             tools:context=".Fragment3"&gt;<br>
+<br>
+    &lt;!-- TODO: Update blank fragment layout --&gt;<br>
+    &lt;TextView<br>
+        android:id="@+id/textView4"<br>
+        android:layout_width="0dp"<br>
+        android:layout_height="wrap_content"<br>
+        android:layout_marginBottom="8dp"<br>
+        android:text="Fragment 3"<br>
+        android:textSize="36sp"<br>
+        app:layout_constraintBottom_toTopOf="@+id/checkBox2"<br>
+        app:layout_constraintEnd_toEndOf="parent"<br>
+        app:layout_constraintHorizontal_bias="0.0"<br>
+        app:layout_constraintStart_toStartOf="parent"/&gt;<br>
+<br>
+    &lt;ImageView<br>
+        android:id="@+id/imageView3"<br>
+        android:layout_width="wrap_content"<br>
+        android:layout_height="112dp"<br>
+        android:layout_marginBottom="4dp"<br>
+        android:src="@drawable/android3"<br>
+        app:layout_constraintBottom_toTopOf="@+id/toggleButton2"<br>
+        app:layout_constraintEnd_toEndOf="parent"<br>
+        app:layout_constraintHorizontal_bias="1.0"<br>
+        app:layout_constraintStart_toStartOf="parent"<br>
+        /&gt;<br>
+<br>
+    &lt;CheckBox<br>
+        android:id="@+id/checkBox"<br>
+        android:layout_width="wrap_content"<br>
+        android:layout_height="wrap_content"<br>
+        android:layout_marginStart="8dp"<br>
+        android:text="Yes"<br>
+        app:layout_constraintBaseline_toBaselineOf="@+id/checkBox2"<br>
+        app:layout_constraintEnd_toStartOf="@+id/checkBox2"<br>
+        app:layout_constraintHorizontal_bias="0.5"<br>
+        app:layout_constraintStart_toStartOf="parent"/&gt;<br>
+<br>
+    &lt;CheckBox<br>
+        android:id="@+id/checkBox2"<br>
+        android:layout_width="wrap_content"<br>
+        android:layout_height="wrap_content"<br>
+        android:layout_marginBottom="3dp"<br>
+        android:text="No"<br>
+        app:layout_constraintBottom_toTopOf="@+id/imageView3"<br>
+        app:layout_constraintEnd_toEndOf="parent"<br>
+        app:layout_constraintHorizontal_bias="0.5"<br>
+        app:layout_constraintStart_toEndOf="@+id/checkBox"<br>
+        /&gt;<br>
+<br>
+    &lt;ToggleButton<br>
+        android:id="@+id/toggleButton2"<br>
+        android:layout_width="wrap_content"<br>
+        android:layout_height="wrap_content"<br>
+        android:layout_marginStart="8dp"<br>
+        android:text="ToggleButton"<br>
+        app:layout_constraintBaseline_toBaselineOf="@+id/switch1"<br>
+        app:layout_constraintStart_toStartOf="parent"/&gt;<br>
+<br>
+    &lt;Switch<br>
+        android:id="@+id/switch1"<br>
+        android:layout_width="116dp"<br>
+        android:layout_height="wrap_content"<br>
+        android:layout_marginBottom="32dp"<br>
+        android:text="Accept"<br>
+        app:layout_constraintBottom_toBottomOf="parent"<br>
+        app:layout_constraintStart_toEndOf="@+id/toggleButton2"<br>
+        /&gt;<br>
+<br>
+    &lt;android.support.design.widget.FloatingActionButton<br>
+        android:id="@+id/floatingActionButton"<br>
+        android:layout_width="wrap_content"<br>
+        android:layout_height="wrap_content"<br>
+        android:layout_marginEnd="8dp"<br>
+        android:layout_marginBottom="8dp"<br>
+        android:clickable="true"<br>
+        android:src="@android:drawable/btn_star_big_on"<br>
+        app:layout_constraintBottom_toBottomOf="parent"<br>
+        app:layout_constraintEnd_toEndOf="parent"/&gt;<br>
+<br>
+&lt;/android.support.constraint.ConstraintLayout&gt;</pre><br>
+&nbsp;<br>
+<br>
+<a href="https://www.alexandriarepository.org/media/frag3" rel="attachment wp-att-166240"><img class="alignnone wp-image-166240" src="./assets/frag3.png" alt="" width="578" height="472"/></a><br>
+<br>
+&nbsp;<br>
+<br>
+&nbsp;<br>
+<h2><strong>MainActivity.java</strong></h2><br>
+&nbsp;<br>
+<br>
+&nbsp;<br>
+<pre class="EnlighterJSRAW" data-enlighter-language="java">package edu.monash.fit2081.fragments;<br>
+<br>
+import android.support.v7.app.AppCompatActivity;<br>
+import android.os.Bundle;<br>
+import android.view.View;<br>
+<br>
+public class MainActivity extends AppCompatActivity {<br>
+<br>
+    @Override<br>
+    protected void onCreate(Bundle savedInstanceState) {<br>
+        super.onCreate(savedInstanceState);<br>
+        setContentView(R.layout.activity_main);<br>
+    }<br>
+<br>
+    public void handleBtn1(View view){<br>
+        getSupportFragmentManager().beginTransaction().replace(R.id.frag1,new Fragment1()).addToBackStack("f1").commit();<br>
+<br>
+    }<br>
+    public void handleBtn2(View view){<br>
+        getSupportFragmentManager().beginTransaction().replace(R.id.frag1,new Fragment2()).addToBackStack("f2").commit();<br>
+<br>
+    }<br>
+    public void handleBtn3(View view){<br>
+        getSupportFragmentManager().beginTransaction().replace(R.id.frag1,new Fragment3()).addToBackStack("f3").commit();<br>
+<br>
+    }<br>
+}<br>
+</pre><br>
+&nbsp;<br>
+<br>
+The above code represents the business logic of the main activity. In addition to onCreate callback, it has three functions (handleBtn1, handleBtn2, and handleBtn3) that work as handlers for the three buttons Button 1, Buton 2, and Button 3 respectively.<br>
+<br>
+In each function, there is a statement that is responsible for replacing the current fragment with a new one.<br>
+<pre class="EnlighterJSRAW" data-enlighter-language="java">getSupportFragmentManager().beginTransaction().replace(R.id.frag1,new Fragment1()).addToBackStack("f1").commit();<br>
+</pre><br>
+<blockquote>Note the following:<br>
+<ul><li>getSupportFragmentManager: returns the FragmentManager which is used to create transactions for adding, removing or replacing fragments.</li><br>
+ 	<li>beginTransaction: starts a series of edit operations on the Fragments</li><br>
+ 	<li>.replace: replaces the current fragment with a new fragment of type Fragment1 on the layout with id R.id.frag1</li><br>
+ 	<li>addToBackStack: Adds this transaction to the back stack. This means that the transaction will be remembered after it is committed, and will reverse its operation when later popped off the stack.</li><br>
+</ul></blockquote><br>
+&nbsp;<br>
+<br>
+&nbsp;<br>
+<br>
+&nbsp;<br>
+<br>
+&nbsp;<br>
+<br>
+References<br>
+<br>
+[1]&#xC2;&nbsp;<a href="https://developer.android.com/guide/components/fragments">https://developer.android.com/guide/components/fragments</a><br>
+<br>
+[2]&#xC2;&nbsp;<a href="https://www.tutorialspoint.com/android/android_fragments.htm">https://www.tutorialspoint.com/android/android_fragments.htm</a><br>
+<br>
+&nbsp;<br>
+<br>
+&nbsp;<br>
+<br>
+&nbsp;<br>
+<br>
+&nbsp;<br>
+<br>
+&nbsp;<br>
+<br>
+&nbsp;</body></html>

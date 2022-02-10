@@ -1,353 +1,361 @@
-<?xml version="1.0" standalone="yes"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
-<html><body><div class="square-box">&#xD;
-&#xD;
-In the previous weeks, we learn how to translate a touch on the screen into an action. In this week, we will learn how to&#xC2;&#xA0;intercept touch events in an Activity or View and execute the appropriate behaviour.&#xD;
-&#xD;
-</div>&#xD;
-&#xA0;&#xD;
-<div class="square-box">&#xD;
-&#xD;
-<strong>What is Gesture?</strong>&#xD;
-&#xD;
-A gesture is simply a sequence of touch events. Each touch event comes with x and y coordinates. A gesture starts with the touch-down even,&#xC2;&#xA0;continues as the system tracks the position of the user's finger(s), and end by the touch-up event.&#xD;
-&#xD;
-</div>&#xD;
-&#xA0;&#xD;
-<h2>Intercepting Touch Events</h2>&#xD;
-Touch events can be intercepted by a view through the overriding of&#xC2;&#xA0;onTouchEvent() method or the registration of an <strong>onTouchListerner</strong> and the implementation of onTouch() callback method.&#xD;
-<div class="square-box">&#xD;
-&#xD;
-<strong>What is MotionEvent?</strong>&#xD;
-<blockquote><em>Object used to report movement (mouse, pen, finger, trackball) events. Motion events may hold either absolute or relative movements and other data, depending on the type of device.</em></blockquote>&#xD;
-It is an object that is passed through to the onTouch() callback method. It is the key to obtaining information about motion events such as the location of the touch within the view, the type of the event, and others.&#xD;
-&#xD;
-</div>&#xD;
-&#xA0;&#xD;
-<h3>Types of Events</h3>&#xD;
-There are several types the MotionEvent object can report and here are some of them:&#xD;
-<ul><li><strong>MotionEvent.ACTION_DOWN</strong>: This event is generated when the first touch on a view occurs.</li>&#xD;
- 	<li><strong>MotionEvent.ACTION_UP</strong>: This event is generated when the touch is lifted from the screen.</li>&#xD;
- 	<li><strong>MotionEvent.ACTION_MOVE</strong>: Any motion of the touch between the ACTION_DOWN and ACTION_UP events will be represented by this event.</li>&#xD;
-</ul>&#xD;
-&#xA0;&#xD;
-<h3>Overriding onTouchEvent() method</h3>&#xD;
-If you want to listen to all the touch events that might occur on your activity (if none of the child views handle it), it is possible to implement onTouchEvent() callback method as shown in the following example.&#xD;
-<pre class="EnlighterJSRAW" data-enlighter-language="java">public class MainActivity extends AppCompatActivity {&#xD;
-&#xD;
-    private static final String DEBUG_TAG = "WEEK10_TAG";&#xD;
-    &#xD;
-    @Override&#xD;
-    protected void onCreate(Bundle savedInstanceState) {&#xD;
-        super.onCreate(savedInstanceState);&#xD;
-        setContentView(R.layout.activity_main);&#xD;
-    }&#xD;
-&#xD;
-    @Override&#xD;
-    public boolean onTouchEvent(MotionEvent event) {&#xD;
-        int action = event.getActionMasked();&#xD;
-        switch(action) {&#xD;
-            case (MotionEvent.ACTION_DOWN) :&#xD;
-                Log.d(DEBUG_TAG,"Action was DOWN");&#xD;
-                return true;&#xD;
-            case (MotionEvent.ACTION_MOVE) :&#xD;
-                Log.d(DEBUG_TAG,"Action was MOVE");&#xD;
-                return true;&#xD;
-            case (MotionEvent.ACTION_UP) :&#xD;
-                Log.d(DEBUG_TAG,"Action was UP");&#xD;
-                return true;&#xD;
-            default :&#xD;
-                return false;&#xD;
-        }&#xD;
-    }&#xD;
-}</pre>&#xD;
-The activity implements onTouchEvent() method at line@12. The input parameter to this callback method is of type MotionEvent. Using this input parameter, we can extract the type of the event as shown in live@13.&#xC2;&#xA0; The getActionMasked() method returns an integer number (constant) that represents the type of the current event. The action is then compared with pre-defined constant values to determine the type of the current event as implemented by the switch case in lines@14-26.&#xD;
-&#xD;
-&#xA0;&#xD;
-<h3>Registering&#xC2;&#xA0;onTouchListerner</h3>&#xD;
-This approach allows us to listen to a specific view instead of the entire layout.&#xD;
-<pre class="EnlighterJSRAW" data-enlighter-language="java">public class MainActivity extends AppCompatActivity {&#xD;
-&#xD;
-    private static final String DEBUG_TAG = "WEEK10_TAG";&#xD;
-&#xD;
-    @Override&#xD;
-    protected void onCreate(Bundle savedInstanceState) {&#xD;
-        super.onCreate(savedInstanceState);&#xD;
-        setContentView(R.layout.activity_main);&#xD;
-        View view=findViewById(R.id.my_layout);&#xD;
-        view.setOnTouchListener(new View.OnTouchListener() {&#xD;
-            @Override&#xD;
-            public boolean onTouch(View v, MotionEvent event) {&#xD;
-                int action = event.getActionMasked();&#xD;
-                switch(action) {&#xD;
-                    case (MotionEvent.ACTION_DOWN) :&#xD;
-                        Log.d(DEBUG_TAG,"Action was DOWN");&#xD;
-                        return true;&#xD;
-                    case (MotionEvent.ACTION_MOVE) :&#xD;
-                        Log.d(DEBUG_TAG,"Action was MOVE");&#xD;
-                        return true;&#xD;
-                    case (MotionEvent.ACTION_UP) :&#xD;
-                        Log.d(DEBUG_TAG,"Action was UP");&#xD;
-                        return true;&#xD;
-                    default :&#xD;
-                        return false;&#xD;
-                }&#xD;
-            }&#xD;
-        });&#xD;
-    }&#xD;
-&#xD;
-}&#xD;
-</pre>&#xD;
-As shown in the code above, the activity retrieves a reference to the layout that has id=<strong>my_layout </strong>at line@9. The code then registers a touch listener by calling&#xC2;&#xA0;<strong>setOnTouchListener()&#xC2;&#xA0;</strong>method and providing an anonymous instance of&#xC2;&#xA0;<strong>View.OnTouchListener()</strong> that implements <strong>onTouch()</strong> callback Event (line@12).&#xD;
-&#xD;
-The callback method <strong>onTouch()</strong> accepts as input the MotionEvent object that provides the type of the event and its coordinates.&#xD;
-&#xD;
-&#xA0;&#xD;
-<div class="square-box">&#xD;
-&#xD;
-<strong>What does the return true statement indicate?</strong>&#xD;
-&#xD;
-It indicates that you have handled the touch event.&#xD;
-&#xD;
-</div>&#xD;
-&#xA0;&#xD;
-<div class="square-box">&#xD;
-&#xD;
-<strong>What does the return false statement indicate?</strong>&#xD;
-&#xD;
-It indicates that you have not handled the current event.&#xD;
-&#xD;
-</div>&#xD;
-&#xA0;&#xD;
-<h3>MotionEvent Position</h3>&#xD;
-In order to query the position of the current event, we must call getX() and getY() methods to retrieve the absolute coordinates relative to the View, that dispatched them.&#xD;
-<pre class="EnlighterJSRAW" data-enlighter-language="java">public class MainActivity extends AppCompatActivity {&#xD;
-&#xD;
-    private static final String DEBUG_TAG = "WEEK10_TAG";&#xD;
-&#xD;
-    @Override&#xD;
-    protected void onCreate(Bundle savedInstanceState) {&#xD;
-        super.onCreate(savedInstanceState);&#xD;
-        setContentView(R.layout.activity_main);&#xD;
-        View view=findViewById(R.id.my_layout);&#xD;
-        view.setOnTouchListener(new View.OnTouchListener() {&#xD;
-            @Override&#xD;
-            public boolean onTouch(View v, MotionEvent event) {&#xD;
-                int x=(int)event.getX();&#xD;
-                int y=(int)event.getY();&#xD;
-&#xD;
-                int action = event.getActionMasked();&#xD;
-                switch(action) {&#xD;
-                    case (MotionEvent.ACTION_DOWN) :&#xD;
-                        Log.d(DEBUG_TAG,"Action was DOWN at x="+x+ " and y="+y);&#xD;
-                        return true;&#xD;
-                    case (MotionEvent.ACTION_MOVE) :&#xD;
-                        Log.d(DEBUG_TAG,"Action was MOVE at x="+x+ " and y="+y);&#xD;
-                        return true;&#xD;
-                    case (MotionEvent.ACTION_UP) :&#xD;
-                        Log.d(DEBUG_TAG,"Action was UP at x="+x+ " and y="+y);&#xD;
-                        return true;&#xD;
-                    default :&#xD;
-                        return false;&#xD;
-                }&#xD;
-            }&#xD;
-        });&#xD;
-    }&#xD;
-}&#xD;
-</pre>&#xD;
-&#xA0;&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-Lines 13 and 14 retrieve the x and y coordinates of the current event.&#xC2;&#xA0; The return type of both methods getX() and getY() is float and this is due to&#xC2;&#xA0;sub-pixel accuracy.&#xD;
-&#xD;
-Now, let's deploy the code above into an emulator and test it.&#xD;
-<pre class="EnlighterJSRAW" data-enlighter-language="null">D/WEEK10_TAG: Action was DOWN at x=334 and y=653&#xD;
-D/WEEK10_TAG: Action was UP at x=334 and y=653&#xD;
-</pre>&#xD;
-&#xA0;&#xD;
-&#xD;
-and here is the log when some move events generated:&#xD;
-<pre class="EnlighterJSRAW" data-enlighter-language="null">D/WEEK10_TAG: Action was DOWN at x=416 and y=431&#xD;
-D/WEEK10_TAG: Action was MOVE at x=416 and y=436&#xD;
-D/WEEK10_TAG: Action was MOVE at x=420 and y=440&#xD;
-D/WEEK10_TAG: Action was MOVE at x=420 and y=448&#xD;
-D/WEEK10_TAG: Action was MOVE at x=422 and y=451&#xD;
-D/WEEK10_TAG: Action was MOVE at x=422 and y=456&#xD;
-D/WEEK10_TAG: Action was MOVE at x=422 and y=458&#xD;
-D/WEEK10_TAG: Action was MOVE at x=422 and y=462&#xD;
-D/WEEK10_TAG: Action was MOVE at x=425 and y=460&#xD;
-D/WEEK10_TAG: Action was UP at x=425 and y=460</pre>&#xD;
-As you can see the first and last events are ACTION_DOWN and ACTION_UP respectively.&#xD;
-<div class="square-box">&#xD;
-&#xD;
-<strong>Is there a way to get the X and Y coordinates relative to the device screen?</strong>&#xD;
-&#xD;
-YES. You have to use<strong> getRawX()</strong> and<strong> getRawY()</strong>.&#xD;
-&#xD;
-</div>&#xD;
-To test the two new methods, let's listen to the touch events in a view in a layout.&#xD;
-<pre class="EnlighterJSRAW" data-enlighter-language="xml">&lt;?xml version="1.0" encoding="utf-8"?&gt;&#xD;
-&lt;androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"&#xD;
-    xmlns:app="http://schemas.android.com/apk/res-auto"&#xD;
-    xmlns:tools="http://schemas.android.com/tools"&#xD;
-    android:id="@+id/my_layout"&#xD;
-    android:layout_width="match_parent"&#xD;
-    android:layout_height="match_parent"&#xD;
-    tools:context=".MainActivity"&gt;&#xD;
-&#xD;
-    &lt;FrameLayout&#xD;
-        android:id="@+id/frame_layout_id"&#xD;
-        android:layout_width="209dp"&#xD;
-        android:layout_height="329dp"&#xD;
-        android:background="#4AE61F"&#xD;
-        app:layout_constraintBottom_toTopOf="@+id/guideline"&#xD;
-        app:layout_constraintEnd_toEndOf="parent"&#xD;
-        app:layout_constraintStart_toStartOf="parent"&#xD;
-        app:layout_constraintTop_toTopOf="parent"&gt;&#xD;
-&#xD;
-    &lt;/FrameLayout&gt;&#xD;
-&#xD;
-    &lt;androidx.constraintlayout.widget.Guideline&#xD;
-        android:id="@+id/guideline"&#xD;
-        android:layout_width="wrap_content"&#xD;
-        android:layout_height="wrap_content"&#xD;
-        android:orientation="horizontal"&#xD;
-        app:layout_constraintGuide_percent="0.5909713" /&gt;&#xD;
-&#xD;
-    &lt;TextView&#xD;
-        android:id="@+id/action_type"&#xD;
-        android:layout_width="0dp"&#xD;
-        android:layout_height="wrap_content"&#xD;
-        android:layout_marginTop="36dp"&#xD;
-        android:textSize="30sp"&#xD;
-        app:layout_constraintEnd_toEndOf="parent"&#xD;
-        app:layout_constraintHorizontal_bias="0.5"&#xD;
-        app:layout_constraintStart_toEndOf="@+id/textView2"&#xD;
-        app:layout_constraintTop_toTopOf="@+id/guideline" /&gt;&#xD;
-&#xD;
-    &lt;TextView&#xD;
-        android:id="@+id/textView2"&#xD;
-        android:layout_width="wrap_content"&#xD;
-        android:layout_height="wrap_content"&#xD;
-        android:layout_marginStart="8dp"&#xD;
-        android:layout_marginEnd="8dp"&#xD;
-        android:text="Action Type"&#xD;
-        android:textSize="30sp"&#xD;
-        app:layout_constraintEnd_toStartOf="@+id/action_type"&#xD;
-        app:layout_constraintHorizontal_bias="0.5"&#xD;
-        app:layout_constraintStart_toStartOf="parent"&#xD;
-        app:layout_constraintTop_toTopOf="@+id/action_type" /&gt;&#xD;
-&#xD;
-    &lt;TextView&#xD;
-        android:id="@+id/textView3"&#xD;
-        android:layout_width="227dp"&#xD;
-        android:layout_height="wrap_content"&#xD;
-        android:layout_marginStart="8dp"&#xD;
-        android:layout_marginEnd="8dp"&#xD;
-        android:text="getX(),getY()"&#xD;
-        android:textSize="24sp"&#xD;
-        app:layout_constraintEnd_toStartOf="@+id/get_x_y_id"&#xD;
-        app:layout_constraintHorizontal_bias="0.5"&#xD;
-        app:layout_constraintStart_toStartOf="parent"&#xD;
-        app:layout_constraintTop_toTopOf="@+id/get_x_y_id" /&gt;&#xD;
-&#xD;
-    &lt;TextView&#xD;
-        android:id="@+id/get_x_y_id"&#xD;
-        android:layout_width="0dp"&#xD;
-        android:layout_height="wrap_content"&#xD;
-        android:layout_marginStart="8dp"&#xD;
-        android:layout_marginTop="32dp"&#xD;
-        android:textSize="24sp"&#xD;
-        app:layout_constraintEnd_toEndOf="parent"&#xD;
-        app:layout_constraintHorizontal_bias="0.5"&#xD;
-        app:layout_constraintStart_toEndOf="@+id/textView3"&#xD;
-        app:layout_constraintTop_toBottomOf="@+id/action_type" /&gt;&#xD;
-&#xD;
-    &lt;TextView&#xD;
-        android:id="@+id/textView5"&#xD;
-        android:layout_width="227dp"&#xD;
-        android:layout_height="wrap_content"&#xD;
-        android:layout_marginTop="32dp"&#xD;
-        android:text="getRawX(),getRawY()"&#xD;
-        android:textSize="24sp"&#xD;
-        app:layout_constraintEnd_toStartOf="@+id/get_raw_x_y_id"&#xD;
-        app:layout_constraintHorizontal_bias="0.5"&#xD;
-        app:layout_constraintStart_toStartOf="parent"&#xD;
-        app:layout_constraintTop_toBottomOf="@+id/textView3" /&gt;&#xD;
-&#xD;
-    &lt;TextView&#xD;
-        android:id="@+id/get_raw_x_y_id"&#xD;
-        android:layout_width="0dp"&#xD;
-        android:layout_height="wrap_content"&#xD;
-        android:layout_marginStart="8dp"&#xD;
-        android:textSize="24sp"&#xD;
-        app:layout_constraintEnd_toEndOf="parent"&#xD;
-        app:layout_constraintHorizontal_bias="0.5"&#xD;
-        app:layout_constraintStart_toEndOf="@+id/textView5"&#xD;
-        app:layout_constraintTop_toTopOf="@+id/textView5" /&gt;&#xD;
-&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</pre>&#xD;
-&#xA0;&#xD;
-&#xD;
-and here is the activity controller:&#xD;
-<pre class="EnlighterJSRAW" data-enlighter-language="java">public class MainActivity extends AppCompatActivity {&#xD;
-&#xD;
-&#xD;
-    TextView actionType;&#xD;
-    TextView getXY;&#xD;
-    TextView getRawXY;&#xD;
-&#xD;
-    @Override&#xD;
-    protected void onCreate(Bundle savedInstanceState) {&#xD;
-        super.onCreate(savedInstanceState);&#xD;
-        setContentView(R.layout.activity_main);&#xD;
-        View view=findViewById(R.id.frame_layout_id);&#xD;
-        actionType=findViewById(R.id.action_type);&#xD;
-        getXY=findViewById(R.id.get_x_y_id);&#xD;
-        getRawXY=findViewById(R.id.get_raw_x_y_id);&#xD;
-        view.setOnTouchListener(new View.OnTouchListener() {&#xD;
-            @Override&#xD;
-            public boolean onTouch(View v, MotionEvent event) {&#xD;
-                int x=(int)event.getX();&#xD;
-                int y=(int)event.getY();&#xD;
-                int rawX=(int)event.getRawX();&#xD;
-                int rawY=(int)event.getRawY();&#xD;
-                getXY.setText(x+","+y);&#xD;
-                getRawXY.setText(rawX+","+rawY);&#xD;
-&#xD;
-                int action = event.getActionMasked();&#xD;
-                switch(action) {&#xD;
-                    case (MotionEvent.ACTION_DOWN) :&#xD;
-                        actionType.setText("Down");&#xD;
-                        return true;&#xD;
-                    case (MotionEvent.ACTION_MOVE) :&#xD;
-                        actionType.setText("MOVE");&#xD;
-                        return true;&#xD;
-                    case (MotionEvent.ACTION_UP) :&#xD;
-                        actionType.setText("UP");&#xD;
-                        return true;&#xD;
-                    default :&#xD;
-                        return false;&#xD;
-                }&#xD;
-            }&#xD;
-        });&#xD;
-    }&#xD;
-}&#xD;
-</pre>&#xD;
-&#xA0;&#xD;
-&#xD;
-Let's test it:&#xD;
-&#xD;
-<video controls width="1280" height="720"><source src="./assets/FIT2081-W10-App.mp4" type="video/mp4"/></video>&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-References:&#xD;
-<ul><li>Android Studio 3.5 Development Essentials - Java Edition</li>&#xD;
- 	<li>https://developer.android.com/</li>&#xD;
-</ul>&#xD;
-&#xA0;&#xD;
-&#xD;
-&#xA0;</body></html>
+<html>
+    <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="https://cdn.jsdelivr.net/npm/enlighterjs@3.4.0/dist/enlighterjs.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/enlighterjs@3.4.0/dist/enlighterjs.min.css">
+    <title>FIT2081</title>
+  </head>
+  <body>
+      <div class="square-box"><br>
+<br>
+In the previous weeks, we learn how to translate a touch on the screen into an action. In this week, we will learn how to&#xC2;&nbsp;intercept touch events in an Activity or View and execute the appropriate behaviour.<br>
+<br>
+</div><br>
+&nbsp;<br>
+<div class="square-box"><br>
+<br>
+<strong>What is Gesture?</strong><br>
+<br>
+A gesture is simply a sequence of touch events. Each touch event comes with x and y coordinates. A gesture starts with the touch-down even,&#xC2;&nbsp;continues as the system tracks the position of the user's finger(s), and end by the touch-up event.<br>
+<br>
+</div><br>
+&nbsp;<br>
+<h2>Intercepting Touch Events</h2><br>
+Touch events can be intercepted by a view through the overriding of&#xC2;&nbsp;onTouchEvent() method or the registration of an <strong>onTouchListerner</strong> and the implementation of onTouch() callback method.<br>
+<div class="square-box"><br>
+<br>
+<strong>What is MotionEvent?</strong><br>
+<blockquote><em>Object used to report movement (mouse, pen, finger, trackball) events. Motion events may hold either absolute or relative movements and other data, depending on the type of device.</em></blockquote><br>
+It is an object that is passed through to the onTouch() callback method. It is the key to obtaining information about motion events such as the location of the touch within the view, the type of the event, and others.<br>
+<br>
+</div><br>
+&nbsp;<br>
+<h3>Types of Events</h3><br>
+There are several types the MotionEvent object can report and here are some of them:<br>
+<ul><li><strong>MotionEvent.ACTION_DOWN</strong>: This event is generated when the first touch on a view occurs.</li><br>
+ 	<li><strong>MotionEvent.ACTION_UP</strong>: This event is generated when the touch is lifted from the screen.</li><br>
+ 	<li><strong>MotionEvent.ACTION_MOVE</strong>: Any motion of the touch between the ACTION_DOWN and ACTION_UP events will be represented by this event.</li><br>
+</ul><br>
+&nbsp;<br>
+<h3>Overriding onTouchEvent() method</h3><br>
+If you want to listen to all the touch events that might occur on your activity (if none of the child views handle it), it is possible to implement onTouchEvent() callback method as shown in the following example.<br>
+<pre class="EnlighterJSRAW" data-enlighter-language="java">public class MainActivity extends AppCompatActivity {<br>
+<br>
+    private static final String DEBUG_TAG = "WEEK10_TAG";<br>
+    <br>
+    @Override<br>
+    protected void onCreate(Bundle savedInstanceState) {<br>
+        super.onCreate(savedInstanceState);<br>
+        setContentView(R.layout.activity_main);<br>
+    }<br>
+<br>
+    @Override<br>
+    public boolean onTouchEvent(MotionEvent event) {<br>
+        int action = event.getActionMasked();<br>
+        switch(action) {<br>
+            case (MotionEvent.ACTION_DOWN) :<br>
+                Log.d(DEBUG_TAG,"Action was DOWN");<br>
+                return true;<br>
+            case (MotionEvent.ACTION_MOVE) :<br>
+                Log.d(DEBUG_TAG,"Action was MOVE");<br>
+                return true;<br>
+            case (MotionEvent.ACTION_UP) :<br>
+                Log.d(DEBUG_TAG,"Action was UP");<br>
+                return true;<br>
+            default :<br>
+                return false;<br>
+        }<br>
+    }<br>
+}</pre><br>
+The activity implements onTouchEvent() method at line@12. The input parameter to this callback method is of type MotionEvent. Using this input parameter, we can extract the type of the event as shown in live@13.&#xC2;&nbsp; The getActionMasked() method returns an integer number (constant) that represents the type of the current event. The action is then compared with pre-defined constant values to determine the type of the current event as implemented by the switch case in lines@14-26.<br>
+<br>
+&nbsp;<br>
+<h3>Registering&#xC2;&nbsp;onTouchListerner</h3><br>
+This approach allows us to listen to a specific view instead of the entire layout.<br>
+<pre class="EnlighterJSRAW" data-enlighter-language="java">public class MainActivity extends AppCompatActivity {<br>
+<br>
+    private static final String DEBUG_TAG = "WEEK10_TAG";<br>
+<br>
+    @Override<br>
+    protected void onCreate(Bundle savedInstanceState) {<br>
+        super.onCreate(savedInstanceState);<br>
+        setContentView(R.layout.activity_main);<br>
+        View view=findViewById(R.id.my_layout);<br>
+        view.setOnTouchListener(new View.OnTouchListener() {<br>
+            @Override<br>
+            public boolean onTouch(View v, MotionEvent event) {<br>
+                int action = event.getActionMasked();<br>
+                switch(action) {<br>
+                    case (MotionEvent.ACTION_DOWN) :<br>
+                        Log.d(DEBUG_TAG,"Action was DOWN");<br>
+                        return true;<br>
+                    case (MotionEvent.ACTION_MOVE) :<br>
+                        Log.d(DEBUG_TAG,"Action was MOVE");<br>
+                        return true;<br>
+                    case (MotionEvent.ACTION_UP) :<br>
+                        Log.d(DEBUG_TAG,"Action was UP");<br>
+                        return true;<br>
+                    default :<br>
+                        return false;<br>
+                }<br>
+            }<br>
+        });<br>
+    }<br>
+<br>
+}<br>
+</pre><br>
+As shown in the code above, the activity retrieves a reference to the layout that has id=<strong>my_layout </strong>at line@9. The code then registers a touch listener by calling&#xC2;&nbsp;<strong>setOnTouchListener()&#xC2;&nbsp;</strong>method and providing an anonymous instance of&#xC2;&nbsp;<strong>View.OnTouchListener()</strong> that implements <strong>onTouch()</strong> callback Event (line@12).<br>
+<br>
+The callback method <strong>onTouch()</strong> accepts as input the MotionEvent object that provides the type of the event and its coordinates.<br>
+<br>
+&nbsp;<br>
+<div class="square-box"><br>
+<br>
+<strong>What does the return true statement indicate?</strong><br>
+<br>
+It indicates that you have handled the touch event.<br>
+<br>
+</div><br>
+&nbsp;<br>
+<div class="square-box"><br>
+<br>
+<strong>What does the return false statement indicate?</strong><br>
+<br>
+It indicates that you have not handled the current event.<br>
+<br>
+</div><br>
+&nbsp;<br>
+<h3>MotionEvent Position</h3><br>
+In order to query the position of the current event, we must call getX() and getY() methods to retrieve the absolute coordinates relative to the View, that dispatched them.<br>
+<pre class="EnlighterJSRAW" data-enlighter-language="java">public class MainActivity extends AppCompatActivity {<br>
+<br>
+    private static final String DEBUG_TAG = "WEEK10_TAG";<br>
+<br>
+    @Override<br>
+    protected void onCreate(Bundle savedInstanceState) {<br>
+        super.onCreate(savedInstanceState);<br>
+        setContentView(R.layout.activity_main);<br>
+        View view=findViewById(R.id.my_layout);<br>
+        view.setOnTouchListener(new View.OnTouchListener() {<br>
+            @Override<br>
+            public boolean onTouch(View v, MotionEvent event) {<br>
+                int x=(int)event.getX();<br>
+                int y=(int)event.getY();<br>
+<br>
+                int action = event.getActionMasked();<br>
+                switch(action) {<br>
+                    case (MotionEvent.ACTION_DOWN) :<br>
+                        Log.d(DEBUG_TAG,"Action was DOWN at x="+x+ " and y="+y);<br>
+                        return true;<br>
+                    case (MotionEvent.ACTION_MOVE) :<br>
+                        Log.d(DEBUG_TAG,"Action was MOVE at x="+x+ " and y="+y);<br>
+                        return true;<br>
+                    case (MotionEvent.ACTION_UP) :<br>
+                        Log.d(DEBUG_TAG,"Action was UP at x="+x+ " and y="+y);<br>
+                        return true;<br>
+                    default :<br>
+                        return false;<br>
+                }<br>
+            }<br>
+        });<br>
+    }<br>
+}<br>
+</pre><br>
+&nbsp;<br>
+<br>
+&nbsp;<br>
+<br>
+Lines 13 and 14 retrieve the x and y coordinates of the current event.&#xC2;&nbsp; The return type of both methods getX() and getY() is float and this is due to&#xC2;&nbsp;sub-pixel accuracy.<br>
+<br>
+Now, let's deploy the code above into an emulator and test it.<br>
+<pre class="EnlighterJSRAW" data-enlighter-language="null">D/WEEK10_TAG: Action was DOWN at x=334 and y=653<br>
+D/WEEK10_TAG: Action was UP at x=334 and y=653<br>
+</pre><br>
+&nbsp;<br>
+<br>
+and here is the log when some move events generated:<br>
+<pre class="EnlighterJSRAW" data-enlighter-language="null">D/WEEK10_TAG: Action was DOWN at x=416 and y=431<br>
+D/WEEK10_TAG: Action was MOVE at x=416 and y=436<br>
+D/WEEK10_TAG: Action was MOVE at x=420 and y=440<br>
+D/WEEK10_TAG: Action was MOVE at x=420 and y=448<br>
+D/WEEK10_TAG: Action was MOVE at x=422 and y=451<br>
+D/WEEK10_TAG: Action was MOVE at x=422 and y=456<br>
+D/WEEK10_TAG: Action was MOVE at x=422 and y=458<br>
+D/WEEK10_TAG: Action was MOVE at x=422 and y=462<br>
+D/WEEK10_TAG: Action was MOVE at x=425 and y=460<br>
+D/WEEK10_TAG: Action was UP at x=425 and y=460</pre><br>
+As you can see the first and last events are ACTION_DOWN and ACTION_UP respectively.<br>
+<div class="square-box"><br>
+<br>
+<strong>Is there a way to get the X and Y coordinates relative to the device screen?</strong><br>
+<br>
+YES. You have to use<strong> getRawX()</strong> and<strong> getRawY()</strong>.<br>
+<br>
+</div><br>
+To test the two new methods, let's listen to the touch events in a view in a layout.<br>
+<pre class="EnlighterJSRAW" data-enlighter-language="xml">&lt;?xml version="1.0" encoding="utf-8"?&gt;<br>
+&lt;androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"<br>
+    xmlns:app="http://schemas.android.com/apk/res-auto"<br>
+    xmlns:tools="http://schemas.android.com/tools"<br>
+    android:id="@+id/my_layout"<br>
+    android:layout_width="match_parent"<br>
+    android:layout_height="match_parent"<br>
+    tools:context=".MainActivity"&gt;<br>
+<br>
+    &lt;FrameLayout<br>
+        android:id="@+id/frame_layout_id"<br>
+        android:layout_width="209dp"<br>
+        android:layout_height="329dp"<br>
+        android:background="#4AE61F"<br>
+        app:layout_constraintBottom_toTopOf="@+id/guideline"<br>
+        app:layout_constraintEnd_toEndOf="parent"<br>
+        app:layout_constraintStart_toStartOf="parent"<br>
+        app:layout_constraintTop_toTopOf="parent"&gt;<br>
+<br>
+    &lt;/FrameLayout&gt;<br>
+<br>
+    &lt;androidx.constraintlayout.widget.Guideline<br>
+        android:id="@+id/guideline"<br>
+        android:layout_width="wrap_content"<br>
+        android:layout_height="wrap_content"<br>
+        android:orientation="horizontal"<br>
+        app:layout_constraintGuide_percent="0.5909713" /&gt;<br>
+<br>
+    &lt;TextView<br>
+        android:id="@+id/action_type"<br>
+        android:layout_width="0dp"<br>
+        android:layout_height="wrap_content"<br>
+        android:layout_marginTop="36dp"<br>
+        android:textSize="30sp"<br>
+        app:layout_constraintEnd_toEndOf="parent"<br>
+        app:layout_constraintHorizontal_bias="0.5"<br>
+        app:layout_constraintStart_toEndOf="@+id/textView2"<br>
+        app:layout_constraintTop_toTopOf="@+id/guideline" /&gt;<br>
+<br>
+    &lt;TextView<br>
+        android:id="@+id/textView2"<br>
+        android:layout_width="wrap_content"<br>
+        android:layout_height="wrap_content"<br>
+        android:layout_marginStart="8dp"<br>
+        android:layout_marginEnd="8dp"<br>
+        android:text="Action Type"<br>
+        android:textSize="30sp"<br>
+        app:layout_constraintEnd_toStartOf="@+id/action_type"<br>
+        app:layout_constraintHorizontal_bias="0.5"<br>
+        app:layout_constraintStart_toStartOf="parent"<br>
+        app:layout_constraintTop_toTopOf="@+id/action_type" /&gt;<br>
+<br>
+    &lt;TextView<br>
+        android:id="@+id/textView3"<br>
+        android:layout_width="227dp"<br>
+        android:layout_height="wrap_content"<br>
+        android:layout_marginStart="8dp"<br>
+        android:layout_marginEnd="8dp"<br>
+        android:text="getX(),getY()"<br>
+        android:textSize="24sp"<br>
+        app:layout_constraintEnd_toStartOf="@+id/get_x_y_id"<br>
+        app:layout_constraintHorizontal_bias="0.5"<br>
+        app:layout_constraintStart_toStartOf="parent"<br>
+        app:layout_constraintTop_toTopOf="@+id/get_x_y_id" /&gt;<br>
+<br>
+    &lt;TextView<br>
+        android:id="@+id/get_x_y_id"<br>
+        android:layout_width="0dp"<br>
+        android:layout_height="wrap_content"<br>
+        android:layout_marginStart="8dp"<br>
+        android:layout_marginTop="32dp"<br>
+        android:textSize="24sp"<br>
+        app:layout_constraintEnd_toEndOf="parent"<br>
+        app:layout_constraintHorizontal_bias="0.5"<br>
+        app:layout_constraintStart_toEndOf="@+id/textView3"<br>
+        app:layout_constraintTop_toBottomOf="@+id/action_type" /&gt;<br>
+<br>
+    &lt;TextView<br>
+        android:id="@+id/textView5"<br>
+        android:layout_width="227dp"<br>
+        android:layout_height="wrap_content"<br>
+        android:layout_marginTop="32dp"<br>
+        android:text="getRawX(),getRawY()"<br>
+        android:textSize="24sp"<br>
+        app:layout_constraintEnd_toStartOf="@+id/get_raw_x_y_id"<br>
+        app:layout_constraintHorizontal_bias="0.5"<br>
+        app:layout_constraintStart_toStartOf="parent"<br>
+        app:layout_constraintTop_toBottomOf="@+id/textView3" /&gt;<br>
+<br>
+    &lt;TextView<br>
+        android:id="@+id/get_raw_x_y_id"<br>
+        android:layout_width="0dp"<br>
+        android:layout_height="wrap_content"<br>
+        android:layout_marginStart="8dp"<br>
+        android:textSize="24sp"<br>
+        app:layout_constraintEnd_toEndOf="parent"<br>
+        app:layout_constraintHorizontal_bias="0.5"<br>
+        app:layout_constraintStart_toEndOf="@+id/textView5"<br>
+        app:layout_constraintTop_toTopOf="@+id/textView5" /&gt;<br>
+&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</pre><br>
+&nbsp;<br>
+<br>
+and here is the activity controller:<br>
+<pre class="EnlighterJSRAW" data-enlighter-language="java">public class MainActivity extends AppCompatActivity {<br>
+<br>
+<br>
+    TextView actionType;<br>
+    TextView getXY;<br>
+    TextView getRawXY;<br>
+<br>
+    @Override<br>
+    protected void onCreate(Bundle savedInstanceState) {<br>
+        super.onCreate(savedInstanceState);<br>
+        setContentView(R.layout.activity_main);<br>
+        View view=findViewById(R.id.frame_layout_id);<br>
+        actionType=findViewById(R.id.action_type);<br>
+        getXY=findViewById(R.id.get_x_y_id);<br>
+        getRawXY=findViewById(R.id.get_raw_x_y_id);<br>
+        view.setOnTouchListener(new View.OnTouchListener() {<br>
+            @Override<br>
+            public boolean onTouch(View v, MotionEvent event) {<br>
+                int x=(int)event.getX();<br>
+                int y=(int)event.getY();<br>
+                int rawX=(int)event.getRawX();<br>
+                int rawY=(int)event.getRawY();<br>
+                getXY.setText(x+","+y);<br>
+                getRawXY.setText(rawX+","+rawY);<br>
+<br>
+                int action = event.getActionMasked();<br>
+                switch(action) {<br>
+                    case (MotionEvent.ACTION_DOWN) :<br>
+                        actionType.setText("Down");<br>
+                        return true;<br>
+                    case (MotionEvent.ACTION_MOVE) :<br>
+                        actionType.setText("MOVE");<br>
+                        return true;<br>
+                    case (MotionEvent.ACTION_UP) :<br>
+                        actionType.setText("UP");<br>
+                        return true;<br>
+                    default :<br>
+                        return false;<br>
+                }<br>
+            }<br>
+        });<br>
+    }<br>
+}<br>
+</pre><br>
+&nbsp;<br>
+<br>
+Let's test it:<br>
+<br>
+<video controls width="1280" height="720"><source src="./assets/FIT2081-W10-App.mp4" type="video/mp4"/></video><br>
+<br>
+&nbsp;<br>
+<br>
+&nbsp;<br>
+<br>
+References:<br>
+<ul><li>Android Studio 3.5 Development Essentials - Java Edition</li><br>
+ 	<li>https://developer.android.com/</li><br>
+</ul><br>
+&nbsp;<br>
+<br>
+&nbsp;</body></html>

@@ -1,273 +1,273 @@
 <?xml version="1.0" standalone="yes"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
-<html><body><div class="square-box">&#xD;
-&#xD;
-What is&#xC2;&#xA0;RecyclerView?&#xD;
-&#xD;
-</div>&#xD;
-A RecyclerView is a flexible viewgroup for providing a limited window into a large data set. The purpose of the RecyclerView is to allow information to be presented to the user in the form of a scrollable list. The RecyclerView is significantly more efficient in the way it manages the views that make up a list, essentially reusing existing views that make up list items as they scroll off the screen instead if creating new ones (hence the name &#xE2;&#x80;&#x9C;recycler&#xE2;&#x80;&#x9D;).&#xD;
-<h2>Random Card Generator Application</h2>&#xD;
-In the following sections, we are going to develop an application that uses RecyclerView to display Cards that are generated randomly. Each card is implemented as a CardView.&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-<a href="https://www.alexandriarepository.org/media/card_recycler" rel="attachment wp-att-177767"><img class="aligncenter size-full wp-image-177767" src="./assets/card_recycler.gif" alt="" width="351" height="728"/></a>&#xD;
-&#xD;
-&#xA0;&#xD;
-<h2>CardView</h2>&#xD;
-The CardView class is a user interface view that allows information to be presented in groups using a card metaphor. Cards are usually presented in lists using a RecyclerView instance and may be configured to appear with shadow effects and rounded corners.&#xD;
-&#xD;
-The user interface layout to be presented with a CardView instance is defined within an XML layout resource file and loaded into the CardView at runtime. The CardView layout can contain a layout of any complexity using the standard layout managers such as RelativeLayout and LinearLayout.&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-card_layout.xml&#xD;
-<pre class="EnlighterJSRAW" data-enlighter-language="xml">&lt;?xml version="1.0" encoding="utf-8"?&gt;&#xD;
-&lt;androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"&#xD;
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"&#xD;
-    android:id="@+id/card_view"&#xD;
-    android:layout_width="match_parent"&#xD;
-    android:layout_height="wrap_content"&#xD;
-    android:layout_margin="5dp"&#xD;
-    card_view:cardBackgroundColor="@android:color/holo_blue_dark"&#xD;
-    card_view:cardCornerRadius="12dp"&gt;&#xD;
-&#xD;
-    &lt;RelativeLayout&#xD;
-        android:layout_width="match_parent"&#xD;
-        android:layout_height="match_parent"&#xD;
-        android:padding="16dp"&gt;&#xD;
-&#xD;
-&#xD;
-        &lt;TextView&#xD;
-            android:id="@+id/suit_id"&#xD;
-            android:layout_width="wrap_content"&#xD;
-            android:layout_height="wrap_content"&#xD;
-            android:layout_alignParentTop="true"&#xD;
-            android:layout_marginStart="58dp"&#xD;
-            android:layout_marginTop="8dp"&#xD;
-            android:layout_toEndOf="@+id/card_id"&#xD;
-            android:textSize="30sp" /&gt;&#xD;
-&#xD;
-        &lt;TextView&#xD;
-            android:id="@+id/card_id"&#xD;
-            android:layout_width="wrap_content"&#xD;
-            android:layout_height="wrap_content"&#xD;
-            android:layout_alignParentStart="true"&#xD;
-            android:layout_alignParentTop="true"&#xD;
-            android:layout_marginStart="8dp"&#xD;
-            android:layout_marginTop="8dp"&#xD;
-            android:textSize="30sp" /&gt;&#xD;
-    &lt;/RelativeLayout&gt;&#xD;
-&#xD;
-&lt;/androidx.cardview.widget.CardView&gt;</pre>&#xD;
-As you can see, the cardview works as a top-level container that has a relative layout as a child element. Inside the relative layout, we have two text views that will be used to display our data. You can replace the relative layout with any layout you do prefer.&#xD;
-&#xD;
-&#xA0;&#xD;
-<h2><span id="1-what-isrecyclerview">RecyclerView</span></h2>&#xD;
-It is a container for rendering a larger data set of views that can be recycled and scrolled very efficiently.&#xC2;&#xA0;&#xC2;&#xA0;It uses a subclass of RecyclerView.Adapter for providing views that represent items in a data set.&#xD;
-&#xD;
-activity_main.xml&#xD;
-<pre class="EnlighterJSRAW" data-enlighter-language="xml">&lt;?xml version="1.0" encoding="utf-8"?&gt;&#xD;
-&lt;androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"&#xD;
-    xmlns:app="http://schemas.android.com/apk/res-auto"&#xD;
-    xmlns:tools="http://schemas.android.com/tools"&#xD;
-    android:layout_width="match_parent"&#xD;
-    android:layout_height="match_parent"&#xD;
-    tools:context=".MainActivity"&gt;&#xD;
-&#xD;
-    &lt;androidx.constraintlayout.widget.Guideline&#xD;
-        android:id="@+id/guideline"&#xD;
-        android:layout_width="wrap_content"&#xD;
-        android:layout_height="wrap_content"&#xD;
-        android:orientation="horizontal"&#xD;
-        app:layout_constraintGuide_percent="0.91" /&gt;&#xD;
-&#xD;
-    &lt;Button&#xD;
-        android:id="@+id/add_item"&#xD;
-        android:layout_width="0dp"&#xD;
-        android:layout_height="wrap_content"&#xD;
-        android:text="Add card"&#xD;
-        app:layout_constraintBottom_toBottomOf="parent"&#xD;
-        app:layout_constraintEnd_toEndOf="parent"&#xD;
-        app:layout_constraintStart_toStartOf="parent"&#xD;
-        app:layout_constraintTop_toTopOf="@+id/guideline" /&gt;&#xD;
-&#xD;
-    &lt;androidx.recyclerview.widget.RecyclerView&#xD;
-        android:id="@+id/my_recycler_view"&#xD;
-        android:scrollbars="vertical"&#xD;
-        android:layout_width="0dp"&#xD;
-        android:layout_height="0dp"&#xD;
-        android:layout_marginStart="8dp"&#xD;
-        android:layout_marginTop="8dp"&#xD;
-        android:layout_marginEnd="8dp"&#xD;
-        android:layout_marginBottom="8dp"&#xD;
-        app:layout_constraintBottom_toTopOf="@+id/guideline"&#xD;
-        app:layout_constraintEnd_toEndOf="parent"&#xD;
-        app:layout_constraintStart_toStartOf="parent"&#xD;
-        app:layout_constraintTop_toTopOf="parent" /&gt;&#xD;
-&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</pre>&#xD;
-The code provided above represents the layout file of the main activity. It uses constraint layout as the main container (@line2). The horizontal guideline is used to separate the button from the recycler view.&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-Item.java&#xD;
-<pre class="EnlighterJSRAW" data-enlighter-language="java">package com.fit2081.recyclercard;&#xD;
-&#xD;
-public class Item {&#xD;
-&#xD;
-    private String suit;&#xD;
-    private String card;&#xD;
-&#xD;
-    public Item(String suit, String card) {&#xD;
-        this.suit = suit;&#xD;
-        this.card = card;&#xD;
-    }&#xD;
-&#xD;
-    public String getSuit() {&#xD;
-        return suit;&#xD;
-    }&#xD;
-&#xD;
-    public String getCard() {&#xD;
-        return card;&#xD;
-    }&#xD;
-}&#xD;
-</pre>&#xD;
-Each card consists of a suit and a card number. Item.java is a class that works as a record for one card. Later in the code, we will create an array list of cards using this class. The constructor is used to initialize the two instance variables while the two getters are used to retrieve their values.&#xD;
-<h2>RecyclerView.Adapter</h2>&#xD;
-The adapter is created as a subclass of the RecyclerView.Adapter class and must, at a minimum, implement the following methods, which will be called at various points by the RecyclerView object to which the adapter is assigned:&#xD;
-<ul><li><strong>getItemCount()</strong> &#xE2;&#x80;&#x93; This method must return a count of the number of items that are to be displayed in the list.</li>&#xD;
- 	<li><strong>onCreateViewHolder()</strong> &#xE2;&#x80;&#x93; This method creates and returns a ViewHolder object initialized with the view that is to be used to display the data. This view is typically created by inflating the XML layout file.</li>&#xD;
- 	<li><strong>onBindViewHolder()</strong> &#xE2;&#x80;&#x93; This method is passed the ViewHolder object created by the onCreateViewHolder() method together with an integer value indicating the list item that is about to be displayed. Contained within the ViewHolder object is the layout assigned by the onCreateViewHolder() method. It is the responsibility of the onBindViewHolder() method to populate the views in the layout with the text and graphics corresponding to the specified item and to return the object to the RecyclerView where it will be presented to the user.</li>&#xD;
-</ul>&#xD;
-&#xA0;&#xD;
-&#xD;
-MyRecyclerAdapter.java&#xD;
-<pre class="EnlighterJSRAW" data-enlighter-language="java">package com.fit2081.recyclercard;&#xD;
-&#xD;
-import android.util.Log;&#xD;
-import android.view.LayoutInflater;&#xD;
-import android.view.View;&#xD;
-import android.view.ViewGroup;&#xD;
-import android.widget.TextView;&#xD;
-&#xD;
-import androidx.annotation.NonNull;&#xD;
-import androidx.recyclerview.widget.RecyclerView;&#xD;
-&#xD;
-import java.util.ArrayList;&#xD;
-&#xD;
-public class MyRecyclerAdapter extends RecyclerView.Adapter&lt;MyRecyclerAdapter.ViewHolder&gt; {&#xD;
-&#xD;
-    ArrayList&lt;Item&gt; data = new ArrayList&lt;Item&gt;();&#xD;
-&#xD;
-    public void setData(ArrayList&lt;Item&gt; data) {&#xD;
-        this.data = data;&#xD;
-    }&#xD;
-&#xD;
-    @NonNull&#xD;
-    @Override&#xD;
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {&#xD;
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_layout, parent, false); //CardView inflated as RecyclerView list item&#xD;
-        ViewHolder viewHolder = new ViewHolder(v);&#xD;
-        Log.d("week6App","onCreateViewHolder");&#xD;
-        return viewHolder;&#xD;
-    }&#xD;
-&#xD;
-    @Override&#xD;
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {&#xD;
-        holder.cardTv.setText(data.get(position).getCard());&#xD;
-        holder.suitTv.setText(data.get(position).getSuit());&#xD;
-        Log.d("week6App","onBindViewHolder");&#xD;
-&#xD;
-    }&#xD;
-&#xD;
-    @Override&#xD;
-    public int getItemCount() {&#xD;
-        return data.size();&#xD;
-    }&#xD;
-&#xD;
-    public class ViewHolder extends RecyclerView.ViewHolder {&#xD;
-        public TextView suitTv;&#xD;
-        public TextView cardTv;&#xD;
-&#xD;
-        public ViewHolder(@NonNull View itemView) {&#xD;
-            super(itemView);&#xD;
-            suitTv = itemView.findViewById(R.id.suit_id);&#xD;
-            cardTv = itemView.findViewById(R.id.card_id);&#xD;
-        }&#xD;
-    }&#xD;
-}&#xD;
-</pre>&#xD;
-The code provided is the implementation of the RecyclerAdapter. It implements the three methods mentioned earlier and the ViewHolder subclass (@line44).&#xC2;&#xA0; The data is passed to the adaptor through a method called <strong>setData</strong> (@line18) which is called from the MainActivity.java (@line44). The method&#xC2;&#xA0;<strong>getItemCount</strong> (@line40) returns the size of the array list which is the number of items to be displayed in the list. The method&#xC2;&#xA0;onCreateViewHolder inflates the card's layout that we have implemented earlier each time a new card is required (@line25). It the passes v, which is a reference to the card layout to the contractor of ViewHolder local class. At line 28, the method returns the view holder object that will be an input to the next method <strong>onBindViewHolder</strong>. In the latter method, we receive two parameters, a viewer holder and a position. Our job is to retrieve the data at that position and place it in that view holder.&#xD;
-&#xD;
-MainActivity.java&#xD;
-<pre class="EnlighterJSRAW" data-enlighter-language="java">package com.fit2081.recyclercard;&#xD;
-&#xD;
-import androidx.appcompat.app.AppCompatActivity;&#xD;
-import androidx.recyclerview.widget.LinearLayoutManager;&#xD;
-import androidx.recyclerview.widget.RecyclerView;&#xD;
-&#xD;
-import android.os.Bundle;&#xD;
-import android.view.View;&#xD;
-import android.widget.Button;&#xD;
-&#xD;
-import java.util.ArrayList;&#xD;
-import java.util.Random;&#xD;
-&#xD;
-public class MainActivity extends AppCompatActivity {&#xD;
-&#xD;
-    ArrayList&lt;Item&gt; data = new ArrayList&lt;&gt;();&#xD;
-    String suits[] = {"Hearts", "Diamonds", "Clubs", "Spade"};&#xD;
-    String cards[] = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King", "Ace"};&#xD;
-&#xD;
-    Button btn;&#xD;
-    RecyclerView recyclerView;&#xD;
-    RecyclerView.LayoutManager layoutManager;&#xD;
-    MyRecyclerAdapter adapter;&#xD;
-&#xD;
-    @Override&#xD;
-    protected void onCreate(Bundle savedInstanceState) {&#xD;
-        super.onCreate(savedInstanceState);&#xD;
-        setContentView(R.layout.activity_main);&#xD;
-        btn = findViewById(R.id.add_item);&#xD;
-        btn.setOnClickListener(new View.OnClickListener() {&#xD;
-            @Override&#xD;
-            public void onClick(View v) {&#xD;
-                addItem();&#xD;
-            }&#xD;
-        });&#xD;
-&#xD;
-        recyclerView = findViewById(R.id.my_recycler_view);&#xD;
-&#xD;
-        layoutManager = new LinearLayoutManager(this);  //A RecyclerView.LayoutManager implementation which provides similar functionality to ListView.&#xD;
-        recyclerView.setLayoutManager(layoutManager);   // Also StaggeredGridLayoutManager and GridLayoutManager or a custom Layout manager&#xD;
-&#xD;
-&#xD;
-        adapter = new MyRecyclerAdapter();&#xD;
-        adapter.setData(data);&#xD;
-        recyclerView.setAdapter(adapter);&#xD;
-&#xD;
-    }&#xD;
-&#xD;
-    public void addItem() {&#xD;
-        Random random = new Random();&#xD;
-        int randCard = random.nextInt(cards.length);&#xD;
-        int randSuit = random.nextInt(suits.length);&#xD;
-        Item item = new Item(suits[randSuit], cards[randCard]);&#xD;
-        data.add(item);&#xD;
-        adapter.notifyDataSetChanged();&#xD;
-&#xD;
-    }&#xD;
-&#xD;
-}&#xD;
-</pre>&#xD;
-In the code above, we have created three entities, a recycler view (@line37), dataset (@line16), and an adapter (@line43). The adapter works as a bridge between the recyclerview and the dataset (@line43,44).&#xD;
-<blockquote>&#xD;
-<div class="square-box">&#xD;
-<h4>Each time the data gets changed, you should notify the adapter by calling&#xC2;&#xA0;<strong> adapter.notifyDataSetChanged() </strong>in order to update the recycler view (i.e. the UI)</h4>&#xD;
-</div></blockquote>&#xD;
-References:&#xD;
-<ul><li>Smyth, Neil. Android Studio 3.5 Development Essentials - Java Edition: Developing Android 10 (Q) Apps Using Android Studio 3.5, Java and Android Jetpack . Payload Media, Inc.. Kindle Edition.</li>&#xD;
- 	<li>https://developer.android.com/</li>&#xD;
+<html><body><div class="square-box"><br>
+<br>
+What is&#xC2;&nbsp;RecyclerView?<br>
+<br>
+</div><br>
+A RecyclerView is a flexible viewgroup for providing a limited window into a large data set. The purpose of the RecyclerView is to allow information to be presented to the user in the form of a scrollable list. The RecyclerView is significantly more efficient in the way it manages the views that make up a list, essentially reusing existing views that make up list items as they scroll off the screen instead if creating new ones (hence the name &#xE2;&#x80;&#x9C;recycler&#xE2;&#x80;&#x9D;).<br>
+<h2>Random Card Generator Application</h2><br>
+In the following sections, we are going to develop an application that uses RecyclerView to display Cards that are generated randomly. Each card is implemented as a CardView.<br>
+<br>
+&nbsp;<br>
+<br>
+&nbsp;<br>
+<br>
+<a href="https://www.alexandriarepository.org/media/card_recycler" rel="attachment wp-att-177767"><img class="aligncenter size-full wp-image-177767" src="./assets/card_recycler.gif" alt="" width="351" height="728"/></a><br>
+<br>
+&nbsp;<br>
+<h2>CardView</h2><br>
+The CardView class is a user interface view that allows information to be presented in groups using a card metaphor. Cards are usually presented in lists using a RecyclerView instance and may be configured to appear with shadow effects and rounded corners.<br>
+<br>
+The user interface layout to be presented with a CardView instance is defined within an XML layout resource file and loaded into the CardView at runtime. The CardView layout can contain a layout of any complexity using the standard layout managers such as RelativeLayout and LinearLayout.<br>
+<br>
+&nbsp;<br>
+<br>
+card_layout.xml<br>
+<pre class="EnlighterJSRAW" data-enlighter-language="xml">&lt;?xml version="1.0" encoding="utf-8"?&gt;<br>
+&lt;androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"<br>
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"<br>
+    android:id="@+id/card_view"<br>
+    android:layout_width="match_parent"<br>
+    android:layout_height="wrap_content"<br>
+    android:layout_margin="5dp"<br>
+    card_view:cardBackgroundColor="@android:color/holo_blue_dark"<br>
+    card_view:cardCornerRadius="12dp"&gt;<br>
+<br>
+    &lt;RelativeLayout<br>
+        android:layout_width="match_parent"<br>
+        android:layout_height="match_parent"<br>
+        android:padding="16dp"&gt;<br>
+<br>
+<br>
+        &lt;TextView<br>
+            android:id="@+id/suit_id"<br>
+            android:layout_width="wrap_content"<br>
+            android:layout_height="wrap_content"<br>
+            android:layout_alignParentTop="true"<br>
+            android:layout_marginStart="58dp"<br>
+            android:layout_marginTop="8dp"<br>
+            android:layout_toEndOf="@+id/card_id"<br>
+            android:textSize="30sp" /&gt;<br>
+<br>
+        &lt;TextView<br>
+            android:id="@+id/card_id"<br>
+            android:layout_width="wrap_content"<br>
+            android:layout_height="wrap_content"<br>
+            android:layout_alignParentStart="true"<br>
+            android:layout_alignParentTop="true"<br>
+            android:layout_marginStart="8dp"<br>
+            android:layout_marginTop="8dp"<br>
+            android:textSize="30sp" /&gt;<br>
+    &lt;/RelativeLayout&gt;<br>
+<br>
+&lt;/androidx.cardview.widget.CardView&gt;</pre><br>
+As you can see, the cardview works as a top-level container that has a relative layout as a child element. Inside the relative layout, we have two text views that will be used to display our data. You can replace the relative layout with any layout you do prefer.<br>
+<br>
+&nbsp;<br>
+<h2><span id="1-what-isrecyclerview">RecyclerView</span></h2><br>
+It is a container for rendering a larger data set of views that can be recycled and scrolled very efficiently.&#xC2;&nbsp;&#xC2;&nbsp;It uses a subclass of RecyclerView.Adapter for providing views that represent items in a data set.<br>
+<br>
+activity_main.xml<br>
+<pre class="EnlighterJSRAW" data-enlighter-language="xml">&lt;?xml version="1.0" encoding="utf-8"?&gt;<br>
+&lt;androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"<br>
+    xmlns:app="http://schemas.android.com/apk/res-auto"<br>
+    xmlns:tools="http://schemas.android.com/tools"<br>
+    android:layout_width="match_parent"<br>
+    android:layout_height="match_parent"<br>
+    tools:context=".MainActivity"&gt;<br>
+<br>
+    &lt;androidx.constraintlayout.widget.Guideline<br>
+        android:id="@+id/guideline"<br>
+        android:layout_width="wrap_content"<br>
+        android:layout_height="wrap_content"<br>
+        android:orientation="horizontal"<br>
+        app:layout_constraintGuide_percent="0.91" /&gt;<br>
+<br>
+    &lt;Button<br>
+        android:id="@+id/add_item"<br>
+        android:layout_width="0dp"<br>
+        android:layout_height="wrap_content"<br>
+        android:text="Add card"<br>
+        app:layout_constraintBottom_toBottomOf="parent"<br>
+        app:layout_constraintEnd_toEndOf="parent"<br>
+        app:layout_constraintStart_toStartOf="parent"<br>
+        app:layout_constraintTop_toTopOf="@+id/guideline" /&gt;<br>
+<br>
+    &lt;androidx.recyclerview.widget.RecyclerView<br>
+        android:id="@+id/my_recycler_view"<br>
+        android:scrollbars="vertical"<br>
+        android:layout_width="0dp"<br>
+        android:layout_height="0dp"<br>
+        android:layout_marginStart="8dp"<br>
+        android:layout_marginTop="8dp"<br>
+        android:layout_marginEnd="8dp"<br>
+        android:layout_marginBottom="8dp"<br>
+        app:layout_constraintBottom_toTopOf="@+id/guideline"<br>
+        app:layout_constraintEnd_toEndOf="parent"<br>
+        app:layout_constraintStart_toStartOf="parent"<br>
+        app:layout_constraintTop_toTopOf="parent" /&gt;<br>
+&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</pre><br>
+The code provided above represents the layout file of the main activity. It uses constraint layout as the main container (@line2). The horizontal guideline is used to separate the button from the recycler view.<br>
+<br>
+&nbsp;<br>
+<br>
+Item.java<br>
+<pre class="EnlighterJSRAW" data-enlighter-language="java">package com.fit2081.recyclercard;<br>
+<br>
+public class Item {<br>
+<br>
+    private String suit;<br>
+    private String card;<br>
+<br>
+    public Item(String suit, String card) {<br>
+        this.suit = suit;<br>
+        this.card = card;<br>
+    }<br>
+<br>
+    public String getSuit() {<br>
+        return suit;<br>
+    }<br>
+<br>
+    public String getCard() {<br>
+        return card;<br>
+    }<br>
+}<br>
+</pre><br>
+Each card consists of a suit and a card number. Item.java is a class that works as a record for one card. Later in the code, we will create an array list of cards using this class. The constructor is used to initialize the two instance variables while the two getters are used to retrieve their values.<br>
+<h2>RecyclerView.Adapter</h2><br>
+The adapter is created as a subclass of the RecyclerView.Adapter class and must, at a minimum, implement the following methods, which will be called at various points by the RecyclerView object to which the adapter is assigned:<br>
+<ul><li><strong>getItemCount()</strong> &#xE2;&#x80;&#x93; This method must return a count of the number of items that are to be displayed in the list.</li><br>
+ 	<li><strong>onCreateViewHolder()</strong> &#xE2;&#x80;&#x93; This method creates and returns a ViewHolder object initialized with the view that is to be used to display the data. This view is typically created by inflating the XML layout file.</li><br>
+ 	<li><strong>onBindViewHolder()</strong> &#xE2;&#x80;&#x93; This method is passed the ViewHolder object created by the onCreateViewHolder() method together with an integer value indicating the list item that is about to be displayed. Contained within the ViewHolder object is the layout assigned by the onCreateViewHolder() method. It is the responsibility of the onBindViewHolder() method to populate the views in the layout with the text and graphics corresponding to the specified item and to return the object to the RecyclerView where it will be presented to the user.</li><br>
+</ul><br>
+&nbsp;<br>
+<br>
+MyRecyclerAdapter.java<br>
+<pre class="EnlighterJSRAW" data-enlighter-language="java">package com.fit2081.recyclercard;<br>
+<br>
+import android.util.Log;<br>
+import android.view.LayoutInflater;<br>
+import android.view.View;<br>
+import android.view.ViewGroup;<br>
+import android.widget.TextView;<br>
+<br>
+import androidx.annotation.NonNull;<br>
+import androidx.recyclerview.widget.RecyclerView;<br>
+<br>
+import java.util.ArrayList;<br>
+<br>
+public class MyRecyclerAdapter extends RecyclerView.Adapter&lt;MyRecyclerAdapter.ViewHolder&gt; {<br>
+<br>
+    ArrayList&lt;Item&gt; data = new ArrayList&lt;Item&gt;();<br>
+<br>
+    public void setData(ArrayList&lt;Item&gt; data) {<br>
+        this.data = data;<br>
+    }<br>
+<br>
+    @NonNull<br>
+    @Override<br>
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {<br>
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_layout, parent, false); //CardView inflated as RecyclerView list item<br>
+        ViewHolder viewHolder = new ViewHolder(v);<br>
+        Log.d("week6App","onCreateViewHolder");<br>
+        return viewHolder;<br>
+    }<br>
+<br>
+    @Override<br>
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {<br>
+        holder.cardTv.setText(data.get(position).getCard());<br>
+        holder.suitTv.setText(data.get(position).getSuit());<br>
+        Log.d("week6App","onBindViewHolder");<br>
+<br>
+    }<br>
+<br>
+    @Override<br>
+    public int getItemCount() {<br>
+        return data.size();<br>
+    }<br>
+<br>
+    public class ViewHolder extends RecyclerView.ViewHolder {<br>
+        public TextView suitTv;<br>
+        public TextView cardTv;<br>
+<br>
+        public ViewHolder(@NonNull View itemView) {<br>
+            super(itemView);<br>
+            suitTv = itemView.findViewById(R.id.suit_id);<br>
+            cardTv = itemView.findViewById(R.id.card_id);<br>
+        }<br>
+    }<br>
+}<br>
+</pre><br>
+The code provided is the implementation of the RecyclerAdapter. It implements the three methods mentioned earlier and the ViewHolder subclass (@line44).&#xC2;&nbsp; The data is passed to the adaptor through a method called <strong>setData</strong> (@line18) which is called from the MainActivity.java (@line44). The method&#xC2;&nbsp;<strong>getItemCount</strong> (@line40) returns the size of the array list which is the number of items to be displayed in the list. The method&#xC2;&nbsp;onCreateViewHolder inflates the card's layout that we have implemented earlier each time a new card is required (@line25). It the passes v, which is a reference to the card layout to the contractor of ViewHolder local class. At line 28, the method returns the view holder object that will be an input to the next method <strong>onBindViewHolder</strong>. In the latter method, we receive two parameters, a viewer holder and a position. Our job is to retrieve the data at that position and place it in that view holder.<br>
+<br>
+MainActivity.java<br>
+<pre class="EnlighterJSRAW" data-enlighter-language="java">package com.fit2081.recyclercard;<br>
+<br>
+import androidx.appcompat.app.AppCompatActivity;<br>
+import androidx.recyclerview.widget.LinearLayoutManager;<br>
+import androidx.recyclerview.widget.RecyclerView;<br>
+<br>
+import android.os.Bundle;<br>
+import android.view.View;<br>
+import android.widget.Button;<br>
+<br>
+import java.util.ArrayList;<br>
+import java.util.Random;<br>
+<br>
+public class MainActivity extends AppCompatActivity {<br>
+<br>
+    ArrayList&lt;Item&gt; data = new ArrayList&lt;&gt;();<br>
+    String suits[] = {"Hearts", "Diamonds", "Clubs", "Spade"};<br>
+    String cards[] = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King", "Ace"};<br>
+<br>
+    Button btn;<br>
+    RecyclerView recyclerView;<br>
+    RecyclerView.LayoutManager layoutManager;<br>
+    MyRecyclerAdapter adapter;<br>
+<br>
+    @Override<br>
+    protected void onCreate(Bundle savedInstanceState) {<br>
+        super.onCreate(savedInstanceState);<br>
+        setContentView(R.layout.activity_main);<br>
+        btn = findViewById(R.id.add_item);<br>
+        btn.setOnClickListener(new View.OnClickListener() {<br>
+            @Override<br>
+            public void onClick(View v) {<br>
+                addItem();<br>
+            }<br>
+        });<br>
+<br>
+        recyclerView = findViewById(R.id.my_recycler_view);<br>
+<br>
+        layoutManager = new LinearLayoutManager(this);  //A RecyclerView.LayoutManager implementation which provides similar functionality to ListView.<br>
+        recyclerView.setLayoutManager(layoutManager);   // Also StaggeredGridLayoutManager and GridLayoutManager or a custom Layout manager<br>
+<br>
+<br>
+        adapter = new MyRecyclerAdapter();<br>
+        adapter.setData(data);<br>
+        recyclerView.setAdapter(adapter);<br>
+<br>
+    }<br>
+<br>
+    public void addItem() {<br>
+        Random random = new Random();<br>
+        int randCard = random.nextInt(cards.length);<br>
+        int randSuit = random.nextInt(suits.length);<br>
+        Item item = new Item(suits[randSuit], cards[randCard]);<br>
+        data.add(item);<br>
+        adapter.notifyDataSetChanged();<br>
+<br>
+    }<br>
+<br>
+}<br>
+</pre><br>
+In the code above, we have created three entities, a recycler view (@line37), dataset (@line16), and an adapter (@line43). The adapter works as a bridge between the recyclerview and the dataset (@line43,44).<br>
+<blockquote><br>
+<div class="square-box"><br>
+<h4>Each time the data gets changed, you should notify the adapter by calling&#xC2;&nbsp;<strong> adapter.notifyDataSetChanged() </strong>in order to update the recycler view (i.e. the UI)</h4><br>
+</div></blockquote><br>
+References:<br>
+<ul><li>Smyth, Neil. Android Studio 3.5 Development Essentials - Java Edition: Developing Android 10 (Q) Apps Using Android Studio 3.5, Java and Android Jetpack . Payload Media, Inc.. Kindle Edition.</li><br>
+ 	<li>https://developer.android.com/</li><br>
 </ul></body></html>

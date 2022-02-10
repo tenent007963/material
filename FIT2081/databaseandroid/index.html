@@ -1,355 +1,355 @@
 <?xml version="1.0" standalone="yes"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
-<html><body><p>In this week, we will learn how to add a local database to Android applications.&#xD;
-</p><div class="square-box">&#xD;
-&#xD;
-What is a database?&#xD;
-&#xD;
-</div>&#xD;
-<blockquote>A database is an organized collection of <span style="background-color: #ccffff;"><strong>structured</strong> </span>information, or data, typically stored electronically in a computer system. A database is usually controlled by a database management system (DBMS). [oracle.com]&#xD;
-&#xD;
-Android uses SQLite as a database management system.</blockquote>&#xD;
-<div class="square-box">&#xD;
-&#xD;
-What language does SQLite use to communicate?&#xD;
-&#xD;
-</div>&#xD;
-SQLite uses SQL language (Structured Query Language)&#xD;
-<div class="square-box">&#xD;
-&#xD;
-So, what is SQL?&#xD;
-&#xD;
-</div>&#xD;
-SQL is a language that allows you to access and manipulate databases.&#xC2;&#xA0;SQL statements are used to execute tasks such as add data to a database or retrieve data from a database.&#xC2;&#xA0;SQL is used by nearly all relational databases to query, manipulate, and define data, and to provide access control.&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-Now, let's have an example. The depicted below is an excerpt from a table called 'Customers' [Ref <a href="https://www.w3schools.com/sql/trysql.asp?filename=trysql_op_in">WeSchools</a>] and you can notice the following:&#xD;
-<ul><li>Tables consist of rows and columns</li>&#xD;
- 	<li>Each column has a name</li>&#xD;
- 	<li>Each row has the same set of columns</li>&#xD;
- 	<li>Each cell stores one value only</li>&#xD;
- 	<li>The data in a column have the same data type</li>&#xD;
- 	<li>The table has a column that works as an index (CustomerID). This column is unique and cannot contain NULL values. This column is called the 'primary key'.</li>&#xD;
-</ul>&#xD;
-&#xA0;&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-<a href="https://www.alexandriarepository.org/media/table-exerpt" rel="attachment wp-att-177824"><img class="aligncenter size-full wp-image-177824" src="./assets/table-exerpt.png" alt="" width="975" height="641"/></a>&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-What if we need to retrieve the customers who live in Germany, then we would call:&#xD;
-<pre class="EnlighterJSRAW" data-enlighter-language="sql">SELECT * FROM Customers WHERE Country='Germany';</pre>&#xD;
-Where:&#xD;
-<ul><li>'Customers' is the table name</li>&#xD;
- 	<li>'*' means fetch all the columns</li>&#xD;
- 	<li>'WHERE' is the row filter. It selects the row that matches the provided criteria.</li>&#xD;
-</ul>&#xD;
-and here is the output after executing the above SQL statement&#xD;
-&#xD;
-<a href="https://www.alexandriarepository.org/media/table5" rel="attachment wp-att-177825"><img class="aligncenter size-full wp-image-177825" src="./assets/table5.png" alt="" width="984" height="427"/></a>&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-As you can see, all the values in the last column 'Country' is Germany.&#xD;
-&#xD;
-&#xA0;&#xD;
-<h2>SQLite, Rooms,&#xC2;&#xA0; and LiveData</h2>&#xD;
-&#xA0;&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-<a href="https://www.alexandriarepository.org/media/framework" rel="attachment wp-att-177827"><img class="aligncenter size-full wp-image-177827" src="./assets/framework.png" alt="" width="1292" height="704"/></a>&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-&#xA0;&#xD;
-<ul><li><em>SQLite database: is a relational database management system that is used by Android to store relational data.&#xC2;&#xA0;</em></li>&#xD;
- 	<li><em>DAO:&#xC2;&#xA0;Data Access Objects are the main classes where you define your database interactions. They can include a variety of query methods.</em></li>&#xD;
- 	<li>Entities: Each entity represents one table in the database</li>&#xD;
- 	<li><em>Room database:&#xC2;&#xA0;</em>The room database object provides the interface to the underlying SQLite database.</li>&#xD;
- 	<li><em>Repository:&#xC2;&#xA0; </em>It's a class that contains all of the code necessary for directly handling all data sources used by the application. This avoids the need for the UI controller and ViewModel to contain code that directly accesses sources such as databases or web services.</li>&#xD;
- 	<li>ViewModel:&#xC2;&#xA0;A ViewModel object provides the data for a specific UI component, such as a fragment or activity, and contains data-handling business logic to communicate with the model.</li>&#xD;
- 	<li>LiveData: Its a data holder that allows a value to become observable. In other words, an observable object has the ability to notify other objects when changes to its data occur thereby solving the problem of making sure that the user interface always matches the data within the ViewModel.</li>&#xD;
-</ul>&#xD;
-Let's develop an application that generates customers randomly. Each customer is represented by a name and address as shown below:&#xD;
-&#xD;
-<a href="https://www.alexandriarepository.org/media/customer_generator" rel="attachment wp-att-177830"><img class="aligncenter size-full wp-image-177830" src="./assets/customer_generator.gif" alt="" width="513" height="1046"/></a>&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-&#xA0;&#xD;
-<h3>Entities</h3>&#xD;
-As aforementioned, an entity is a Java class that defines a table in the database.&#xD;
-&#xD;
-Now, let's create a table the following attributes&#xD;
-&#xD;
-&#xA0;&#xD;
-<table style="width: 646px;"><thead><tr><th style="width: 251.472px;">name in java</th>&#xD;
-<th style="width: 177.528px;">name in db</th>&#xD;
-<th style="width: 229px;">datatype</th>&#xD;
-<th style="width: 215px;"/>&#xD;
-</tr></thead><tbody><tr><td style="width: 251.472px;">id</td>&#xD;
-<td style="width: 177.528px;">customerId</td>&#xD;
-<td style="width: 229px;">integer</td>&#xD;
-<td style="width: 215px;">Primary Key&#xD;
-NonNull</td>&#xD;
-</tr><tr><td style="width: 251.472px;">name</td>&#xD;
-<td style="width: 177.528px;">customerName</td>&#xD;
-<td style="width: 229px;">string</td>&#xD;
-<td style="width: 215px;"/>&#xD;
-</tr><tr><td style="width: 251.472px;">address</td>&#xD;
-<td style="width: 177.528px;">customerAddress</td>&#xD;
-<td style="width: 229px;">string</td>&#xD;
-<td style="width: 215px;"/>&#xD;
-</tr></tbody></table><pre class="EnlighterJSRAW" data-enlighter-language="java">package com.fit2081.rooms.provider;&#xD;
-&#xD;
-import androidx.annotation.NonNull;&#xD;
-import androidx.room.ColumnInfo;&#xD;
-import androidx.room.Entity;&#xD;
-import androidx.room.PrimaryKey;&#xD;
-&#xD;
-@Entity(tableName = "customers")&#xD;
-public class Customer {&#xD;
-    @PrimaryKey(autoGenerate = true)&#xD;
-    @NonNull&#xD;
-    @ColumnInfo(name = "customerId")&#xD;
-    private int id;&#xD;
-    @ColumnInfo(name = "customerName")&#xD;
-    private String name;&#xD;
-    @ColumnInfo(name = "customerAddress")&#xD;
-    private String address;&#xD;
-&#xD;
-    public Customer(String name, String address) {&#xD;
-        this.name = name;&#xD;
-        this.address = address;&#xD;
-    }&#xD;
-&#xD;
-    public int getId() {&#xD;
-        return id;&#xD;
-    }&#xD;
-&#xD;
-    public String getName() {&#xD;
-        return name;&#xD;
-    }&#xD;
-&#xD;
-    public String getAddress() {&#xD;
-        return address;&#xD;
-    }&#xD;
-&#xD;
-    public void setId(@NonNull int id) {&#xD;
-        this.id = id;&#xD;
-    }&#xD;
-&#xD;
-}&#xD;
-</pre>&#xD;
-&#xA0;&#xD;
-&#xD;
-Notes&#xD;
-<ul><li>line@8: the annotation @Entity is required to define the class as a Room Entity. It also specifies the table name.</li>&#xD;
- 	<li>the class 'Customers' has three attributes id, name, and address. Each attribute has an annotation 'ColumnInfo' that specifies the column name in the database</li>&#xD;
- 	<li>line@10: the annotation '@PrimaryKey' makes the id as a primary key for the current table which the ' @NonNull' ensures that this column will not be saved without a value.</li>&#xD;
-</ul>&#xD;
-&#xA0;&#xD;
-<h3>Room Database</h3>&#xD;
-In this class, we will define the Room Database (database might contain one or more tables)&#xD;
-&#xD;
-&#xA0;&#xD;
-<pre class="EnlighterJSRAW" data-enlighter-language="java">package com.fit2081.rooms.provider;&#xD;
-import android.content.Context;&#xD;
-import androidx.room.Database;&#xD;
-import androidx.room.Room;&#xD;
-import androidx.room.RoomDatabase;&#xD;
-import java.util.concurrent.ExecutorService;&#xD;
-import java.util.concurrent.Executors;&#xD;
-&#xD;
-&#xD;
-@Database(entities = {Customer.class}, version = 1)&#xD;
-public abstract class CustomerDatabase extends RoomDatabase {&#xD;
-&#xD;
-    public static final String CUSTOMER_DATABASE_NAME = "customer_database";&#xD;
-&#xD;
-    public abstract CustomerDao customerDao();&#xD;
-&#xD;
-    // marking the instance as volatile to ensure atomic access to the variable&#xD;
-    private static volatile CustomerDatabase INSTANCE;&#xD;
-    private static final int NUMBER_OF_THREADS = 4;&#xD;
-    static final ExecutorService databaseWriteExecutor =&#xD;
-            Executors.newFixedThreadPool(NUMBER_OF_THREADS);&#xD;
-&#xD;
-    static CustomerDatabase getDatabase(final Context context) {&#xD;
-        if (INSTANCE == null) {&#xD;
-            synchronized (CustomerDatabase.class) {&#xD;
-                if (INSTANCE == null) {&#xD;
-                    INSTANCE = Room.databaseBuilder(context.getApplicationContext(),&#xD;
-                            CustomerDatabase.class, CUSTOMER_DATABASE_NAME)&#xD;
-                            .build();&#xD;
-                }&#xD;
-            }&#xD;
-        }&#xD;
-        return INSTANCE;&#xD;
-    }&#xD;
-&#xD;
-}&#xD;
-</pre>&#xD;
-&#xA0;&#xD;
-&#xD;
-Note:&#xD;
-<ul><li>Line@10: The '@Database' annotation is required to consider the current class as a Room database. It specifies the list of entities and the current version. The version is required for upgrading or downgrading the current scheme.</li>&#xD;
- 	<li>Line@20: the 'databaseWriteExecutor' instance will be used by the repository to execute the DAO methods</li>&#xD;
- 	<li>Line@23: the 'getDatabase' method returns a reference to the current database instance if it is not null. Otherwise, it creates a new instance using 'Room.databaseBuilder()', which needs as input the context, a reference to the Room Database class, and a name for the database.</li>&#xD;
-</ul>&#xD;
-&#xA0;&#xD;
-<h3>DAO</h3>&#xD;
-The Dao is an interface that defines the database operations that should be performed on the database.&#xD;
-<pre class="EnlighterJSRAW" data-enlighter-language="java">package com.fit2081.rooms.provider;&#xD;
-&#xD;
-import androidx.lifecycle.LiveData;&#xD;
-import androidx.room.Dao;&#xD;
-import androidx.room.Insert;&#xD;
-import androidx.room.Query;&#xD;
-&#xD;
-import java.util.List;&#xD;
-&#xD;
-@Dao&#xD;
-public interface CustomerDao {&#xD;
-&#xD;
-    @Query("select * from customers")&#xD;
-    LiveData&lt;List&lt;Customer&gt;&gt; getAllCustomer();&#xD;
-&#xD;
-    @Query("select * from customers where customerName=:name")&#xD;
-    List&lt;Customer&gt; getCustomer(String name);&#xD;
-&#xD;
-    @Insert&#xD;
-    void addCustomer(Customer customer);&#xD;
-&#xD;
-    @Query("delete from customers where customerName= :name")&#xD;
-    void deleteCustomer(String name);&#xD;
-&#xD;
-    @Query("delete FROM customers")&#xD;
-    void deleteAllCustomers();&#xD;
-}&#xD;
-</pre>&#xD;
-Notes:&#xD;
-<ul><li>Line@10: the annotation '@Dao' is required to consider the interface as a DAO.</li>&#xD;
- 	<li>Line@13: the query annotation provides the select SQL statement that should be executed when the method 'getAllCustomer()' is invoked. You can notice that the select statement at line 13 retrieves all the records in table 'customers' (see entity@line 8) as it does not have the 'WHERE' clause.</li>&#xD;
- 	<li>Line@14: the output of 'getAllCustomer' method is LiveData which allows us to observe any changes to the database.</li>&#xD;
- 	<li>Line@16: this query is pretty similar to the previous one except it contains a 'WHERE' clause. It retrieves all the customers with a name equals to a value that is provided as an input parameter to the method 'getCustomer'. Please note the colon (:) which is required to specify the name of the variable that should be used.</li>&#xD;
- 	<li>Line@19: the '@Insert' annotation inserts the object that is passed through method 'addCustomer'</li>&#xD;
- 	<li>Line@22: this delete query deletes all the rows that have name equals to input parameter to the method 'deleteCustomer'</li>&#xD;
- 	<li>Line@25: this query deletes all the rows (empty the table) if a call to method 'deleteAllCustomers' occurs</li>&#xD;
-</ul>&#xD;
-&#xA0;&#xD;
-<h3>Room Repository</h3>&#xD;
-The repository is a Java class that providers easy and clean API so that the application can access different data sources as depicted blow. As you can notice, the repository is managing two different data sources a local SQLite database and a remote data source.&#xD;
-&#xD;
-<a href="https://www.alexandriarepository.org/media/final-architecture" rel="attachment wp-att-177837"><img class="aligncenter size-full wp-image-177837" src="./assets/final-architecture.png" alt="" width="960" height="720"/></a>&#xD;
-&#xD;
-&#xA0;&#xD;
-<pre class="EnlighterJSRAW" data-enlighter-language="java">package com.fit2081.rooms.provider;&#xD;
-import android.app.Application;&#xD;
-import androidx.lifecycle.LiveData;&#xD;
-&#xD;
-import java.util.List;&#xD;
-&#xD;
-public class CustomerRepository  {&#xD;
-&#xD;
-    private CustomerDao mCustomerDao;&#xD;
-    private LiveData&lt;List&lt;Customer&gt;&gt; mAllCustomers;&#xD;
-&#xD;
-    CustomerRepository(Application application) {&#xD;
-        CustomerDatabase db = CustomerDatabase.getDatabase(application);&#xD;
-        mCustomerDao = db.customerDao();&#xD;
-        mAllCustomers = mCustomerDao.getAllCustomer();&#xD;
-    }&#xD;
-    LiveData&lt;List&lt;Customer&gt;&gt; getAllCustomers() {&#xD;
-        return mAllCustomers;&#xD;
-    }&#xD;
-    void insert(Customer customer) {&#xD;
-        CustomerDatabase.databaseWriteExecutor.execute(() -&gt; mCustomerDao.addCustomer(customer));&#xD;
-    }&#xD;
-&#xD;
-    void deleteAll(){&#xD;
-        CustomerDatabase.databaseWriteExecutor.execute(()-&gt;{&#xD;
-            mCustomerDao.deleteAllCustomers();&#xD;
-        });&#xD;
-    }&#xD;
-}&#xD;
-</pre>&#xD;
-Notes:&#xD;
-<ul><li>Line@9:&#xC2;&#xA0; declares a reference to the Dao interface which will be used to execute the database operations we have defined earlier.</li>&#xD;
- 	<li>Line@10: defines an array list that is used to hold a copy of your data.</li>&#xD;
- 	<li>Line@12: this contractor creates a reference to the database that will be used to access the Dao interface. The Dao interface will be used later (line@15) to get the list of customers.</li>&#xD;
- 	<li>Line@20: this method inserts a new row (object) to the database. It uses the 'databaseWriteExecutor' to access the database and execute the insert SQL statement.</li>&#xD;
- 	<li>Line@24: the same as above. This method uses the 'databaseWriteExecutor' to execute the delete statement.</li>&#xD;
-</ul>&#xD;
-&#xA0;&#xD;
-&#xD;
-&#xA0;&#xD;
-<h3>ViewModel</h3>&#xD;
-If a fragment or an activity needs special data or a different way to retrieve the data, then the ViewModel is the best place to implement your logic. In the following&#xC2;&#xA0;AndroidViewModel, all the methods (that will be invoked later by the activity or fragment) call their counterpart methods that are implemented in the Repository.&#xD;
-&#xD;
-&#xA0;&#xD;
-<pre class="EnlighterJSRAW" data-enlighter-language="java">package com.fit2081.rooms.provider;&#xD;
-&#xD;
-import android.app.Application;&#xD;
-&#xD;
-import androidx.annotation.NonNull;&#xD;
-import androidx.lifecycle.AndroidViewModel;&#xD;
-import androidx.lifecycle.LiveData;&#xD;
-&#xD;
-import java.util.List;&#xD;
-&#xD;
-public class CustomerViewModel extends AndroidViewModel {&#xD;
-    private CustomerRepository mRepository;&#xD;
-    private LiveData&lt;List&lt;Customer&gt;&gt; mAllCustomers;&#xD;
-&#xD;
-    public CustomerViewModel(@NonNull Application application) {&#xD;
-        super(application);&#xD;
-        mRepository = new CustomerRepository(application);&#xD;
-        mAllCustomers = mRepository.getAllCustomers();&#xD;
-    }&#xD;
-&#xD;
-    public LiveData&lt;List&lt;Customer&gt;&gt; getAllCustomers() {&#xD;
-        return mAllCustomers;&#xD;
-    }&#xD;
-&#xD;
-    public void insert(Customer customer) {&#xD;
-        mRepository.insert(customer);&#xD;
-    }&#xD;
-    public void deleteAll(){&#xD;
-        mRepository.deleteAll();&#xD;
-    }&#xD;
-&#xD;
-}&#xD;
-</pre>&#xD;
-&#xA0;&#xD;
-&#xD;
-MainActivity&#xD;
-&#xD;
-Now, its time to execute some database operations.&#xD;
-&#xD;
-If the activity's controller (i.e. Activity Java file) needs to access the database, it has to create an instance of the view model as shown in the architecture depicted above.&#xD;
-<pre class="EnlighterJSRAW" data-enlighter-language="java">private CustomerViewModel mCustomerViewModel;&#xD;
-&#xD;
-mCustomerViewModel = new ViewModelProvider(this).get(CustomerViewModel.class);&#xD;
-        mCustomerViewModel.getAllCustomers().observe(this, newData -&gt; {&#xD;
-            adapter.setCustomers(newData);&#xD;
-            adapter.notifyDataSetChanged();&#xD;
-            tv.setText(newData.size() + "");&#xD;
-        });</pre>&#xD;
-Notes:&#xD;
-<ul><li>Line@3: the app uses the&#xC2;&#xA0;ViewModelProvider (An utility class that provides ViewModels for a scope) to get access to the view model.</li>&#xD;
- 	<li>Line@4: this line invokes the getAllCustomers to get the list of customers. Because the output of this method is LiveData, the caller has to observe. The observe method invokes the callback method which is provided in the second parameter each time the data gets changes. The new updates can be accessed via the input variable 'newData'</li>&#xD;
-</ul>&#xD;
-&#xA0;&#xD;
-&#xD;
-&#xA0;&#xD;
-&#xD;
-References:&#xD;
-<ul><li>https://developer.android.com/jetpack/docs/guide</li>&#xD;
- 	<li>https://developer.android.com/training/data-storage/room</li>&#xD;
- 	<li/>&#xD;
+<html><body><p>In this week, we will learn how to add a local database to Android applications.<br>
+</p><div class="square-box"><br>
+<br>
+What is a database?<br>
+<br>
+</div><br>
+<blockquote>A database is an organized collection of <span style="background-color: #ccffff;"><strong>structured</strong> </span>information, or data, typically stored electronically in a computer system. A database is usually controlled by a database management system (DBMS). [oracle.com]<br>
+<br>
+Android uses SQLite as a database management system.</blockquote><br>
+<div class="square-box"><br>
+<br>
+What language does SQLite use to communicate?<br>
+<br>
+</div><br>
+SQLite uses SQL language (Structured Query Language)<br>
+<div class="square-box"><br>
+<br>
+So, what is SQL?<br>
+<br>
+</div><br>
+SQL is a language that allows you to access and manipulate databases.&#xC2;&nbsp;SQL statements are used to execute tasks such as add data to a database or retrieve data from a database.&#xC2;&nbsp;SQL is used by nearly all relational databases to query, manipulate, and define data, and to provide access control.<br>
+<br>
+&nbsp;<br>
+<br>
+Now, let's have an example. The depicted below is an excerpt from a table called 'Customers' [Ref <a href="https://www.w3schools.com/sql/trysql.asp?filename=trysql_op_in">WeSchools</a>] and you can notice the following:<br>
+<ul><li>Tables consist of rows and columns</li><br>
+ 	<li>Each column has a name</li><br>
+ 	<li>Each row has the same set of columns</li><br>
+ 	<li>Each cell stores one value only</li><br>
+ 	<li>The data in a column have the same data type</li><br>
+ 	<li>The table has a column that works as an index (CustomerID). This column is unique and cannot contain NULL values. This column is called the 'primary key'.</li><br>
+</ul><br>
+&nbsp;<br>
+<br>
+&nbsp;<br>
+<br>
+<a href="https://www.alexandriarepository.org/media/table-exerpt" rel="attachment wp-att-177824"><img class="aligncenter size-full wp-image-177824" src="./assets/table-exerpt.png" alt="" width="975" height="641"/></a><br>
+<br>
+&nbsp;<br>
+<br>
+What if we need to retrieve the customers who live in Germany, then we would call:<br>
+<pre class="EnlighterJSRAW" data-enlighter-language="sql">SELECT * FROM Customers WHERE Country='Germany';</pre><br>
+Where:<br>
+<ul><li>'Customers' is the table name</li><br>
+ 	<li>'*' means fetch all the columns</li><br>
+ 	<li>'WHERE' is the row filter. It selects the row that matches the provided criteria.</li><br>
+</ul><br>
+and here is the output after executing the above SQL statement<br>
+<br>
+<a href="https://www.alexandriarepository.org/media/table5" rel="attachment wp-att-177825"><img class="aligncenter size-full wp-image-177825" src="./assets/table5.png" alt="" width="984" height="427"/></a><br>
+<br>
+&nbsp;<br>
+<br>
+As you can see, all the values in the last column 'Country' is Germany.<br>
+<br>
+&nbsp;<br>
+<h2>SQLite, Rooms,&#xC2;&nbsp; and LiveData</h2><br>
+&nbsp;<br>
+<br>
+&nbsp;<br>
+<br>
+<a href="https://www.alexandriarepository.org/media/framework" rel="attachment wp-att-177827"><img class="aligncenter size-full wp-image-177827" src="./assets/framework.png" alt="" width="1292" height="704"/></a><br>
+<br>
+&nbsp;<br>
+<br>
+&nbsp;<br>
+<ul><li><em>SQLite database: is a relational database management system that is used by Android to store relational data.&#xC2;&nbsp;</em></li><br>
+ 	<li><em>DAO:&#xC2;&nbsp;Data Access Objects are the main classes where you define your database interactions. They can include a variety of query methods.</em></li><br>
+ 	<li>Entities: Each entity represents one table in the database</li><br>
+ 	<li><em>Room database:&#xC2;&nbsp;</em>The room database object provides the interface to the underlying SQLite database.</li><br>
+ 	<li><em>Repository:&#xC2;&nbsp; </em>It's a class that contains all of the code necessary for directly handling all data sources used by the application. This avoids the need for the UI controller and ViewModel to contain code that directly accesses sources such as databases or web services.</li><br>
+ 	<li>ViewModel:&#xC2;&nbsp;A ViewModel object provides the data for a specific UI component, such as a fragment or activity, and contains data-handling business logic to communicate with the model.</li><br>
+ 	<li>LiveData: Its a data holder that allows a value to become observable. In other words, an observable object has the ability to notify other objects when changes to its data occur thereby solving the problem of making sure that the user interface always matches the data within the ViewModel.</li><br>
+</ul><br>
+Let's develop an application that generates customers randomly. Each customer is represented by a name and address as shown below:<br>
+<br>
+<a href="https://www.alexandriarepository.org/media/customer_generator" rel="attachment wp-att-177830"><img class="aligncenter size-full wp-image-177830" src="./assets/customer_generator.gif" alt="" width="513" height="1046"/></a><br>
+<br>
+&nbsp;<br>
+<br>
+&nbsp;<br>
+<h3>Entities</h3><br>
+As aforementioned, an entity is a Java class that defines a table in the database.<br>
+<br>
+Now, let's create a table the following attributes<br>
+<br>
+&nbsp;<br>
+<table style="width: 646px;"><thead><tr><th style="width: 251.472px;">name in java</th><br>
+<th style="width: 177.528px;">name in db</th><br>
+<th style="width: 229px;">datatype</th><br>
+<th style="width: 215px;"/><br>
+</tr></thead><tbody><tr><td style="width: 251.472px;">id</td><br>
+<td style="width: 177.528px;">customerId</td><br>
+<td style="width: 229px;">integer</td><br>
+<td style="width: 215px;">Primary Key<br>
+NonNull</td><br>
+</tr><tr><td style="width: 251.472px;">name</td><br>
+<td style="width: 177.528px;">customerName</td><br>
+<td style="width: 229px;">string</td><br>
+<td style="width: 215px;"/><br>
+</tr><tr><td style="width: 251.472px;">address</td><br>
+<td style="width: 177.528px;">customerAddress</td><br>
+<td style="width: 229px;">string</td><br>
+<td style="width: 215px;"/><br>
+</tr></tbody></table><pre class="EnlighterJSRAW" data-enlighter-language="java">package com.fit2081.rooms.provider;<br>
+<br>
+import androidx.annotation.NonNull;<br>
+import androidx.room.ColumnInfo;<br>
+import androidx.room.Entity;<br>
+import androidx.room.PrimaryKey;<br>
+<br>
+@Entity(tableName = "customers")<br>
+public class Customer {<br>
+    @PrimaryKey(autoGenerate = true)<br>
+    @NonNull<br>
+    @ColumnInfo(name = "customerId")<br>
+    private int id;<br>
+    @ColumnInfo(name = "customerName")<br>
+    private String name;<br>
+    @ColumnInfo(name = "customerAddress")<br>
+    private String address;<br>
+<br>
+    public Customer(String name, String address) {<br>
+        this.name = name;<br>
+        this.address = address;<br>
+    }<br>
+<br>
+    public int getId() {<br>
+        return id;<br>
+    }<br>
+<br>
+    public String getName() {<br>
+        return name;<br>
+    }<br>
+<br>
+    public String getAddress() {<br>
+        return address;<br>
+    }<br>
+<br>
+    public void setId(@NonNull int id) {<br>
+        this.id = id;<br>
+    }<br>
+<br>
+}<br>
+</pre><br>
+&nbsp;<br>
+<br>
+Notes<br>
+<ul><li>line@8: the annotation @Entity is required to define the class as a Room Entity. It also specifies the table name.</li><br>
+ 	<li>the class 'Customers' has three attributes id, name, and address. Each attribute has an annotation 'ColumnInfo' that specifies the column name in the database</li><br>
+ 	<li>line@10: the annotation '@PrimaryKey' makes the id as a primary key for the current table which the ' @NonNull' ensures that this column will not be saved without a value.</li><br>
+</ul><br>
+&nbsp;<br>
+<h3>Room Database</h3><br>
+In this class, we will define the Room Database (database might contain one or more tables)<br>
+<br>
+&nbsp;<br>
+<pre class="EnlighterJSRAW" data-enlighter-language="java">package com.fit2081.rooms.provider;<br>
+import android.content.Context;<br>
+import androidx.room.Database;<br>
+import androidx.room.Room;<br>
+import androidx.room.RoomDatabase;<br>
+import java.util.concurrent.ExecutorService;<br>
+import java.util.concurrent.Executors;<br>
+<br>
+<br>
+@Database(entities = {Customer.class}, version = 1)<br>
+public abstract class CustomerDatabase extends RoomDatabase {<br>
+<br>
+    public static final String CUSTOMER_DATABASE_NAME = "customer_database";<br>
+<br>
+    public abstract CustomerDao customerDao();<br>
+<br>
+    // marking the instance as volatile to ensure atomic access to the variable<br>
+    private static volatile CustomerDatabase INSTANCE;<br>
+    private static final int NUMBER_OF_THREADS = 4;<br>
+    static final ExecutorService databaseWriteExecutor =<br>
+            Executors.newFixedThreadPool(NUMBER_OF_THREADS);<br>
+<br>
+    static CustomerDatabase getDatabase(final Context context) {<br>
+        if (INSTANCE == null) {<br>
+            synchronized (CustomerDatabase.class) {<br>
+                if (INSTANCE == null) {<br>
+                    INSTANCE = Room.databaseBuilder(context.getApplicationContext(),<br>
+                            CustomerDatabase.class, CUSTOMER_DATABASE_NAME)<br>
+                            .build();<br>
+                }<br>
+            }<br>
+        }<br>
+        return INSTANCE;<br>
+    }<br>
+<br>
+}<br>
+</pre><br>
+&nbsp;<br>
+<br>
+Note:<br>
+<ul><li>Line@10: The '@Database' annotation is required to consider the current class as a Room database. It specifies the list of entities and the current version. The version is required for upgrading or downgrading the current scheme.</li><br>
+ 	<li>Line@20: the 'databaseWriteExecutor' instance will be used by the repository to execute the DAO methods</li><br>
+ 	<li>Line@23: the 'getDatabase' method returns a reference to the current database instance if it is not null. Otherwise, it creates a new instance using 'Room.databaseBuilder()', which needs as input the context, a reference to the Room Database class, and a name for the database.</li><br>
+</ul><br>
+&nbsp;<br>
+<h3>DAO</h3><br>
+The Dao is an interface that defines the database operations that should be performed on the database.<br>
+<pre class="EnlighterJSRAW" data-enlighter-language="java">package com.fit2081.rooms.provider;<br>
+<br>
+import androidx.lifecycle.LiveData;<br>
+import androidx.room.Dao;<br>
+import androidx.room.Insert;<br>
+import androidx.room.Query;<br>
+<br>
+import java.util.List;<br>
+<br>
+@Dao<br>
+public interface CustomerDao {<br>
+<br>
+    @Query("select * from customers")<br>
+    LiveData&lt;List&lt;Customer&gt;&gt; getAllCustomer();<br>
+<br>
+    @Query("select * from customers where customerName=:name")<br>
+    List&lt;Customer&gt; getCustomer(String name);<br>
+<br>
+    @Insert<br>
+    void addCustomer(Customer customer);<br>
+<br>
+    @Query("delete from customers where customerName= :name")<br>
+    void deleteCustomer(String name);<br>
+<br>
+    @Query("delete FROM customers")<br>
+    void deleteAllCustomers();<br>
+}<br>
+</pre><br>
+Notes:<br>
+<ul><li>Line@10: the annotation '@Dao' is required to consider the interface as a DAO.</li><br>
+ 	<li>Line@13: the query annotation provides the select SQL statement that should be executed when the method 'getAllCustomer()' is invoked. You can notice that the select statement at line 13 retrieves all the records in table 'customers' (see entity@line 8) as it does not have the 'WHERE' clause.</li><br>
+ 	<li>Line@14: the output of 'getAllCustomer' method is LiveData which allows us to observe any changes to the database.</li><br>
+ 	<li>Line@16: this query is pretty similar to the previous one except it contains a 'WHERE' clause. It retrieves all the customers with a name equals to a value that is provided as an input parameter to the method 'getCustomer'. Please note the colon (:) which is required to specify the name of the variable that should be used.</li><br>
+ 	<li>Line@19: the '@Insert' annotation inserts the object that is passed through method 'addCustomer'</li><br>
+ 	<li>Line@22: this delete query deletes all the rows that have name equals to input parameter to the method 'deleteCustomer'</li><br>
+ 	<li>Line@25: this query deletes all the rows (empty the table) if a call to method 'deleteAllCustomers' occurs</li><br>
+</ul><br>
+&nbsp;<br>
+<h3>Room Repository</h3><br>
+The repository is a Java class that providers easy and clean API so that the application can access different data sources as depicted blow. As you can notice, the repository is managing two different data sources a local SQLite database and a remote data source.<br>
+<br>
+<a href="https://www.alexandriarepository.org/media/final-architecture" rel="attachment wp-att-177837"><img class="aligncenter size-full wp-image-177837" src="./assets/final-architecture.png" alt="" width="960" height="720"/></a><br>
+<br>
+&nbsp;<br>
+<pre class="EnlighterJSRAW" data-enlighter-language="java">package com.fit2081.rooms.provider;<br>
+import android.app.Application;<br>
+import androidx.lifecycle.LiveData;<br>
+<br>
+import java.util.List;<br>
+<br>
+public class CustomerRepository  {<br>
+<br>
+    private CustomerDao mCustomerDao;<br>
+    private LiveData&lt;List&lt;Customer&gt;&gt; mAllCustomers;<br>
+<br>
+    CustomerRepository(Application application) {<br>
+        CustomerDatabase db = CustomerDatabase.getDatabase(application);<br>
+        mCustomerDao = db.customerDao();<br>
+        mAllCustomers = mCustomerDao.getAllCustomer();<br>
+    }<br>
+    LiveData&lt;List&lt;Customer&gt;&gt; getAllCustomers() {<br>
+        return mAllCustomers;<br>
+    }<br>
+    void insert(Customer customer) {<br>
+        CustomerDatabase.databaseWriteExecutor.execute(() -&gt; mCustomerDao.addCustomer(customer));<br>
+    }<br>
+<br>
+    void deleteAll(){<br>
+        CustomerDatabase.databaseWriteExecutor.execute(()-&gt;{<br>
+            mCustomerDao.deleteAllCustomers();<br>
+        });<br>
+    }<br>
+}<br>
+</pre><br>
+Notes:<br>
+<ul><li>Line@9:&#xC2;&nbsp; declares a reference to the Dao interface which will be used to execute the database operations we have defined earlier.</li><br>
+ 	<li>Line@10: defines an array list that is used to hold a copy of your data.</li><br>
+ 	<li>Line@12: this contractor creates a reference to the database that will be used to access the Dao interface. The Dao interface will be used later (line@15) to get the list of customers.</li><br>
+ 	<li>Line@20: this method inserts a new row (object) to the database. It uses the 'databaseWriteExecutor' to access the database and execute the insert SQL statement.</li><br>
+ 	<li>Line@24: the same as above. This method uses the 'databaseWriteExecutor' to execute the delete statement.</li><br>
+</ul><br>
+&nbsp;<br>
+<br>
+&nbsp;<br>
+<h3>ViewModel</h3><br>
+If a fragment or an activity needs special data or a different way to retrieve the data, then the ViewModel is the best place to implement your logic. In the following&#xC2;&nbsp;AndroidViewModel, all the methods (that will be invoked later by the activity or fragment) call their counterpart methods that are implemented in the Repository.<br>
+<br>
+&nbsp;<br>
+<pre class="EnlighterJSRAW" data-enlighter-language="java">package com.fit2081.rooms.provider;<br>
+<br>
+import android.app.Application;<br>
+<br>
+import androidx.annotation.NonNull;<br>
+import androidx.lifecycle.AndroidViewModel;<br>
+import androidx.lifecycle.LiveData;<br>
+<br>
+import java.util.List;<br>
+<br>
+public class CustomerViewModel extends AndroidViewModel {<br>
+    private CustomerRepository mRepository;<br>
+    private LiveData&lt;List&lt;Customer&gt;&gt; mAllCustomers;<br>
+<br>
+    public CustomerViewModel(@NonNull Application application) {<br>
+        super(application);<br>
+        mRepository = new CustomerRepository(application);<br>
+        mAllCustomers = mRepository.getAllCustomers();<br>
+    }<br>
+<br>
+    public LiveData&lt;List&lt;Customer&gt;&gt; getAllCustomers() {<br>
+        return mAllCustomers;<br>
+    }<br>
+<br>
+    public void insert(Customer customer) {<br>
+        mRepository.insert(customer);<br>
+    }<br>
+    public void deleteAll(){<br>
+        mRepository.deleteAll();<br>
+    }<br>
+<br>
+}<br>
+</pre><br>
+&nbsp;<br>
+<br>
+MainActivity<br>
+<br>
+Now, its time to execute some database operations.<br>
+<br>
+If the activity's controller (i.e. Activity Java file) needs to access the database, it has to create an instance of the view model as shown in the architecture depicted above.<br>
+<pre class="EnlighterJSRAW" data-enlighter-language="java">private CustomerViewModel mCustomerViewModel;<br>
+<br>
+mCustomerViewModel = new ViewModelProvider(this).get(CustomerViewModel.class);<br>
+        mCustomerViewModel.getAllCustomers().observe(this, newData -&gt; {<br>
+            adapter.setCustomers(newData);<br>
+            adapter.notifyDataSetChanged();<br>
+            tv.setText(newData.size() + "");<br>
+        });</pre><br>
+Notes:<br>
+<ul><li>Line@3: the app uses the&#xC2;&nbsp;ViewModelProvider (An utility class that provides ViewModels for a scope) to get access to the view model.</li><br>
+ 	<li>Line@4: this line invokes the getAllCustomers to get the list of customers. Because the output of this method is LiveData, the caller has to observe. The observe method invokes the callback method which is provided in the second parameter each time the data gets changes. The new updates can be accessed via the input variable 'newData'</li><br>
+</ul><br>
+&nbsp;<br>
+<br>
+&nbsp;<br>
+<br>
+References:<br>
+<ul><li>https://developer.android.com/jetpack/docs/guide</li><br>
+ 	<li>https://developer.android.com/training/data-storage/room</li><br>
+ 	<li/><br>
 </ul></body></html>

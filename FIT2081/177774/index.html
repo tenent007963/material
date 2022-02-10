@@ -1,23 +1,32 @@
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="https://cdn.jsdelivr.net/npm/enlighterjs@3.4.0/dist/enlighterjs.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/enlighterjs@3.4.0/dist/enlighterjs.min.css">
+  <title>FIT2081</title>
+</head>
+<body>
 <div class="square-box">
 <h4>Q) Shared Preferences saves primitive data types only. How can I save an array of objects in shared preferences?</h4>
 <h4>A) Convert the array of objects into a string using Gson.</h4>
 </div>
 <h1>Gson</h1>
-&nbsp;
+<br>
 
 Gson is a Java library that can be used to convert Java Objects into their JSON representation. It can also be used to convert a JSON string to an equivalent Java object. Gson can work with arbitrary Java objects including pre-existing objects that you do not have source-code of. Gson provides simple toJson() and fromJson() methods to convert Java objects to JSON and vice-versa.
 
-&nbsp;
+<br>
 
 Add dependency
 <pre class="EnlighterJSRAW" data-enlighter-language="generic">dependencies {
   implementation 'com.google.code.gson:gson:2.8.6'
 }</pre>
-&nbsp;
+<br>
 
 Create a new instance of Gson
 <pre class="EnlighterJSRAW" data-enlighter-language="java">Gson gson = new Gson();</pre>
-&nbsp;
+<br>
 
 Now, let's assume you have an array of objects
 <pre class="EnlighterJSRAW" data-enlighter-language="java">ArrayList&lt;Item&gt; db = new ArrayList&lt;&gt;();
@@ -25,21 +34,36 @@ db.add(item1);
 db.add(item2);
 db.add(item3);
 </pre>
-&nbsp;
+<br>
 
 Convert the ArrayList object into as string (i.e. json)
 <pre class="EnlighterJSRAW" data-enlighter-language="null">String dbStr = gson.toJson(db);</pre>
-&nbsp;
+<br>
 
 Now, you can push the string into your database (or shared preferences)
 <pre class="EnlighterJSRAW" data-enlighter-language="null">SharedPreferences.Editor edit = sP.edit();
 edit.putString(DB_KEY, dbStr);
 edit.apply();</pre>
-&nbsp;
+<br>
 
 Now, let's convert the string back to the ArrayList data type
 <pre class="EnlighterJSRAW" data-enlighter-language="java">Type type = new TypeToken&lt;ArrayList&lt;Item&gt;&gt;() {}.getType();
 db = gson.fromJson(dbStr,type);</pre>
 The method <strong>fromJson</strong> converts the data type of the first parameter into the type that is specified in the second parameter.
 
-&nbsp;
+<br>
+
+<script type="text/javascript">
+  // INIT CODE - simple page-wide initialization based on css selectors
+  // - highlight all pre + code tags (CSS3 selectors)
+  // - use javascript as default language
+  // - use theme "enlighter" as default theme
+  // - replace tabs with 2 spaces
+  EnlighterJS.init('pre', {
+          language : 'javascript',
+          theme: 'enlighter',
+          indent : 2
+  });
+</script>
+</body>
+</html>

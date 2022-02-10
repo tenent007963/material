@@ -5,7 +5,7 @@ Q) When does the multi-touch gesture happen?
 A) It happens when more than one pointer (finger) touches the screen.
 
 </div>
-&nbsp;
+<br>
 <div class="square-box">
 
 Q) How to keep track of each pointer within a gesture?
@@ -13,7 +13,7 @@ Q) How to keep track of each pointer within a gesture?
 A) You have to use the pointer's index and ID.
 
 </div>
-&nbsp;
+<br>
 <div class="square-box">
 
 Q) What is the purpose of having an Index and ID for each pointer?
@@ -25,7 +25,7 @@ Now, the MotionEvent object saves all the pointers' data in a special array and 
 Reference: <a href="https://developer.android.com/training/gestures/multi">https://developer.android.com/training/gestures/multi</a>
 
 </div>
-&nbsp;
+<br>
 
 Android system generates  touch events every time multiple pointers touches the screen at the same time: (Click <a href="https://developer.android.com/reference/android/view/MotionEvent#summary">HERE</a> for more details)
 <table style="width: 2017px;"><caption> </caption>
@@ -58,7 +58,7 @@ Android system generates  touch events every time multiple pointers touches the
 </tr>
 </tbody>
 </table>
-&nbsp;
+<br>
 
 Android system provides several methods (MotionEvent methods) to deal with multi-touch events, such as:
 <table style="width: 2019px;">
@@ -91,11 +91,11 @@ Android system provides several methods (MotionEvent methods) to deal with multi
 </tr>
 </tbody>
 </table>
-&nbsp;
+<br>
 
-&nbsp;
+<br>
 
-&nbsp;
+<br>
 <h1><strong>Gesture Detectors</strong></h1>
 The gesture detector classes are used to detect common gestures through a set of motion events.
 
@@ -105,11 +105,11 @@ There are three steps required for the gesture detector to work:
  	<li>Implements the required methods</li>
  	<li>Intercept the touch events and pass them to the gesture detector</li>
 </ol>
-&nbsp;
+<br>
 
 Mainly, there are two classes of detectors GestureDetector and ScaleGestureDetector.
 
-&nbsp;
+<br>
 <table style="width: 2017px;">
 <thead>
 <tr style="height: 31px;">
@@ -136,7 +136,7 @@ Mainly, there are two classes of detectors GestureDetector and ScaleGestureDet
  	<li>velocityX: The velocity of this event (fling event) along the X-axis</li>
  	<li>velocityY: The velocity of this event (fling event) along the Y-axis</li>
 </ul>
-&nbsp;</td>
+<br></td>
 </tr>
 <tr style="height: 44px;">
 <td style="height: 44px; width: 331.153px;">onLongPress(MotionEvent e)</td>
@@ -152,7 +152,7 @@ Mainly, there are two classes of detectors GestureDetector and ScaleGestureDet
  	<li><strong>distanceX: the distance between e2 and the previous event (not e1) along the X-axis</strong></li>
  	<li><strong>distanceX: the distance between e2 and the previous event (not e1) along the Y-axis</strong></li>
 </ul>
-&nbsp;</td>
+<br></td>
 </tr>
 <tr style="height: 40px;">
 <td style="height: 40px; width: 331.153px;">onShowPress(MotionEvent e)</td>
@@ -190,7 +190,7 @@ Mainly, there are two classes of detectors GestureDetector and ScaleGestureDet
 </tr>
 </tbody>
 </table>
-&nbsp;
+<br>
 <table style="width: 2018px;">
 <thead>
 <tr>
@@ -217,9 +217,9 @@ Mainly, there are two classes of detectors GestureDetector and ScaleGestureDet
 </tr>
 </tbody>
 </table>
-&nbsp;
+<br>
 
-&nbsp;
+<br>
 <div class="square-box">
 
 Q) Some methods return boolean values, what does that mean?
@@ -227,7 +227,7 @@ Q) Some methods return boolean values, what does that mean?
 A) If a callback method returns true, it informs the parent that the event has been consumed and ready to accept further events from the current gesture. But, if a callback returns false, it indicates that the event is not consumed and it is not interested in the remainder of the gesture.
 
 </div>
-&nbsp;
+<br>
 <div class="square-box">
 
 Q) What are the differences between onFling() and onScroll() callbacks?
@@ -237,9 +237,9 @@ A)  1) OnFling() needs some velocity in the movement (like swipe to unlock the 
 2) onFlicg() will be called only once at the end of the gesture, while onScroll() will be called multiple times as you move your finger on the screen.
 
 </div>
-&nbsp;
+<br>
 
-&nbsp;
+<br>
 <h3>Instantiate a Gesture Detector instance</h3>
 <pre class="EnlighterJSRAW" data-enlighter-language="java">private GestureDetectorCompat mDetector;
 private ScaleGestureDetector mScaleDetector;
@@ -253,13 +253,13 @@ mScaleDetector = new ScaleGestureDetector(this, this);
 </pre>
 Where the first parameter is the context and the second one is a reference to the callbacks object.
 
-&nbsp;
+<br>
 <h3>Implements the required methods</h3>
 It is possible to create a separate class to handle the implementation of all the callbacks or simply add them to the activity as shown below:
 <pre class="EnlighterJSRAW" data-enlighter-language="java">public class MainActivity extends AppCompatActivity implements GestureDetector.OnGestureListener, GestureDetector.OnDoubleTapListener {
 
 }</pre>
-&nbsp;
+<br>
 <pre class="EnlighterJSRAW" data-enlighter-language="null">@Override
    public boolean onDown(MotionEvent e) {
        return false;
@@ -320,7 +320,7 @@ It is possible to create a separate class to handle the implementation of all th
    public void onScaleEnd(ScaleGestureDetector detector) {
   
    }</pre>
-&nbsp;
+<br>
 <h3>Intercept the touch events and pass them to the gesture detector</h3>
 For the gesture detectors to work, you must override the onTouch callback method and forward the MotionEvent object to the detectors.
 <div class="square-box">
@@ -338,7 +338,7 @@ public boolean onTouch(View v, MotionEvent event) {
        return true;
     }
 </pre>
-&nbsp;
+<br>
 
 Now, the activity in one piece:
 <pre class="EnlighterJSRAW" data-enlighter-language="java">package com.fit2081.week11gesturesdetectors;
@@ -476,7 +476,7 @@ Q) Why?
 A) if the callback onScaleBegin() returns false, this means it is not interested in the current gesture.
 
 </div>
-&nbsp;
+<br>
 <div class="square-box">
 
 Q) How can I get the pinch (zoom/scale) size at the end of the scale gesture?
@@ -486,7 +486,7 @@ A) you can return the event span using <strong>detector.getCurrentSpan()</stron
 Click <a href="https://developer.android.com/reference/android/view/ScaleGestureDetector">HERE</a> for more information about the ScaleGestureDetector.
 
 </div>
-&nbsp;
+<br>
 <div class="square-box">
 
 Q) What if want to implement only a subset of the callback? in other words, my app requires one or two callbacks only.
@@ -494,7 +494,7 @@ Q) What if want to implement only a subset of the callback? in other words, my a
 A) You need to implement a class that extends the convenience classes SimpleOnGestureListener or SimpleOnScaleGestureListener.
 
 </div>
-&nbsp;
+<br>
 <h3>Build a class the extends SimpleOnGestureListener</h3>
 <pre class="EnlighterJSRAW" data-enlighter-language="java">private class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
 
@@ -550,25 +550,25 @@ As you can see from the code above, the class MyGestureListener which works as 
 }</pre>
 Again, extending the convenience class SimpleOnScaleGestureListener allows you to implement only the callbacks which your application needs.
 
-&nbsp;
+<br>
 
 Now, let's provide them to the detectors:
 
-&nbsp;
+<br>
 <pre class="EnlighterJSRAW" data-enlighter-language="java">MyScaleListener MyScaleListener=new MyScaleListener();
 mScaleDetector = new ScaleGestureDetector(this, MyScaleListener);
 
 MyGestureListener myGestureListener = new MyGestureListener();
 mDetector = new GestureDetectorCompat(this, myGestureListener);
 mDetector.setOnDoubleTapListener(myGestureListener);</pre>
-&nbsp;
+<br>
 
-&nbsp;
+<br>
 
-&nbsp;
+<br>
 
-&nbsp;
+<br>
 
-&nbsp;
+<br>
 
-&nbsp;
+<br>
