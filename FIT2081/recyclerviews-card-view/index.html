@@ -34,7 +34,7 @@ In the following sections, we are going to develop an application that uses Recy
 <br>
 &nbsp;<br>
 <br>
-<a href="https://www.alexandriarepository.org/media/card_recycler" rel="attachment wp-att-177767"><img class="aligncenter size-full wp-image-177767" src="./assets/card_recycler.gif" alt="" width="351" height="728"/></a><br>
+<a href="./assets/card_recycler" rel="attachment wp-att-177767"><img class="aligncenter size-full wp-image-177767" src="./assets/card_recycler.gif" alt="" width="351" height="728"/></a><br>
 <br>
 &nbsp;<br>
 <h2>CardView</h2><br>
@@ -45,43 +45,43 @@ The user interface layout to be presented with a CardView instance is defined wi
 &nbsp;<br>
 <br>
 card_layout.xml<br>
-<pre class="EnlighterJSRAW" data-enlighter-language="xml">&lt;?xml version="1.0" encoding="utf-8"?&gt;<br>
-&lt;androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"<br>
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"<br>
-    android:id="@+id/card_view"<br>
-    android:layout_width="match_parent"<br>
-    android:layout_height="wrap_content"<br>
-    android:layout_margin="5dp"<br>
-    card_view:cardBackgroundColor="@android:color/holo_blue_dark"<br>
-    card_view:cardCornerRadius="12dp"&gt;<br>
-<br>
-    &lt;RelativeLayout<br>
-        android:layout_width="match_parent"<br>
-        android:layout_height="match_parent"<br>
-        android:padding="16dp"&gt;<br>
-<br>
-<br>
-        &lt;TextView<br>
-            android:id="@+id/suit_id"<br>
-            android:layout_width="wrap_content"<br>
-            android:layout_height="wrap_content"<br>
-            android:layout_alignParentTop="true"<br>
-            android:layout_marginStart="58dp"<br>
-            android:layout_marginTop="8dp"<br>
-            android:layout_toEndOf="@+id/card_id"<br>
-            android:textSize="30sp" /&gt;<br>
-<br>
-        &lt;TextView<br>
-            android:id="@+id/card_id"<br>
-            android:layout_width="wrap_content"<br>
-            android:layout_height="wrap_content"<br>
-            android:layout_alignParentStart="true"<br>
-            android:layout_alignParentTop="true"<br>
-            android:layout_marginStart="8dp"<br>
-            android:layout_marginTop="8dp"<br>
-            android:textSize="30sp" /&gt;<br>
-    &lt;/RelativeLayout&gt;<br>
-<br>
+<pre class="EnlighterJSRAW" data-enlighter-language="xml">&lt;?xml version="1.0" encoding="utf-8"?&gt;&#13; 
+&lt;androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"&#13; 
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"&#13; 
+    android:id="@+id/card_view"&#13; 
+    android:layout_width="match_parent"&#13; 
+    android:layout_height="wrap_content"&#13; 
+    android:layout_margin="5dp"&#13; 
+    card_view:cardBackgroundColor="@android:color/holo_blue_dark"&#13; 
+    card_view:cardCornerRadius="12dp"&gt;&#13; 
+&#13; 
+    &lt;RelativeLayout&#13; 
+        android:layout_width="match_parent"&#13; 
+        android:layout_height="match_parent"&#13; 
+        android:padding="16dp"&gt;&#13; 
+&#13; 
+&#13; 
+        &lt;TextView&#13; 
+            android:id="@+id/suit_id"&#13; 
+            android:layout_width="wrap_content"&#13; 
+            android:layout_height="wrap_content"&#13; 
+            android:layout_alignParentTop="true"&#13; 
+            android:layout_marginStart="58dp"&#13; 
+            android:layout_marginTop="8dp"&#13; 
+            android:layout_toEndOf="@+id/card_id"&#13; 
+            android:textSize="30sp" /&gt;&#13; 
+&#13; 
+        &lt;TextView&#13; 
+            android:id="@+id/card_id"&#13; 
+            android:layout_width="wrap_content"&#13; 
+            android:layout_height="wrap_content"&#13; 
+            android:layout_alignParentStart="true"&#13; 
+            android:layout_alignParentTop="true"&#13; 
+            android:layout_marginStart="8dp"&#13; 
+            android:layout_marginTop="8dp"&#13; 
+            android:textSize="30sp" /&gt;&#13; 
+    &lt;/RelativeLayout&gt;&#13; 
+&#13; 
 &lt;/androidx.cardview.widget.CardView&gt;</pre><br>
 As you can see, the cardview works as a top-level container that has a relative layout as a child element. Inside the relative layout, we have two text views that will be used to display our data. You can replace the relative layout with any layout you do prefer.<br>
 <br>
@@ -90,70 +90,70 @@ As you can see, the cardview works as a top-level container that has a relative 
 It is a container for rendering a larger data set of views that can be recycled and scrolled very efficiently.&nbsp;&nbsp;&nbsp;&nbsp;It uses a subclass of RecyclerView.Adapter for providing views that represent items in a data set.<br>
 <br>
 activity_main.xml<br>
-<pre class="EnlighterJSRAW" data-enlighter-language="xml">&lt;?xml version="1.0" encoding="utf-8"?&gt;<br>
-&lt;androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"<br>
-    xmlns:app="http://schemas.android.com/apk/res-auto"<br>
-    xmlns:tools="http://schemas.android.com/tools"<br>
-    android:layout_width="match_parent"<br>
-    android:layout_height="match_parent"<br>
-    tools:context=".MainActivity"&gt;<br>
-<br>
-    &lt;androidx.constraintlayout.widget.Guideline<br>
-        android:id="@+id/guideline"<br>
-        android:layout_width="wrap_content"<br>
-        android:layout_height="wrap_content"<br>
-        android:orientation="horizontal"<br>
-        app:layout_constraintGuide_percent="0.91" /&gt;<br>
-<br>
-    &lt;Button<br>
-        android:id="@+id/add_item"<br>
-        android:layout_width="0dp"<br>
-        android:layout_height="wrap_content"<br>
-        android:text="Add card"<br>
-        app:layout_constraintBottom_toBottomOf="parent"<br>
-        app:layout_constraintEnd_toEndOf="parent"<br>
-        app:layout_constraintStart_toStartOf="parent"<br>
-        app:layout_constraintTop_toTopOf="@+id/guideline" /&gt;<br>
-<br>
-    &lt;androidx.recyclerview.widget.RecyclerView<br>
-        android:id="@+id/my_recycler_view"<br>
-        android:scrollbars="vertical"<br>
-        android:layout_width="0dp"<br>
-        android:layout_height="0dp"<br>
-        android:layout_marginStart="8dp"<br>
-        android:layout_marginTop="8dp"<br>
-        android:layout_marginEnd="8dp"<br>
-        android:layout_marginBottom="8dp"<br>
-        app:layout_constraintBottom_toTopOf="@+id/guideline"<br>
-        app:layout_constraintEnd_toEndOf="parent"<br>
-        app:layout_constraintStart_toStartOf="parent"<br>
-        app:layout_constraintTop_toTopOf="parent" /&gt;<br>
+<pre class="EnlighterJSRAW" data-enlighter-language="xml">&lt;?xml version="1.0" encoding="utf-8"?&gt;&#13; 
+&lt;androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"&#13; 
+    xmlns:app="http://schemas.android.com/apk/res-auto"&#13; 
+    xmlns:tools="http://schemas.android.com/tools"&#13; 
+    android:layout_width="match_parent"&#13; 
+    android:layout_height="match_parent"&#13; 
+    tools:context=".MainActivity"&gt;&#13; 
+&#13; 
+    &lt;androidx.constraintlayout.widget.Guideline&#13; 
+        android:id="@+id/guideline"&#13; 
+        android:layout_width="wrap_content"&#13; 
+        android:layout_height="wrap_content"&#13; 
+        android:orientation="horizontal"&#13; 
+        app:layout_constraintGuide_percent="0.91" /&gt;&#13; 
+&#13; 
+    &lt;Button&#13; 
+        android:id="@+id/add_item"&#13; 
+        android:layout_width="0dp"&#13; 
+        android:layout_height="wrap_content"&#13; 
+        android:text="Add card"&#13; 
+        app:layout_constraintBottom_toBottomOf="parent"&#13; 
+        app:layout_constraintEnd_toEndOf="parent"&#13; 
+        app:layout_constraintStart_toStartOf="parent"&#13; 
+        app:layout_constraintTop_toTopOf="@+id/guideline" /&gt;&#13; 
+&#13; 
+    &lt;androidx.recyclerview.widget.RecyclerView&#13; 
+        android:id="@+id/my_recycler_view"&#13; 
+        android:scrollbars="vertical"&#13; 
+        android:layout_width="0dp"&#13; 
+        android:layout_height="0dp"&#13; 
+        android:layout_marginStart="8dp"&#13; 
+        android:layout_marginTop="8dp"&#13; 
+        android:layout_marginEnd="8dp"&#13; 
+        android:layout_marginBottom="8dp"&#13; 
+        app:layout_constraintBottom_toTopOf="@+id/guideline"&#13; 
+        app:layout_constraintEnd_toEndOf="parent"&#13; 
+        app:layout_constraintStart_toStartOf="parent"&#13; 
+        app:layout_constraintTop_toTopOf="parent" /&gt;&#13; 
 &lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</pre><br>
 The code provided above represents the layout file of the main activity. It uses constraint layout as the main container (@line2). The horizontal guideline is used to separate the button from the recycler view.<br>
 <br>
 &nbsp;<br>
 <br>
 Item.java<br>
-<pre class="EnlighterJSRAW" data-enlighter-language="java">package com.fit2081.recyclercard;<br>
-<br>
-public class Item {<br>
-<br>
-    private String suit;<br>
-    private String card;<br>
-<br>
-    public Item(String suit, String card) {<br>
-        this.suit = suit;<br>
-        this.card = card;<br>
-    }<br>
-<br>
-    public String getSuit() {<br>
-        return suit;<br>
-    }<br>
-<br>
-    public String getCard() {<br>
-        return card;<br>
-    }<br>
-}<br>
+<pre class="EnlighterJSRAW" data-enlighter-language="java">package com.fit2081.recyclercard;&#13; 
+&#13; 
+public class Item {&#13; 
+&#13; 
+    private String suit;&#13; 
+    private String card;&#13; 
+&#13; 
+    public Item(String suit, String card) {&#13; 
+        this.suit = suit;&#13; 
+        this.card = card;&#13; 
+    }&#13; 
+&#13; 
+    public String getSuit() {&#13; 
+        return suit;&#13; 
+    }&#13; 
+&#13; 
+    public String getCard() {&#13; 
+        return card;&#13; 
+    }&#13; 
+}&#13; 
 </pre><br>
 Each card consists of a suit and a card number. Item.java is a class that works as a record for one card. Later in the code, we will create an array list of cards using this class. The constructor is used to initialize the two instance variables while the two getters are used to retrieve their values.<br>
 <h2>RecyclerView.Adapter</h2><br>
@@ -165,123 +165,123 @@ The adapter is created as a subclass of the RecyclerView.Adapter class and must,
 &nbsp;<br>
 <br>
 MyRecyclerAdapter.java<br>
-<pre class="EnlighterJSRAW" data-enlighter-language="java">package com.fit2081.recyclercard;<br>
-<br>
-import android.util.Log;<br>
-import android.view.LayoutInflater;<br>
-import android.view.View;<br>
-import android.view.ViewGroup;<br>
-import android.widget.TextView;<br>
-<br>
-import androidx.annotation.NonNull;<br>
-import androidx.recyclerview.widget.RecyclerView;<br>
-<br>
-import java.util.ArrayList;<br>
-<br>
-public class MyRecyclerAdapter extends RecyclerView.Adapter&lt;MyRecyclerAdapter.ViewHolder&gt; {<br>
-<br>
-    ArrayList&lt;Item&gt; data = new ArrayList&lt;Item&gt;();<br>
-<br>
-    public void setData(ArrayList&lt;Item&gt; data) {<br>
-        this.data = data;<br>
-    }<br>
-<br>
-    @NonNull<br>
-    @Override<br>
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {<br>
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_layout, parent, false); //CardView inflated as RecyclerView list item<br>
-        ViewHolder viewHolder = new ViewHolder(v);<br>
-        Log.d("week6App","onCreateViewHolder");<br>
-        return viewHolder;<br>
-    }<br>
-<br>
-    @Override<br>
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {<br>
-        holder.cardTv.setText(data.get(position).getCard());<br>
-        holder.suitTv.setText(data.get(position).getSuit());<br>
-        Log.d("week6App","onBindViewHolder");<br>
-<br>
-    }<br>
-<br>
-    @Override<br>
-    public int getItemCount() {<br>
-        return data.size();<br>
-    }<br>
-<br>
-    public class ViewHolder extends RecyclerView.ViewHolder {<br>
-        public TextView suitTv;<br>
-        public TextView cardTv;<br>
-<br>
-        public ViewHolder(@NonNull View itemView) {<br>
-            super(itemView);<br>
-            suitTv = itemView.findViewById(R.id.suit_id);<br>
-            cardTv = itemView.findViewById(R.id.card_id);<br>
-        }<br>
-    }<br>
-}<br>
+<pre class="EnlighterJSRAW" data-enlighter-language="java">package com.fit2081.recyclercard;&#13; 
+&#13; 
+import android.util.Log;&#13; 
+import android.view.LayoutInflater;&#13; 
+import android.view.View;&#13; 
+import android.view.ViewGroup;&#13; 
+import android.widget.TextView;&#13; 
+&#13; 
+import androidx.annotation.NonNull;&#13; 
+import androidx.recyclerview.widget.RecyclerView;&#13; 
+&#13; 
+import java.util.ArrayList;&#13; 
+&#13; 
+public class MyRecyclerAdapter extends RecyclerView.Adapter&lt;MyRecyclerAdapter.ViewHolder&gt; {&#13; 
+&#13; 
+    ArrayList&lt;Item&gt; data = new ArrayList&lt;Item&gt;();&#13; 
+&#13; 
+    public void setData(ArrayList&lt;Item&gt; data) {&#13; 
+        this.data = data;&#13; 
+    }&#13; 
+&#13; 
+    @NonNull&#13; 
+    @Override&#13; 
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {&#13; 
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_layout, parent, false); //CardView inflated as RecyclerView list item&#13; 
+        ViewHolder viewHolder = new ViewHolder(v);&#13; 
+        Log.d("week6App","onCreateViewHolder");&#13; 
+        return viewHolder;&#13; 
+    }&#13; 
+&#13; 
+    @Override&#13; 
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {&#13; 
+        holder.cardTv.setText(data.get(position).getCard());&#13; 
+        holder.suitTv.setText(data.get(position).getSuit());&#13; 
+        Log.d("week6App","onBindViewHolder");&#13; 
+&#13; 
+    }&#13; 
+&#13; 
+    @Override&#13; 
+    public int getItemCount() {&#13; 
+        return data.size();&#13; 
+    }&#13; 
+&#13; 
+    public class ViewHolder extends RecyclerView.ViewHolder {&#13; 
+        public TextView suitTv;&#13; 
+        public TextView cardTv;&#13; 
+&#13; 
+        public ViewHolder(@NonNull View itemView) {&#13; 
+            super(itemView);&#13; 
+            suitTv = itemView.findViewById(R.id.suit_id);&#13; 
+            cardTv = itemView.findViewById(R.id.card_id);&#13; 
+        }&#13; 
+    }&#13; 
+}&#13; 
 </pre><br>
 The code provided is the implementation of the RecyclerAdapter. It implements the three methods mentioned earlier and the ViewHolder subclass (@line44).&nbsp;&nbsp; The data is passed to the adaptor through a method called <strong>setData</strong> (@line18) which is called from the MainActivity.java (@line44). The method&nbsp;&nbsp;<strong>getItemCount</strong> (@line40) returns the size of the array list which is the number of items to be displayed in the list. The method&nbsp;&nbsp;onCreateViewHolder inflates the card's layout that we have implemented earlier each time a new card is required (@line25). It the passes v, which is a reference to the card layout to the contractor of ViewHolder local class. At line 28, the method returns the view holder object that will be an input to the next method <strong>onBindViewHolder</strong>. In the latter method, we receive two parameters, a viewer holder and a position. Our job is to retrieve the data at that position and place it in that view holder.<br>
 <br>
 MainActivity.java<br>
-<pre class="EnlighterJSRAW" data-enlighter-language="java">package com.fit2081.recyclercard;<br>
-<br>
-import androidx.appcompat.app.AppCompatActivity;<br>
-import androidx.recyclerview.widget.LinearLayoutManager;<br>
-import androidx.recyclerview.widget.RecyclerView;<br>
-<br>
-import android.os.Bundle;<br>
-import android.view.View;<br>
-import android.widget.Button;<br>
-<br>
-import java.util.ArrayList;<br>
-import java.util.Random;<br>
-<br>
-public class MainActivity extends AppCompatActivity {<br>
-<br>
-    ArrayList&lt;Item&gt; data = new ArrayList&lt;&gt;();<br>
-    String suits[] = {"Hearts", "Diamonds", "Clubs", "Spade"};<br>
-    String cards[] = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King", "Ace"};<br>
-<br>
-    Button btn;<br>
-    RecyclerView recyclerView;<br>
-    RecyclerView.LayoutManager layoutManager;<br>
-    MyRecyclerAdapter adapter;<br>
-<br>
-    @Override<br>
-    protected void onCreate(Bundle savedInstanceState) {<br>
-        super.onCreate(savedInstanceState);<br>
-        setContentView(R.layout.activity_main);<br>
-        btn = findViewById(R.id.add_item);<br>
-        btn.setOnClickListener(new View.OnClickListener() {<br>
-            @Override<br>
-            public void onClick(View v) {<br>
-                addItem();<br>
-            }<br>
-        });<br>
-<br>
-        recyclerView = findViewById(R.id.my_recycler_view);<br>
-<br>
-        layoutManager = new LinearLayoutManager(this);  //A RecyclerView.LayoutManager implementation which provides similar functionality to ListView.<br>
-        recyclerView.setLayoutManager(layoutManager);   // Also StaggeredGridLayoutManager and GridLayoutManager or a custom Layout manager<br>
-<br>
-<br>
-        adapter = new MyRecyclerAdapter();<br>
-        adapter.setData(data);<br>
-        recyclerView.setAdapter(adapter);<br>
-<br>
-    }<br>
-<br>
-    public void addItem() {<br>
-        Random random = new Random();<br>
-        int randCard = random.nextInt(cards.length);<br>
-        int randSuit = random.nextInt(suits.length);<br>
-        Item item = new Item(suits[randSuit], cards[randCard]);<br>
-        data.add(item);<br>
-        adapter.notifyDataSetChanged();<br>
-<br>
-    }<br>
-<br>
-}<br>
+<pre class="EnlighterJSRAW" data-enlighter-language="java">package com.fit2081.recyclercard;&#13; 
+&#13; 
+import androidx.appcompat.app.AppCompatActivity;&#13; 
+import androidx.recyclerview.widget.LinearLayoutManager;&#13; 
+import androidx.recyclerview.widget.RecyclerView;&#13; 
+&#13; 
+import android.os.Bundle;&#13; 
+import android.view.View;&#13; 
+import android.widget.Button;&#13; 
+&#13; 
+import java.util.ArrayList;&#13; 
+import java.util.Random;&#13; 
+&#13; 
+public class MainActivity extends AppCompatActivity {&#13; 
+&#13; 
+    ArrayList&lt;Item&gt; data = new ArrayList&lt;&gt;();&#13; 
+    String suits[] = {"Hearts", "Diamonds", "Clubs", "Spade"};&#13; 
+    String cards[] = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King", "Ace"};&#13; 
+&#13; 
+    Button btn;&#13; 
+    RecyclerView recyclerView;&#13; 
+    RecyclerView.LayoutManager layoutManager;&#13; 
+    MyRecyclerAdapter adapter;&#13; 
+&#13; 
+    @Override&#13; 
+    protected void onCreate(Bundle savedInstanceState) {&#13; 
+        super.onCreate(savedInstanceState);&#13; 
+        setContentView(R.layout.activity_main);&#13; 
+        btn = findViewById(R.id.add_item);&#13; 
+        btn.setOnClickListener(new View.OnClickListener() {&#13; 
+            @Override&#13; 
+            public void onClick(View v) {&#13; 
+                addItem();&#13; 
+            }&#13; 
+        });&#13; 
+&#13; 
+        recyclerView = findViewById(R.id.my_recycler_view);&#13; 
+&#13; 
+        layoutManager = new LinearLayoutManager(this);  //A RecyclerView.LayoutManager implementation which provides similar functionality to ListView.&#13; 
+        recyclerView.setLayoutManager(layoutManager);   // Also StaggeredGridLayoutManager and GridLayoutManager or a custom Layout manager&#13; 
+&#13; 
+&#13; 
+        adapter = new MyRecyclerAdapter();&#13; 
+        adapter.setData(data);&#13; 
+        recyclerView.setAdapter(adapter);&#13; 
+&#13; 
+    }&#13; 
+&#13; 
+    public void addItem() {&#13; 
+        Random random = new Random();&#13; 
+        int randCard = random.nextInt(cards.length);&#13; 
+        int randSuit = random.nextInt(suits.length);&#13; 
+        Item item = new Item(suits[randSuit], cards[randCard]);&#13; 
+        data.add(item);&#13; 
+        adapter.notifyDataSetChanged();&#13; 
+&#13; 
+    }&#13; 
+&#13; 
+}&#13; 
 </pre><br>
 In the code above, we have created three entities, a recycler view (@line37), dataset (@line16), and an adapter (@line43). The adapter works as a bridge between the recyclerview and the dataset (@line43,44).<br>
 <blockquote><br>

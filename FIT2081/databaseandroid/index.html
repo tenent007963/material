@@ -57,7 +57,7 @@ Now, let's have an example. The depicted below is an excerpt from a table called
 <br>
 &nbsp;<br>
 <br>
-<a href="https://www.alexandriarepository.org/media/table-exerpt" rel="attachment wp-att-177824"><img class="aligncenter size-full wp-image-177824" src="./assets/table-exerpt.png" alt="" width="975" height="641"/></a><br>
+<a href="./assets/table-exerpt" rel="attachment wp-att-177824"><img class="aligncenter size-full wp-image-177824" src="./assets/table-exerpt.png" alt="" width="975" height="641"/></a><br>
 <br>
 &nbsp;<br>
 <br>
@@ -70,7 +70,7 @@ Where:<br>
 </ul><br>
 and here is the output after executing the above SQL statement<br>
 <br>
-<a href="https://www.alexandriarepository.org/media/table5" rel="attachment wp-att-177825"><img class="aligncenter size-full wp-image-177825" src="./assets/table5.png" alt="" width="984" height="427"/></a><br>
+<a href="./assets/table5" rel="attachment wp-att-177825"><img class="aligncenter size-full wp-image-177825" src="./assets/table5.png" alt="" width="984" height="427"/></a><br>
 <br>
 &nbsp;<br>
 <br>
@@ -82,7 +82,7 @@ As you can see, all the values in the last column 'Country' is Germany.<br>
 <br>
 &nbsp;<br>
 <br>
-<a href="https://www.alexandriarepository.org/media/framework" rel="attachment wp-att-177827"><img class="aligncenter size-full wp-image-177827" src="./assets/framework.png" alt="" width="1292" height="704"/></a><br>
+<a href="./assets/framework" rel="attachment wp-att-177827"><img class="aligncenter size-full wp-image-177827" src="./assets/framework.png" alt="" width="1292" height="704"/></a><br>
 <br>
 &nbsp;<br>
 <br>
@@ -97,7 +97,7 @@ As you can see, all the values in the last column 'Country' is Germany.<br>
 </ul><br>
 Let's develop an application that generates customers randomly. Each customer is represented by a name and address as shown below:<br>
 <br>
-<a href="https://www.alexandriarepository.org/media/customer_generator" rel="attachment wp-att-177830"><img class="aligncenter size-full wp-image-177830" src="./assets/customer_generator.gif" alt="" width="513" height="1046"/></a><br>
+<a href="./assets/customer_generator" rel="attachment wp-att-177830"><img class="aligncenter size-full wp-image-177830" src="./assets/customer_generator.gif" alt="" width="513" height="1046"/></a><br>
 <br>
 &nbsp;<br>
 <br>
@@ -125,46 +125,46 @@ NonNull</td><br>
 <td style="width: 177.528px;">customerAddress</td><br>
 <td style="width: 229px;">string</td><br>
 <td style="width: 215px;"/><br>
-</tr></tbody></table><pre class="EnlighterJSRAW" data-enlighter-language="java">package com.fit2081.rooms.provider;<br>
-<br>
-import androidx.annotation.NonNull;<br>
-import androidx.room.ColumnInfo;<br>
-import androidx.room.Entity;<br>
-import androidx.room.PrimaryKey;<br>
-<br>
-@Entity(tableName = "customers")<br>
-public class Customer {<br>
-    @PrimaryKey(autoGenerate = true)<br>
-    @NonNull<br>
-    @ColumnInfo(name = "customerId")<br>
-    private int id;<br>
-    @ColumnInfo(name = "customerName")<br>
-    private String name;<br>
-    @ColumnInfo(name = "customerAddress")<br>
-    private String address;<br>
-<br>
-    public Customer(String name, String address) {<br>
-        this.name = name;<br>
-        this.address = address;<br>
-    }<br>
-<br>
-    public int getId() {<br>
-        return id;<br>
-    }<br>
-<br>
-    public String getName() {<br>
-        return name;<br>
-    }<br>
-<br>
-    public String getAddress() {<br>
-        return address;<br>
-    }<br>
-<br>
-    public void setId(@NonNull int id) {<br>
-        this.id = id;<br>
-    }<br>
-<br>
-}<br>
+</tr></tbody></table><pre class="EnlighterJSRAW" data-enlighter-language="java">package com.fit2081.rooms.provider;
+
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity(tableName = "customers")
+public class Customer {
+    @PrimaryKey(autoGenerate = true)
+    @NonNull
+    @ColumnInfo(name = "customerId")
+    private int id;
+    @ColumnInfo(name = "customerName")
+    private String name;
+    @ColumnInfo(name = "customerAddress")
+    private String address;
+
+    public Customer(String name, String address) {
+        this.name = name;
+        this.address = address;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setId(@NonNull int id) {
+        this.id = id;
+    }
+
+}
 </pre><br>
 &nbsp;<br>
 <br>
@@ -178,42 +178,42 @@ Notes<br>
 In this class, we will define the Room Database (database might contain one or more tables)<br>
 <br>
 &nbsp;<br>
-<pre class="EnlighterJSRAW" data-enlighter-language="java">package com.fit2081.rooms.provider;<br>
-import android.content.Context;<br>
-import androidx.room.Database;<br>
-import androidx.room.Room;<br>
-import androidx.room.RoomDatabase;<br>
-import java.util.concurrent.ExecutorService;<br>
-import java.util.concurrent.Executors;<br>
-<br>
-<br>
-@Database(entities = {Customer.class}, version = 1)<br>
-public abstract class CustomerDatabase extends RoomDatabase {<br>
-<br>
-    public static final String CUSTOMER_DATABASE_NAME = "customer_database";<br>
-<br>
-    public abstract CustomerDao customerDao();<br>
-<br>
-    // marking the instance as volatile to ensure atomic access to the variable<br>
-    private static volatile CustomerDatabase INSTANCE;<br>
-    private static final int NUMBER_OF_THREADS = 4;<br>
-    static final ExecutorService databaseWriteExecutor =<br>
-            Executors.newFixedThreadPool(NUMBER_OF_THREADS);<br>
-<br>
-    static CustomerDatabase getDatabase(final Context context) {<br>
-        if (INSTANCE == null) {<br>
-            synchronized (CustomerDatabase.class) {<br>
-                if (INSTANCE == null) {<br>
-                    INSTANCE = Room.databaseBuilder(context.getApplicationContext(),<br>
-                            CustomerDatabase.class, CUSTOMER_DATABASE_NAME)<br>
-                            .build();<br>
-                }<br>
-            }<br>
-        }<br>
-        return INSTANCE;<br>
-    }<br>
-<br>
-}<br>
+<pre class="EnlighterJSRAW" data-enlighter-language="java">package com.fit2081.rooms.provider;
+import android.content.Context;
+import androidx.room.Database;
+import androidx.room.Room;
+import androidx.room.RoomDatabase;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+
+@Database(entities = {Customer.class}, version = 1)
+public abstract class CustomerDatabase extends RoomDatabase {
+
+    public static final String CUSTOMER_DATABASE_NAME = "customer_database";
+
+    public abstract CustomerDao customerDao();
+
+    // marking the instance as volatile to ensure atomic access to the variable
+    private static volatile CustomerDatabase INSTANCE;
+    private static final int NUMBER_OF_THREADS = 4;
+    static final ExecutorService databaseWriteExecutor =
+            Executors.newFixedThreadPool(NUMBER_OF_THREADS);
+
+    static CustomerDatabase getDatabase(final Context context) {
+        if (INSTANCE == null) {
+            synchronized (CustomerDatabase.class) {
+                if (INSTANCE == null) {
+                    INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
+                            CustomerDatabase.class, CUSTOMER_DATABASE_NAME)
+                            .build();
+                }
+            }
+        }
+        return INSTANCE;
+    }
+
+}
 </pre><br>
 &nbsp;<br>
 <br>
@@ -225,33 +225,33 @@ Note:<br>
 &nbsp;<br>
 <h3>DAO</h3><br>
 The Dao is an interface that defines the database operations that should be performed on the database.<br>
-<pre class="EnlighterJSRAW" data-enlighter-language="java">package com.fit2081.rooms.provider;<br>
-<br>
-import androidx.lifecycle.LiveData;<br>
-import androidx.room.Dao;<br>
-import androidx.room.Insert;<br>
-import androidx.room.Query;<br>
-<br>
-import java.util.List;<br>
-<br>
-@Dao<br>
-public interface CustomerDao {<br>
-<br>
-    @Query("select * from customers")<br>
-    LiveData&lt;List&lt;Customer&gt;&gt; getAllCustomer();<br>
-<br>
-    @Query("select * from customers where customerName=:name")<br>
-    List&lt;Customer&gt; getCustomer(String name);<br>
-<br>
-    @Insert<br>
-    void addCustomer(Customer customer);<br>
-<br>
-    @Query("delete from customers where customerName= :name")<br>
-    void deleteCustomer(String name);<br>
-<br>
-    @Query("delete FROM customers")<br>
-    void deleteAllCustomers();<br>
-}<br>
+<pre class="EnlighterJSRAW" data-enlighter-language="java">package com.fit2081.rooms.provider;
+
+import androidx.lifecycle.LiveData;
+import androidx.room.Dao;
+import androidx.room.Insert;
+import androidx.room.Query;
+
+import java.util.List;
+
+@Dao
+public interface CustomerDao {
+
+    @Query("select * from customers")
+    LiveData&lt;List&lt;Customer&gt;&gt; getAllCustomer();
+
+    @Query("select * from customers where customerName=:name")
+    List&lt;Customer&gt; getCustomer(String name);
+
+    @Insert
+    void addCustomer(Customer customer);
+
+    @Query("delete from customers where customerName= :name")
+    void deleteCustomer(String name);
+
+    @Query("delete FROM customers")
+    void deleteAllCustomers();
+}
 </pre><br>
 Notes:<br>
 <ul><li>Line@10: the annotation '@Dao' is required to consider the interface as a DAO.</li><br>
@@ -266,38 +266,38 @@ Notes:<br>
 <h3>Room Repository</h3><br>
 The repository is a Java class that providers easy and clean API so that the application can access different data sources as depicted blow. As you can notice, the repository is managing two different data sources a local SQLite database and a remote data source.<br>
 <br>
-<a href="https://www.alexandriarepository.org/media/final-architecture" rel="attachment wp-att-177837"><img class="aligncenter size-full wp-image-177837" src="./assets/final-architecture.png" alt="" width="960" height="720"/></a><br>
+<a href="./assets/final-architecture" rel="attachment wp-att-177837"><img class="aligncenter size-full wp-image-177837" src="./assets/final-architecture.png" alt="" width="960" height="720"/></a><br>
 <br>
 &nbsp;<br>
-<pre class="EnlighterJSRAW" data-enlighter-language="java">package com.fit2081.rooms.provider;<br>
-import android.app.Application;<br>
-import androidx.lifecycle.LiveData;<br>
-<br>
-import java.util.List;<br>
-<br>
-public class CustomerRepository  {<br>
-<br>
-    private CustomerDao mCustomerDao;<br>
-    private LiveData&lt;List&lt;Customer&gt;&gt; mAllCustomers;<br>
-<br>
-    CustomerRepository(Application application) {<br>
-        CustomerDatabase db = CustomerDatabase.getDatabase(application);<br>
-        mCustomerDao = db.customerDao();<br>
-        mAllCustomers = mCustomerDao.getAllCustomer();<br>
-    }<br>
-    LiveData&lt;List&lt;Customer&gt;&gt; getAllCustomers() {<br>
-        return mAllCustomers;<br>
-    }<br>
-    void insert(Customer customer) {<br>
-        CustomerDatabase.databaseWriteExecutor.execute(() -&gt; mCustomerDao.addCustomer(customer));<br>
-    }<br>
-<br>
-    void deleteAll(){<br>
-        CustomerDatabase.databaseWriteExecutor.execute(()-&gt;{<br>
-            mCustomerDao.deleteAllCustomers();<br>
-        });<br>
-    }<br>
-}<br>
+<pre class="EnlighterJSRAW" data-enlighter-language="java">package com.fit2081.rooms.provider;
+import android.app.Application;
+import androidx.lifecycle.LiveData;
+
+import java.util.List;
+
+public class CustomerRepository  {
+
+    private CustomerDao mCustomerDao;
+    private LiveData&lt;List&lt;Customer&gt;&gt; mAllCustomers;
+
+    CustomerRepository(Application application) {
+        CustomerDatabase db = CustomerDatabase.getDatabase(application);
+        mCustomerDao = db.customerDao();
+        mAllCustomers = mCustomerDao.getAllCustomer();
+    }
+    LiveData&lt;List&lt;Customer&gt;&gt; getAllCustomers() {
+        return mAllCustomers;
+    }
+    void insert(Customer customer) {
+        CustomerDatabase.databaseWriteExecutor.execute(() -&gt; mCustomerDao.addCustomer(customer));
+    }
+
+    void deleteAll(){
+        CustomerDatabase.databaseWriteExecutor.execute(()-&gt;{
+            mCustomerDao.deleteAllCustomers();
+        });
+    }
+}
 </pre><br>
 Notes:<br>
 <ul><li>Line@9:&nbsp;&nbsp; declares a reference to the Dao interface which will be used to execute the database operations we have defined earlier.</li><br>
@@ -313,38 +313,38 @@ Notes:<br>
 If a fragment or an activity needs special data or a different way to retrieve the data, then the ViewModel is the best place to implement your logic. In the following&nbsp;&nbsp;AndroidViewModel, all the methods (that will be invoked later by the activity or fragment) call their counterpart methods that are implemented in the Repository.<br>
 <br>
 &nbsp;<br>
-<pre class="EnlighterJSRAW" data-enlighter-language="java">package com.fit2081.rooms.provider;<br>
-<br>
-import android.app.Application;<br>
-<br>
-import androidx.annotation.NonNull;<br>
-import androidx.lifecycle.AndroidViewModel;<br>
-import androidx.lifecycle.LiveData;<br>
-<br>
-import java.util.List;<br>
-<br>
-public class CustomerViewModel extends AndroidViewModel {<br>
-    private CustomerRepository mRepository;<br>
-    private LiveData&lt;List&lt;Customer&gt;&gt; mAllCustomers;<br>
-<br>
-    public CustomerViewModel(@NonNull Application application) {<br>
-        super(application);<br>
-        mRepository = new CustomerRepository(application);<br>
-        mAllCustomers = mRepository.getAllCustomers();<br>
-    }<br>
-<br>
-    public LiveData&lt;List&lt;Customer&gt;&gt; getAllCustomers() {<br>
-        return mAllCustomers;<br>
-    }<br>
-<br>
-    public void insert(Customer customer) {<br>
-        mRepository.insert(customer);<br>
-    }<br>
-    public void deleteAll(){<br>
-        mRepository.deleteAll();<br>
-    }<br>
-<br>
-}<br>
+<pre class="EnlighterJSRAW" data-enlighter-language="java">package com.fit2081.rooms.provider;
+
+import android.app.Application;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
+
+import java.util.List;
+
+public class CustomerViewModel extends AndroidViewModel {
+    private CustomerRepository mRepository;
+    private LiveData&lt;List&lt;Customer&gt;&gt; mAllCustomers;
+
+    public CustomerViewModel(@NonNull Application application) {
+        super(application);
+        mRepository = new CustomerRepository(application);
+        mAllCustomers = mRepository.getAllCustomers();
+    }
+
+    public LiveData&lt;List&lt;Customer&gt;&gt; getAllCustomers() {
+        return mAllCustomers;
+    }
+
+    public void insert(Customer customer) {
+        mRepository.insert(customer);
+    }
+    public void deleteAll(){
+        mRepository.deleteAll();
+    }
+
+}
 </pre><br>
 &nbsp;<br>
 <br>
@@ -353,13 +353,13 @@ MainActivity<br>
 Now, its time to execute some database operations.<br>
 <br>
 If the activity's controller (i.e. Activity Java file) needs to access the database, it has to create an instance of the view model as shown in the architecture depicted above.<br>
-<pre class="EnlighterJSRAW" data-enlighter-language="java">private CustomerViewModel mCustomerViewModel;<br>
-<br>
-mCustomerViewModel = new ViewModelProvider(this).get(CustomerViewModel.class);<br>
-        mCustomerViewModel.getAllCustomers().observe(this, newData -&gt; {<br>
-            adapter.setCustomers(newData);<br>
-            adapter.notifyDataSetChanged();<br>
-            tv.setText(newData.size() + "");<br>
+<pre class="EnlighterJSRAW" data-enlighter-language="java">private CustomerViewModel mCustomerViewModel;
+
+mCustomerViewModel = new ViewModelProvider(this).get(CustomerViewModel.class);
+        mCustomerViewModel.getAllCustomers().observe(this, newData -&gt; {
+            adapter.setCustomers(newData);
+            adapter.notifyDataSetChanged();
+            tv.setText(newData.size() + "");
         });</pre><br>
 Notes:<br>
 <ul><li>Line@3: the app uses the&nbsp;&nbsp;ViewModelProvider (An utility class that provides ViewModels for a scope) to get access to the view model.</li><br>

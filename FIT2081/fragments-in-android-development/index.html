@@ -99,11 +99,11 @@ Example: Build an application that consists of one activity and three fragments.
 </div><br>
 &nbsp;<br>
 <br>
-App source code: <a href="https://www.alexandriarepository.org/media/fragments-2" rel="attachment wp-att-166245">CLICK HERE</a><br>
+App source code: <a href="./assets/fragments-2" rel="attachment wp-att-166245">CLICK HERE</a><br>
 <br>
 The layout of the activity:<br>
 <br>
-<a href="https://www.alexandriarepository.org/media/screenshot_1545734885" rel="attachment wp-att-166218"><img class="wp-image-166218 alignleft" src="./assets/Screenshot_1545734885.png" alt="" width="379" height="674"/></a><br>
+<a href="./assets/screenshot_1545734885" rel="attachment wp-att-166218"><img class="wp-image-166218 alignleft" src="./assets/Screenshot_1545734885.png" alt="" width="379" height="674"/></a><br>
 <br>
 &nbsp;<br>
 <br>
@@ -146,79 +146,79 @@ The layout of the activity:<br>
 &nbsp;<br>
 <br>
 activity_main.xml<br>
-<pre class="EnlighterJSRAW" data-enlighter-language="xml">&lt;?xml version="1.0" encoding="utf-8"?&gt;<br>
-&lt;android.support.constraint.ConstraintLayout<br>
-    xmlns:android="http://schemas.android.com/apk/res/android"<br>
-    xmlns:app="http://schemas.android.com/apk/res-auto"<br>
-    xmlns:tools="http://schemas.android.com/tools"<br>
-    android:layout_width="match_parent"<br>
-    android:layout_height="match_parent"<br>
-    tools:context=".MainActivity"&gt;<br>
-<br>
-    &lt;Button<br>
-        android:id="@+id/button"<br>
-        android:layout_width="wrap_content"<br>
-        android:layout_height="wrap_content"<br>
-        android:onClick="handleBtn1"<br>
-        android:text="Fragment 1"<br>
-        app:layout_constraintBaseline_toBaselineOf="@+id/button2"<br>
-        app:layout_constraintEnd_toStartOf="@+id/button2"<br>
-        app:layout_constraintHorizontal_bias="0.5"<br>
-        app:layout_constraintHorizontal_chainStyle="spread"<br>
-        app:layout_constraintStart_toStartOf="parent"/&gt;<br>
-<br>
-    &lt;Button<br>
-        android:id="@+id/button2"<br>
-        android:layout_width="wrap_content"<br>
-        android:layout_height="wrap_content"<br>
-        android:layout_marginTop="8dp"<br>
-        android:onClick="handleBtn2"<br>
-        android:text="Fragment 2"<br>
-        app:layout_constraintEnd_toStartOf="@+id/button3"<br>
-        app:layout_constraintHorizontal_bias="0.5"<br>
-        app:layout_constraintStart_toEndOf="@+id/button"<br>
-        app:layout_constraintTop_toTopOf="parent"/&gt;<br>
-<br>
-    &lt;Button<br>
-        android:id="@+id/button3"<br>
-        android:layout_width="wrap_content"<br>
-        android:layout_height="wrap_content"<br>
-        android:layout_marginTop="8dp"<br>
-        android:onClick="handleBtn3"<br>
-        android:text="Fragment 3"<br>
-        app:layout_constraintEnd_toEndOf="parent"<br>
-        app:layout_constraintHorizontal_bias="0.5"<br>
-        app:layout_constraintStart_toEndOf="@+id/button2"<br>
-        app:layout_constraintTop_toTopOf="parent"/&gt;<br>
-<br>
-    &lt;FrameLayout<br>
-        android:id="@+id/frag1"<br>
-        android:layout_width="0dp"<br>
-        android:layout_height="0dp"<br>
-        android:layout_marginStart="16dp"<br>
-        android:layout_marginTop="8dp"<br>
-        android:layout_marginEnd="16dp"<br>
-        android:layout_marginBottom="8dp"<br>
-        app:layout_constraintBottom_toBottomOf="parent"<br>
-        app:layout_constraintEnd_toEndOf="parent"<br>
-        app:layout_constraintHorizontal_bias="0.0"<br>
-        app:layout_constraintStart_toStartOf="parent"<br>
-        app:layout_constraintTop_toTopOf="@+id/guideline"&gt;&lt;/FrameLayout&gt;<br>
-<br>
-<br>
-    &lt;android.support.constraint.Guideline<br>
-        android:id="@+id/guideline"<br>
-        android:layout_width="wrap_content"<br>
-        android:layout_height="wrap_content"<br>
-        android:orientation="horizontal"<br>
-        app:layout_constraintGuide_percent="0.5"/&gt;<br>
-<br>
-&lt;/android.support.constraint.ConstraintLayout&gt;</pre><br>
-&nbsp;<br>
-<blockquote><em><strong>IMPORTANT</strong></em>: The framelayout in lines (46-58) with its <strong>id</strong> <span style="text-decoration: underline;"><strong>R.id.frag1&nbsp;&nbsp;</strong></span> works as a container for the fragments.</blockquote><br>
+<pre class="EnlighterJSRAW" data-enlighter-language="xml">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"&gt;
+
+    &lt;Button
+        android:id="@+id/button>
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="handleBtn1"
+        android:text="Fragment 1"
+        app:layout_constraintBaseline_toBaselineOf="@+id/button2"
+        app:layout_constraintEnd_toStartOf="@+id/button2"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintStart_toStartOf="parent"/&gt;
+
+    &lt;Button
+        android:id="@+id/button2"&#13;
+        android:layout_width="wrap_content"&#13;
+        android:layout_height="wrap_content"&#13;
+        android:layout_marginTop="8dp"&#13;
+        android:onClick="handleBtn2"&#13;
+        android:text="Fragment 2"&#13;
+        app:layout_constraintEnd_toStartOf="@+id/button3"&#13;
+        app:layout_constraintHorizontal_bias="0.5"&#13;
+        app:layout_constraintStart_toEndOf="@+id/button"&#13;
+        app:layout_constraintTop_toTopOf="parent"/&gt;&#13;
+&#13;
+    &lt;Button&#13;
+        android:id="@+id/button3"&#13;
+        android:layout_width="wrap_content"&#13;
+        android:layout_height="wrap_content"&#13;
+        android:layout_marginTop="8dp"&#13;
+        android:onClick="handleBtn3"&#13;
+        android:text="Fragment 3"&#13;
+        app:layout_constraintEnd_toEndOf="parent"&#13;
+        app:layout_constraintHorizontal_bias="0.5"&#13;
+        app:layout_constraintStart_toEndOf="@+id/button2"&#13;
+        app:layout_constraintTop_toTopOf="parent"/&gt;&#13;
+&#13;
+    &lt;FrameLayout&#13;
+        android:id="@+id/frag1"&#13;
+        android:layout_width="0dp"&#13;
+        android:layout_height="0dp"&#13;
+        android:layout_marginStart="16dp"&#13;
+        android:layout_marginTop="8dp"&#13;
+        android:layout_marginEnd="16dp"&#13;
+        android:layout_marginBottom="8dp"&#13;
+        app:layout_constraintBottom_toBottomOf="parent"&#13;
+        app:layout_constraintEnd_toEndOf="parent"&#13;
+        app:layout_constraintHorizontal_bias="0.0"&#13;
+        app:layout_constraintStart_toStartOf="parent"&#13;
+        app:layout_constraintTop_toTopOf="@+id/guideline"&gt;&lt;/FrameLayout&gt;&#13;
+&#13;
+&#13;
+    &lt;android.support.constraint.Guideline&#13;
+        android:id="@+id/guideline"&#13;
+        android:layout_width="wrap_content"&#13;
+        android:layout_height="wrap_content"&#13;
+        android:orientation="horizontal"&#13;
+        app:layout_constraintGuide_percent="0.5"/&gt;&#13;
+&#13;
+&lt;/android.support.constraint.ConstraintLayout&gt;</pre>&#13;
+&nbsp;&#13;
+<blockquote><em><strong>IMPORTANT</strong></em>: The framelayout in lines (46-58) with its <strong>id</strong> <span style="text-decoration: underline;"><strong>R.id.frag1&nbsp;&nbsp;</strong></span> works as a container for the fragments.</blockquote>&#13;
 and the design mode:<br>
 <br>
-<a href="https://www.alexandriarepository.org/media/design1" rel="attachment wp-att-166219"><img class="wp-image-166219 alignleft" src="./assets/design1.png" alt="" width="729" height="602"/></a><br>
+<a href="./assets/design1" rel="attachment wp-att-166219"><img class="wp-image-166219 alignleft" src="./assets/design1.png" alt="" width="729" height="602"/></a><br>
 <br>
 &nbsp;<br>
 <br>
@@ -262,7 +262,7 @@ and the design mode:<br>
 <br>
 Now, lets add a new fragment:<br>
 <br>
-<a href="https://www.alexandriarepository.org/media/17-11" rel="attachment wp-att-166236"><img class="alignnone size-full wp-image-166236" src="./assets/17.gif" alt="" width="964" height="874"/></a><br>
+<a href="./assets/17-11" rel="attachment wp-att-166236"><img class="alignnone size-full wp-image-166236" src="./assets/17.gif" alt="" width="964" height="874"/></a><br>
 <br>
 &nbsp;<br>
 <br>
@@ -270,7 +270,7 @@ by default, the layout of new fragments is framelayout. To change it to constrai
 <br>
 &nbsp;<br>
 <br>
-<a href="https://www.alexandriarepository.org/media/23-8" rel="attachment wp-att-166237"><img class="alignnone size-full wp-image-166237" src="./assets/23.gif" alt="" width="964" height="874"/></a><br>
+<a href="./assets/23-8" rel="attachment wp-att-166237"><img class="alignnone size-full wp-image-166237" src="./assets/23.gif" alt="" width="964" height="874"/></a><br>
 <br>
 &nbsp;<br>
 <br>
@@ -286,13 +286,13 @@ If a click(tap) occurs on the first button (FRAGMENT 1), the expected output is:
 <br>
 &nbsp;<br>
 <br>
-<a href="https://www.alexandriarepository.org/media/screenshot_1545795751" rel="attachment wp-att-166230"><img class="alignnone wp-image-166230" src="./assets/Screenshot_1545795751.png" alt="" width="365" height="650"/></a><br>
+<a href="./assets/screenshot_1545795751" rel="attachment wp-att-166230"><img class="alignnone wp-image-166230" src="./assets/Screenshot_1545795751.png" alt="" width="365" height="650"/></a><br>
 <br>
 &nbsp;<br>
 <br>
 and here is the design:<br>
 <br>
-<a href="https://www.alexandriarepository.org/media/frag1" rel="attachment wp-att-166235"><img class="alignnone wp-image-166235" src="./assets/frag1.png" alt="" width="594" height="495"/></a><br>
+<a href="./assets/frag1" rel="attachment wp-att-166235"><img class="alignnone wp-image-166235" src="./assets/frag1.png" alt="" width="594" height="495"/></a><br>
 <br>
 &nbsp;<br>
 <br>
@@ -363,7 +363,7 @@ fragment1.xml<br>
 <br>
 Fragment 2:<br>
 <br>
-<a href="https://www.alexandriarepository.org/media/screenshot_15457957542" rel="attachment wp-att-166238"><img class="alignnone wp-image-166238" src="./assets/Screenshot_15457957542.png" alt="" width="445" height="791"/></a><br>
+<a href="./assets/screenshot_15457957542" rel="attachment wp-att-166238"><img class="alignnone wp-image-166238" src="./assets/Screenshot_15457957542.png" alt="" width="445" height="791"/></a><br>
 <br>
 &nbsp;<br>
 <br>
@@ -412,7 +412,7 @@ fragment2.xml<br>
 <br>
 &nbsp;<br>
 <br>
-<a href="https://www.alexandriarepository.org/media/frag2" rel="attachment wp-att-166239"><img class="alignnone size-full wp-image-166239" src="./assets/frag2.png" alt="" width="850" height="698"/></a><br>
+<a href="./assets/frag2" rel="attachment wp-att-166239"><img class="alignnone size-full wp-image-166239" src="./assets/frag2.png" alt="" width="850" height="698"/></a><br>
 <br>
 &nbsp;<br>
 <br>
@@ -422,7 +422,7 @@ Fragment 3:<br>
 <br>
 &nbsp;<br>
 <br>
-<a href="https://www.alexandriarepository.org/media/screenshot_1545795757" rel="attachment wp-att-166233"><img class="alignnone wp-image-166233" src="./assets/Screenshot_1545795757.png" alt="" width="436" height="775"/></a><br>
+<a href="./assets/screenshot_1545795757" rel="attachment wp-att-166233"><img class="alignnone wp-image-166233" src="./assets/Screenshot_1545795757.png" alt="" width="436" height="775"/></a><br>
 <br>
 &nbsp;<br>
 <br>
@@ -519,7 +519,7 @@ fragment3.xml<br>
 &lt;/android.support.constraint.ConstraintLayout&gt;</pre><br>
 &nbsp;<br>
 <br>
-<a href="https://www.alexandriarepository.org/media/frag3" rel="attachment wp-att-166240"><img class="alignnone wp-image-166240" src="./assets/frag3.png" alt="" width="578" height="472"/></a><br>
+<a href="./assets/frag3" rel="attachment wp-att-166240"><img class="alignnone wp-image-166240" src="./assets/frag3.png" alt="" width="578" height="472"/></a><br>
 <br>
 &nbsp;<br>
 <br>

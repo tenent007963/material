@@ -43,7 +43,7 @@ So, what is Content Provider?<br>
 <br>
 CP is a class that helps applications to share their data with other applications on the same device. In other words, as the name suggests, Content Providers makes your application a provider of data which is served by Room Database or any other interfaces.<br>
 <br>
-<a href="https://www.alexandriarepository.org/media/cp" rel="attachment wp-att-177926"><img class="aligncenter wp-image-177926" src="./assets/cp.png" alt="" width="866" height="526"/></a><br>
+<a href="./assets/cp" rel="attachment wp-att-177926"><img class="aligncenter wp-image-177926" src="./assets/cp.png" alt="" width="866" height="526"/></a><br>
 <div class="square-box"><br>
 <br>
 Q) How can I access the Content Provider of an application?<br>
@@ -57,7 +57,7 @@ Now, let's implement the content provider class in the tasks application.<br>
 <br>
 Step 1) right-click the package 'provider' and add a new content provider as shown below:<br>
 <br>
-<a href="https://www.alexandriarepository.org/media/new_cp" rel="attachment wp-att-177928"><img class="aligncenter size-full wp-image-177928" src="./assets/new_cp.gif" alt="" width="1237" height="733"/></a><br>
+<a href="./assets/new_cp" rel="attachment wp-att-177928"><img class="aligncenter size-full wp-image-177928" src="./assets/new_cp.gif" alt="" width="1237" height="733"/></a><br>
 <div class="square-box"><br>
 <br>
 Q) What is URL Authority?<br>
@@ -68,11 +68,11 @@ A) it is a unique name that identifies the content provider. You cannot have two
 &nbsp;<br>
 <br>
 After adding the content provider class to your project, a new element has been added to the manifest that declares the CP class and its authorities.<br>
-<pre class="EnlighterJSRAW" data-enlighter-language="xml">&lt;provider<br>
-            android:name=".provider.TaskContentProvider"<br>
-            android:authorities="fit2081.tasks.db.provider"<br>
-            android:enabled="true"<br>
-            android:exported="true"&gt;<br>
+<pre class="EnlighterJSRAW" data-enlighter-language="xml">&lt;provider
+            android:name=".provider.TaskContentProvider"
+            android:authorities="fit2081.tasks.db.provider"
+            android:enabled="true"
+            android:exported="true"&gt;
 &lt;/provider&gt;</pre><br>
 &nbsp;<br>
 <h1><strong>The Content Provider Application&nbsp;&nbsp;</strong></h1><br>
@@ -99,13 +99,13 @@ A) you have to implement the following methods:<br>
 &nbsp;<br>
 <h2>onCreate()</h2><br>
 In this method, we should get an instance of the Room database that we have created earlier.<br>
-<pre class="EnlighterJSRAW" data-enlighter-language="java">@Override<br>
-public boolean onCreate() {<br>
-    db = TasksDatabase.getDB(getContext());<br>
-    return true;<br>
+<pre class="EnlighterJSRAW" data-enlighter-language="java">@Override
+public boolean onCreate() {
+    db = TasksDatabase.getDB(getContext());
+    return true;
 }</pre><br>
 where db is declared as :<br>
-<pre class="EnlighterJSRAW" data-enlighter-language="java">TasksDatabase db;<br>
+<pre class="EnlighterJSRAW" data-enlighter-language="java">TasksDatabase db;
 </pre><br>
 &nbsp;<br>
 <h2>query()</h2><br>
@@ -139,19 +139,19 @@ for case 2: ["25","1500"]</td><br>
 &nbsp;<br>
 <br>
 So, the query() method implementation will be:<br>
-<pre class="EnlighterJSRAW" data-enlighter-language="java">public Cursor query(Uri uri, String[] projection, String selection,<br>
-                      String[] selectionArgs, String sortOrder) {<br>
-<br>
-      SQLiteQueryBuilder builder = new SQLiteQueryBuilder();<br>
-      builder.setTables(Task.TABLE_NAME);<br>
-      String query = builder.buildQuery(projection, selection, null, null, sortOrder, null);<br>
-<br>
-      final Cursor cursor = db<br>
-              .getOpenHelper()<br>
-              .getReadableDatabase()<br>
-              .query(query, selectionArgs);<br>
-<br>
-      return cursor;<br>
+<pre class="EnlighterJSRAW" data-enlighter-language="java">public Cursor query(Uri uri, String[] projection, String selection,
+                      String[] selectionArgs, String sortOrder) {
+
+      SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
+      builder.setTables(Task.TABLE_NAME);
+      String query = builder.buildQuery(projection, selection, null, null, sortOrder, null);
+
+      final Cursor cursor = db
+              .getOpenHelper()
+              .getReadableDatabase()
+              .query(query, selectionArgs);
+
+      return cursor;
   }</pre><br>
 &nbsp;<br>
 <div class="square-box"><br>
@@ -168,15 +168,15 @@ In other words, its a data structure that holds one or more rows retrieved from 
 This method inserts a new row to the database and returns a new Uri with the inserted row ID.<br>
 <br>
 &nbsp;<br>
-<pre class="EnlighterJSRAW" data-enlighter-language="java">public Uri insert(@NonNull Uri uri, @Nullable ContentValues contentValues) {<br>
-<br>
-    long rowId = db<br>
-            .getOpenHelper()<br>
-            .getWritableDatabase()<br>
-            .insert(Task.TABLE_NAME, 0, contentValues);<br>
-<br>
-    return ContentUris.withAppendedId(CONTENT_URI, rowId);<br>
-}<br>
+<pre class="EnlighterJSRAW" data-enlighter-language="java">public Uri insert(@NonNull Uri uri, @Nullable ContentValues contentValues) {
+
+    long rowId = db
+            .getOpenHelper()
+            .getWritableDatabase()
+            .insert(Task.TABLE_NAME, 0, contentValues);
+
+    return ContentUris.withAppendedId(CONTENT_URI, rowId);
+}
 </pre><br>
 &nbsp;<br>
 <div class="square-box"><br>
@@ -210,31 +210,31 @@ A) Content Values can hold the data of one row only, while Cursor might contain 
 &nbsp;<br>
 <h2>delete()</h2><br>
 This method is used to delete one or more rows from the database.<br>
-<pre class="EnlighterJSRAW" data-enlighter-language="java">@Override<br>
-public int delete(Uri uri, String selection, String[] selectionArgs) {<br>
-    int deletionCount;<br>
-<br>
-    deletionCount = db<br>
-            .getOpenHelper()<br>
-            .getWritableDatabase()<br>
-            .delete(Task.TABLE_NAME, selection, selectionArgs);<br>
-<br>
-    return deletionCount;<br>
-}<br>
+<pre class="EnlighterJSRAW" data-enlighter-language="java">@Override
+public int delete(Uri uri, String selection, String[] selectionArgs) {
+    int deletionCount;
+
+    deletionCount = db
+            .getOpenHelper()
+            .getWritableDatabase()
+            .delete(Task.TABLE_NAME, selection, selectionArgs);
+
+    return deletionCount;
+}
 </pre><br>
 The return of this method is the number of rows that get affected by the delete operation.<br>
 <br>
 &nbsp;<br>
 <h2>update()</h2><br>
-<pre class="EnlighterJSRAW" data-enlighter-language="null">public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {<br>
-    int updateCount;<br>
-    updateCount = db<br>
-            .getOpenHelper()<br>
-            .getWritableDatabase()<br>
-            .update(Task.TABLE_NAME, 0, values, selection, selectionArgs);<br>
-<br>
-    return updateCount;<br>
-}<br>
+<pre class="EnlighterJSRAW" data-enlighter-language="null">public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+    int updateCount;
+    updateCount = db
+            .getOpenHelper()
+            .getWritableDatabase()
+            .update(Task.TABLE_NAME, 0, values, selection, selectionArgs);
+
+    return updateCount;
+}
 </pre><br>
 This method is used to update an existing row in the database. It accepts similar parameters as the insert method. It returns the number of rows that get affected by the update operation.<br>
 <br>
@@ -250,76 +250,76 @@ A)&nbsp;&nbsp;&nbsp;&nbsp;It is used by applications to retrieve the MIME type o
 &nbsp;<br>
 <h2>UriMatcher()</h2><br>
 This method is used to create a new instance of the UriMatcher class. In this method, we give each URI a unique code that will be used later by the content provider's methods to tell which table to use or to retrieve the requested ID.<br>
-<pre class="EnlighterJSRAW" data-enlighter-language="java">private static final int MULTIPLE_ROWS_TASKS = 1;<br>
-private static final int SINGLE_ROW_TASKS = 2;<br>
+<pre class="EnlighterJSRAW" data-enlighter-language="java">private static final int MULTIPLE_ROWS_TASKS = 1;
+private static final int SINGLE_ROW_TASKS = 2;
+
+private static UriMatcher createUriMatcher() {
+
+    final UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
+    final String authority = CONTENT_AUTHORITY;
 <br>
-private static UriMatcher createUriMatcher() {<br>
+    //sUriMatcher will return code 1 if uri like authority/tasks
+    uriMatcher.addURI(authority, Task.TABLE_NAME, MULTIPLE_ROWS_TASKS);
 <br>
-    final UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);<br>
-    final String authority = CONTENT_AUTHORITY;<br>
-<br>
-    //sUriMatcher will return code 1 if uri like authority/tasks<br>
-    uriMatcher.addURI(authority, Task.TABLE_NAME, MULTIPLE_ROWS_TASKS);<br>
-<br>
-    //sUriMatcher will return code 2 if uri like e.g. authority/tasks/7 (where 7 is id of row in tasks table)<br>
-    uriMatcher.addURI(authority, Task.TABLE_NAME + "/#", SINGLE_ROW_TASKS);<br>
-<br>
-    return uriMatcher;<br>
-}<br>
+    //sUriMatcher will return code 2 if uri like e.g. authority/tasks/7 (where 7 is id of row in tasks table)
+    uriMatcher.addURI(authority, Task.TABLE_NAME + "/#", SINGLE_ROW_TASKS);
+
+    return uriMatcher;
+}
 </pre><br>
 &nbsp;<br>
 <br>
 In the code above(line@13), the '#' character represents an integer value which represents an ID.<br>
 <br>
 Now, let's assume we have another table called 'user', then the new UriMatacher will be:<br>
-<pre class="EnlighterJSRAW" data-enlighter-language="java">private static UriMatcher createUriMatcher() {<br>
-<br>
-    final UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);<br>
-    final String authority = CONTENT_AUTHORITY;<br>
-<br>
-    //sUriMatcher will return code 1 if uri like authority/tasks<br>
-    uriMatcher.addURI(authority, Task.TABLE_NAME, MULTIPLE_ROWS_TASKS);<br>
-<br>
-    //sUriMatcher will return code 2 if uri like e.g. authority/tasks/7 (where 7 is id of row in tasks table)<br>
-    uriMatcher.addURI(authority, Task.TABLE_NAME + "/#", SINGLE_ROW_TASKS);<br>
+<pre class="EnlighterJSRAW" data-enlighter-language="java">private static UriMatcher createUriMatcher() {
+
+    final UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
+    final String authority = CONTENT_AUTHORITY;
+
+    //sUriMatcher will return code 1 if uri like authority/tasks
+    uriMatcher.addURI(authority, Task.TABLE_NAME, MULTIPLE_ROWS_TASKS);
+
+    //sUriMatcher will return code 2 if uri like e.g. authority/tasks/7 (where 7 is id of row in tasks table)
+    uriMatcher.addURI(authority, Task.TABLE_NAME + "/#", SINGLE_ROW_TASKS);
     <br>
-    //sUriMatcher will return code 1 if uri like authority/users<br>
-    uriMatcher.addURI(authority, "users", MULTIPLE_ROWS_USERS);<br>
-<br>
-    //sUriMatcher will return code 2 if uri like e.g. authority/users/7 (where 7 is id of row in users table)<br>
-    uriMatcher.addURI(authority, "users" + "/#", SINGLE_ROW_USERS);<br>
-<br>
-    return uriMatcher;<br>
+    //sUriMatcher will return code 1 if uri like authority/users
+    uriMatcher.addURI(authority, "users", MULTIPLE_ROWS_USERS);
+
+    //sUriMatcher will return code 2 if uri like e.g. authority/users/7 (where 7 is id of row in users table)
+    uriMatcher.addURI(authority, "users" + "/#", SINGLE_ROW_USERS);
+
+    return uriMatcher;
 }</pre><br>
 &nbsp;<br>
 <br>
 This approach will provide us with the ability to retrieve data from the caller such as the id of the row that the caller is intended to delete.<br>
 <br>
 &nbsp;<br>
-<pre class="EnlighterJSRAW" data-enlighter-language="java">public int delete(Uri uri, String selection, String[] selectionArgs) {<br>
-    int uriType = sUriMatcher.match(uri);<br>
-    int deletionCount = 0;<br>
-<br>
-    switch (uriType) {<br>
-        case MULTIPLE_ROWS_TASKS: //no trailing row id so selection may indicate more than 1 row needs to be deleted if they can be found<br>
-            deletionCount = db<br>
-                    .getOpenHelper()<br>
-                    .getWritableDatabase()<br>
-                    .delete(Task.TABLE_NAME, selection, selectionArgs);<br>
-            break;<br>
-        case SINGLE_ROW_TASKS: //trailing row id, so just one row to be deleted if it can be found<br>
-            String id = uri.getLastPathSegment();<br>
-            String selectionId = Task.COLUMN_ID + " = ?";<br>
-            String [] selectionArgsId={String.valueOf(id)};<br>
-            deletionCount = db<br>
-                    .getOpenHelper()<br>
-                    .getWritableDatabase()<br>
-                    .delete(Task.TABLE_NAME, selectionId, selectionArgsId);<br>
-            break;<br>
-        default:<br>
-            throw new IllegalArgumentException("Unknown URI: " + uri);<br>
-    }<br>
-    return deletionCount;<br>
+<pre class="EnlighterJSRAW" data-enlighter-language="java">public int delete(Uri uri, String selection, String[] selectionArgs) {
+    int uriType = sUriMatcher.match(uri);
+    int deletionCount = 0;
+
+    switch (uriType) {
+        case MULTIPLE_ROWS_TASKS: //no trailing row id so selection may indicate more than 1 row needs to be deleted if they can be found
+            deletionCount = db
+                    .getOpenHelper()
+                    .getWritableDatabase()
+                    .delete(Task.TABLE_NAME, selection, selectionArgs);
+            break;
+        case SINGLE_ROW_TASKS: //trailing row id, so just one row to be deleted if it can be found
+            String id = uri.getLastPathSegment();
+            String selectionId = Task.COLUMN_ID + " = ?";
+            String [] selectionArgsId={String.valueOf(id)};
+            deletionCount = db
+                    .getOpenHelper()
+                    .getWritableDatabase()
+                    .delete(Task.TABLE_NAME, selectionId, selectionArgsId);
+            break;
+        default:
+            throw new IllegalArgumentException("Unknown URI: " + uri);
+    }
+    return deletionCount;
 }</pre><br>
 &nbsp;<br>
 <h1><strong>How to access the content provider from other applications?</strong></h1><br>
@@ -341,8 +341,8 @@ A) CR&nbsp;&nbsp; is used to access the content provider.&nbsp;&nbsp;The content
 &nbsp;<br>
 <br>
 Now, to query the tasks table and show the number of rows in a text view:<br>
-<pre class="EnlighterJSRAW" data-enlighter-language="java">Uri uri= Uri.parse("content://fit2081.tasks.db.provider/tasks");<br>
-Cursor result= getContentResolver().query(uri,null,null,null);<br>
+<pre class="EnlighterJSRAW" data-enlighter-language="java">Uri uri= Uri.parse("content://fit2081.tasks.db.provider/tasks");
+Cursor result= getContentResolver().query(uri,null,null,null);
 tV.setText(result.getCount()+"");</pre><br>
 &nbsp;<br>
 <br>
@@ -351,15 +351,15 @@ Where tV is a reference to the text view. getCount() is a method that returns an
 How to send a row to be saved in the database of the other application:<br>
 <br>
 <strong>Remember</strong>: the insert method needs the data of the new row to be wrapped(inside) by ContentValues class.<br>
-<pre class="EnlighterJSRAW" data-enlighter-language="java">  public static final String COLUMN_NAME = "taskName";<br>
-  public static final String COLUMN_DESCRIPTION = "taskDescription";<br>
-<br>
-<br>
-  ContentValues values= new ContentValues();<br>
-  values.put(COLUMN_NAME,"New Task Name");<br>
-  values.put(COLUMN_DESCRIPTION,"New Task Desc");<br>
-  Uri uri2= getContentResolver().insert(uri,values);<br>
-<br>
+<pre class="EnlighterJSRAW" data-enlighter-language="java">  public static final String COLUMN_NAME = "taskName";
+  public static final String COLUMN_DESCRIPTION = "taskDescription";
+
+
+  ContentValues values= new ContentValues();
+  values.put(COLUMN_NAME,"New Task Name");
+  values.put(COLUMN_DESCRIPTION,"New Task Desc");
+  Uri uri2= getContentResolver().insert(uri,values);
+
 </pre><br>
 &nbsp;<br>
 <br>
